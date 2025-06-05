@@ -49,4 +49,23 @@ function mergeOptions<T>(target: T, source: T) {
 	return target;
 }
 
-export { parseContainer, nextTick, md5, mergeOptions };
+/**
+ * @description 根据用户传入的 Image src 属性，解析创建 Konva.Image 所需的source（string）字段
+ * @param { string | Blob } source
+ * @returns { Promise<string> }
+ */
+function parseImageSource(source: string | Blob) {
+	return new Promise<string>((resolve) => {
+		if (source instanceof File || source instanceof Blob) {
+			// File Blob 相同的处理 创建文件读取器
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(source);
+			fileReader.onload = () => {
+				const value = <string>fileReader.result;
+				resolve(value);
+			};
+		} else resolve(source);
+	});
+}
+
+export { parseContainer, nextTick, md5, mergeOptions, parseImageSource };

@@ -39,8 +39,8 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 	// 水印相关配置
 	watermark: {
 		text: "Image Clipper", // 水印文字
-		font: "20px Arial", // 水印文字样式
-		density: 1, // 疏密程度
+		fontSize: 20, // 水印文字样式
+		gap: [50, 50], // 水印间距 [x y]
 		rotate: 45, // 旋转角度
 	},
 };

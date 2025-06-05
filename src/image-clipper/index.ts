@@ -1,5 +1,6 @@
 import "./style/index.css";
 import { Draw } from "./draw";
+import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
 import { ImageClipperConfig } from "./interface";
@@ -15,11 +16,13 @@ class ImageClipper {
 	command: Command;
 	getContainer: () => Element;
 	event!: EventBus<EventBusMap>;
-	getOptions: () => ImageClipperConfig;
 
 	constructor(options: ImageClipperConfig) {
 		// 处理 options
-		this.getOptions = () => mergeOptions(defaultImageClipperConfig, options);
+		const stage = mergeOptions(defaultImageClipperConfig, options);
+
+		// 替换 store
+		store.replaceStage(stage);
 
 		// 初始化事件系统
 		this.initEventSystem();
@@ -89,7 +92,9 @@ class ImageClipper {
 		konvaContainer.classList.add("image-clipper-konva-container");
 
 		// 如果设置了宽度或高度，则应用样式（默认为100%）
-		const { width, height } = this.getOptions();
+		const width = store.getState("width");
+		const height = store.getState("height");
+
 		if (width) konvaContainer.style.width = `${width}px`;
 		if (height) konvaContainer.style.height = `${height}px`;
 

@@ -7,7 +7,7 @@ interface ImageClipperConfig {
 
 	// 图片属性
 	image?: {
-		src?: string | Blob | HTMLImageElement; // 图片地址 [非必传]
+		src?: string | Blob; // 图片地址 [非必传]
 		pixelRatio?: number; //像素比 [非必传] [默认 1]
 		outputType?: "jpeg" | "png" | "webp"; //	裁剪生成图片的格式	jpg (jpg 需要传入jpeg)	jpeg, png, webp
 		// 图片如何去适应指定容器的高度与宽度
@@ -28,13 +28,16 @@ interface ImageClipperConfig {
 		draggable?: boolean; // 裁剪框是否可拖动
 		resize?: boolean; // 裁剪框是否可缩放
 		fixed?: boolean; // 是否固定缩放比例
+		fill?: string; // 裁剪框填充颜色
+		stroke?: string; // 裁剪框边框颜色
 	};
 
 	// 水印相关配置
 	watermark?: {
 		text?: string; // 水印文字
-		font?: string; // 水印文字样式
-		density?: number; // 疏密程度
+		fontSize?: number; // 水印文字大小
+		color?: string; // 水印文字颜色
+		gap?: [number, number]; // 水印间距 [x y]
 		rotate?: number; // 旋转角度
 	};
 }
