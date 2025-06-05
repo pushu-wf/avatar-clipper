@@ -1,11 +1,42 @@
 // 导出ImageClipper配置对象
 interface ImageClipperConfig {
-	container: string | HTMLElement; // 裁剪框挂载元素 [必传]
-	width: number; //剪裁框的宽度 [必传]
-	height: number; // 剪裁框的高度 [必传]
+	container: string | HTMLElement; // 容器挂载元素 [必传]
+	width?: number; // 容器宽度 [非必传] [默认 100%]
+	height?: number; // 容器高度 [非必传] [默认 100%]
+	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]
 
-	backgroundColor?: string; // 剪裁框的背景色 [非必传] [默认 transparent]
-	borderColor?: string; // 剪裁框的边框颜色 [非必传] [默认 null]
+	// 图片属性
+	image?: {
+		src?: string | Blob | HTMLImageElement; // 图片地址 [非必传]
+		pixelRatio?: number; //像素比 [非必传] [默认 1]
+		outputType?: "jpeg" | "png" | "webp"; //	裁剪生成图片的格式	jpg (jpg 需要传入jpeg)	jpeg, png, webp
+		// 图片如何去适应指定容器的高度与宽度
+		// contain	保持原有尺寸比例。内容被缩放。 [默认]
+		// fill	不保证保持原有的比例，内容拉伸填充整个内容容器。
+		// cover	保持原有尺寸比例。但部分内容可能被剪切。
+		objectFit?: "contain" | "cover" | "fill";
+		draggable?: boolean; // 图片是否可拖动
+		zoom?: boolean; // 图片是否可缩放
+	};
+
+	// 裁剪相关配置
+	crop?: {
+		width?: number; // 裁剪框宽度
+		height?: number; // 裁剪框高度
+		x?: number; // 裁剪框x轴坐标
+		y?: number; // 裁剪框y轴坐标
+		draggable?: boolean; // 裁剪框是否可拖动
+		resize?: boolean; // 裁剪框是否可缩放
+		fixed?: boolean; // 是否固定缩放比例
+	};
+
+	// 水印相关配置
+	watermark?: {
+		text?: string; // 水印文字
+		font?: string; // 水印文字样式
+		density?: number; // 疏密程度
+		rotate?: number; // 旋转角度
+	};
 }
 
 export { type ImageClipperConfig };
