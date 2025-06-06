@@ -80,10 +80,6 @@ export class Draw {
 			const konvaImage = new KonvaImage({
 				id: "image",
 				image: imageNode,
-				x: 0,
-				y: 0,
-				width: imageNode.width,
-				height: imageNode.height,
 				draggable: store.getState("image")?.draggable,
 				listening: true,
 			});
@@ -98,6 +94,21 @@ export class Draw {
 
 		// patch image error event
 		imageNode.onerror = () => imageClipper.dispatchEvent("imageError");
+	}
+
+	/**
+	 * @description updateImage 更新图片属性
+	 */
+	public updateImage() {
+		if (!this.stage) return;
+
+		const imageInfo = store.getState("image");
+		// 是否存在图片
+		const mainLayer = <Layer>this.stage.findOne("#mainLayer");
+		if (!mainLayer) return;
+
+		const imageNode = mainLayer.findOne("#image");
+		if (!imageNode) return;
 	}
 
 	// getter

@@ -1,8 +1,8 @@
 import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
-import { cropInfo, watermarkInfo } from "../interface";
-import { generateWatermark, getCropInfo } from "../utils/konva";
+import { generateWatermark } from "../utils/konva";
+import { ImageClipperConfig, watermarkInfo } from "../interface";
 
 export class CommandAdapt {
 	constructor(private draw: Draw) {}
@@ -20,17 +20,31 @@ export class CommandAdapt {
 	}
 
 	// 设置图片属性 - 缩放 平移 旋转
-	public setImageAttr() {}
+	public setImageAttr(info: Partial<ImageClipperConfig["image"]>) {
+		// 做合并
+		const image = mergeOptions(store.getState("image"), info);
+		store.setState("image", image);
+		// 更新图片属性
+		this.draw.updateImage();
+		this.draw.render();
+	}
 
 	// 获取图片属性 - 缩放 平移 旋转
-	public getImageAttr() {}
+	public getImageAttr(): ImageClipperConfig["image"] {
+		return store.getState("image");
+	}
 
 	// 设置裁剪框属性 - 宽高 位置坐标 不允许旋转
-	public setCropAttr() {}
+	public setCropAttr(info: Partial<ImageClipperConfig["crop"]>) {
+		// 做合并
+		const crop = mergeOptions(store.getState("crop"), info);
+		store.setState("crop", crop);
+		this.draw.render();
+	}
 
 	// 获取裁剪框属性
-	public getCropAttr(): cropInfo | undefined {
-		return getCropInfo(this.draw.getStage());
+	public getCropAttr(): ImageClipperConfig["crop"] {
+		return store.getState("crop");
 	}
 
 	// 设置水印属性
@@ -52,5 +66,7 @@ export class CommandAdapt {
 	}
 
 	// 获取截图结果 - base64 | blob | canvas
-	public getResult() {}
+	public getResult(type: "base64" | "blob" | "canvas") {
+		console.log(" ==> getResult ", type);
+	}
 }

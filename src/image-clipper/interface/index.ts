@@ -8,12 +8,19 @@ interface ImageClipperConfig {
 	// 图片属性
 	image?: {
 		src?: string | Blob; // 图片地址 [非必传]
+		width?: number; // 图片宽度
+		height?: number; // 图片高度
+		x?: number; // 图片x轴坐标
+		y?: number; // 图片y轴坐标
+		rotation?: number; // 图片旋转角度
 		pixelRatio?: number; //像素比 [非必传] [默认 1]
-		outputType?: "jpeg" | "png" | "webp"; //	裁剪生成图片的格式	jpg (jpg 需要传入jpeg)	jpeg, png, webp
-		// 图片如何去适应指定容器的高度与宽度
-		// contain	保持原有尺寸比例。内容被缩放。 [默认]
-		// fill	不保证保持原有的比例，内容拉伸填充整个内容容器。
-		// cover	保持原有尺寸比例。但部分内容可能被剪切。
+
+		/**
+		 * 图片如何去适应指定容器的高度与宽度
+		 * 	1. contain 保持原有尺寸比例。内容被缩放。 [默认]
+		 * 	2. fill	不保证保持原有的比例，内容拉伸填充整个内容容器。
+		 * 	3. cover 保持原有尺寸比例。但部分内容可能被剪切。
+		 */
 		objectFit?: "contain" | "cover" | "fill";
 		draggable?: boolean; // 图片是否可拖动
 		zoom?: boolean; // 图片是否可缩放

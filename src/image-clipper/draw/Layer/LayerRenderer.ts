@@ -29,6 +29,7 @@ export class LayerRenderer {
 	 */
 	renderCrop(stage: Stage) {
 		const layer = stage.findOne("#mainLayer") as Layer;
+
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
 		// 获取 stage 的宽高
@@ -55,6 +56,8 @@ export class LayerRenderer {
 
 		// 创建型变控制器
 		const transformer = new Transformer({
+			id: "crop-transformer",
+			name: "crop-transformer",
 			rotateEnabled: false,
 			anchorStroke: cropAttr?.stroke ?? "#299CF5",
 			anchorFill: cropAttr?.fill ?? "#299CF5",
@@ -62,6 +65,7 @@ export class LayerRenderer {
 			anchorCornerRadius: 8,
 			borderStroke: cropAttr?.stroke ?? "#299CF5",
 			borderStrokeWidth: 2,
+			keepRatio: cropAttr?.fixed ? true : false,
 		});
 
 		// 监听事件
