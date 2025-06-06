@@ -25,7 +25,7 @@ export class CommandAdapt {
 		const image = mergeOptions(store.getState("image"), info);
 		store.setState("image", image);
 		// 更新图片属性
-		this.draw.updateImage();
+		this.draw.handleImageAdaptive();
 		this.draw.render();
 	}
 

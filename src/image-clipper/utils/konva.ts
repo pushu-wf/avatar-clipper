@@ -1,3 +1,4 @@
+import Konva from "konva";
 import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
@@ -6,6 +7,7 @@ import { cropInfo } from "../interface";
 import { Context } from "konva/lib/Context";
 import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
+import { Node } from "konva/lib/Node";
 
 /**
  * @description 计算文本宽度
@@ -144,4 +146,41 @@ function isSamePosition(pos1: cropInfo, pos2: cropInfo) {
 	return pos1.x === pos2.x && pos1.y === pos2.y && pos1.width === pos2.width && pos1.height === pos2.height;
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, isSamePosition };
+/**
+ * @description 辅助函数 - 重新计算旋转后的位置坐标
+ * @param param0
+ * @param rad
+ * @returns
+ */
+const rotatePoint = (payload: { x: number; y: number }, rad: number) => {
+	const { x, y } = payload;
+	const rcos = Math.cos(rad);
+	const rsin = Math.sin(rad);
+	return { x: x * rcos - y * rsin, y: y * rcos + x * rsin };
+};
+
+/**
+ * @description 使得节点按中心旋转
+ * @param node
+ * @param rotation
+ */
+function rotateAroundCenter(node: Node, rotation: number) {
+	//current rotation origin (0, 0) relative to desired origin - center (node.width()/2, node.height()/2)
+	const topLeft = { x: -node.width() / 2, y: -node.height() / 2 };
+	const current = rotatePoint(topLeft, Konva.getAngle(node.rotation()));
+	const rotated = rotatePoint(topLeft, Konva.getAngle(rotation));
+	const dx = rotated.x - current.x,
+		dy = rotated.y - current.y;
+
+	node.rotation(rotation);
+
+	// // 受 scale 影响
+	node.position({
+		x: node.x() + dx,
+		y: node.y() + dy,
+	});
+
+	console.log(`Rotating to ${rotation}°, Position updated: (${node.x()}, ${node.y()})`);
+}
+
+export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, isSamePosition, rotateAroundCenter };
