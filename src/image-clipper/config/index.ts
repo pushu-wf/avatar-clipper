@@ -40,8 +40,9 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 	watermark: {
 		text: "Image Clipper", // 水印文字
 		fontSize: 20, // 水印文字样式
-		gap: [50, 50], // 水印间距 [x y]
-		rotate: 45, // 旋转角度
+		color: "rgba(0,0,0,.35)",
+		gap: [20, 50], // 水印间距 [x y]
+		rotate: -45, // 旋转角度
 	},
 };
 

@@ -7,6 +7,8 @@ const clipper = new ImageClipper({
 	height: 300,
 });
 
+Reflect.set(window, "clipper", clipper);
+
 clipper.event.on("beforeInit", () => {
 	console.log("hooks: beforeInit");
 });

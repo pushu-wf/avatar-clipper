@@ -42,4 +42,21 @@ interface ImageClipperConfig {
 	};
 }
 
-export { type ImageClipperConfig };
+// 裁剪框的位置信息
+interface cropInfo {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+
+// 水印属性
+interface watermarkInfo {
+	text?: string;
+	fontSize?: number;
+	color?: string;
+	gap?: [number, number];
+	rotate?: number;
+}
+
+export { type ImageClipperConfig, type cropInfo, type watermarkInfo };
