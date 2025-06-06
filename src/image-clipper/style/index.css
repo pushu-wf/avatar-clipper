@@ -1,8 +1,6 @@
 /* 用户提供的 container 容器根节点样式 */
 .image-clipper-container {
 	position: relative;
-	width: 100%;
-	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
 	margin: 0;

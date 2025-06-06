@@ -2,9 +2,10 @@
 import { ImageClipper } from "./image-clipper/index";
 
 const clipper = new ImageClipper({
-	container: "#app",
-	width: 400,
-	height: 300,
+	container: "#app .clipper",
+	image: {
+		src: "https://img0.baidu.com/it/u=2895902758,4240700774&fm=253&fmt=auto&app=120&f=JPEG",
+	},
 });
 
 Reflect.set(window, "clipper", clipper);

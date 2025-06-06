@@ -38,8 +38,10 @@ export class Draw {
 
 		// 创建图层控制器
 		this.layerController = new LayerController(this);
+		const image = store.getState("image");
 
-		this.addImage("https://q5.itc.cn/q_70/images03/20250129/44d8063b393848408f95cf45a1634176.jpeg");
+		// 如果传递了 image.src 则直接初始化图片
+		this.addImage(image?.src || "https://q5.itc.cn/q_70/images03/20250129/44d8063b393848408f95cf45a1634176.jpeg");
 	}
 
 	/**
