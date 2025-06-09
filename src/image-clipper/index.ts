@@ -4,21 +4,20 @@ import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
 import { ImageClipperConfig } from "./interface";
+import { defaultImageClipperConfig } from "./config";
 import { EventBusMap } from "./interface/EventBusMap";
 import { CommandAdapt } from "./command/CommandAdapt";
-import { defaultImageClipperConfig } from "./config";
-import { mergeOptions, nextTick, parseContainer } from "./utils";
+import { mergeOptions, parseContainer } from "./utils";
 
 /**
  * @description 图片裁剪器
  */
 class ImageClipper {
 	command: Command;
-	getContainer: () => Element;
 	event!: EventBus<EventBusMap>;
 
 	constructor(options: ImageClipperConfig) {
-		// 处理 options
+		// 合并用户传入 options 与默认配置，并存储到 store 中
 		const stage = mergeOptions(defaultImageClipperConfig, options);
 
 		// 替换 store
@@ -27,21 +26,17 @@ class ImageClipper {
 		// 初始化事件系统
 		this.initEventSystem();
 
-		// 解析并设置容器
-		const container = parseContainer(options.container);
-		this.getContainer = () => container;
-
 		// 初始化 DOM 容器
 		this.initDomContainer();
 
 		// 初始化绘制类
-		const draw = new Draw(this, this.event);
+		const draw = new Draw(this);
 
 		// 初始化命令
 		this.command = new Command(new CommandAdapt(draw));
 
 		// 初始化完成
-		this.dispatchEvent("afterInit");
+		this.event.dispatchEvent("afterInit");
 	}
 
 	/**
@@ -50,24 +45,15 @@ class ImageClipper {
 	private initEventSystem() {
 		this.event = new EventBus<EventBusMap>();
 		// emit beforeInit
-		this.dispatchEvent("beforeInit");
-	}
-
-	/**
-	 * @description 统一的派发事件中心
-	 */
-	public dispatchEvent<K extends string & keyof EventBusMap>(
-		eventName: K,
-		payload?: EventBusMap[K] extends (payload: infer P) => void ? P : never
-	) {
-		nextTick(() => this.event.isSubscribe(eventName) && this.event.emit(eventName, payload));
+		this.event.dispatchEvent("beforeInit");
 	}
 
 	/**
 	 * 初始化 DOM 容器
 	 */
 	private initDomContainer() {
-		const container = this.getContainer();
+		const optionsContainer = store.getState("container");
+		const container = parseContainer(optionsContainer);
 
 		if (!container) {
 			throw new Error("container is not exist");
@@ -106,4 +92,4 @@ export { ImageClipper };
 export default ImageClipper;
 
 // 导出类型
-export type { ImageClipperConfig };
+export type { ImageClipperConfig, EventBusMap };

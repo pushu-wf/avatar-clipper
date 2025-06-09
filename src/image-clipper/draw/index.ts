@@ -1,24 +1,25 @@
 import Konva from "konva";
-import ImageClipper, { ImageClipperConfig } from "..";
+import ImageClipper from "..";
 import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { LayerController } from "./Layer";
-import { parseImageSource } from "../utils";
-import { EventBus } from "../event/EventBus";
-import { EventBusMap } from "../interface/EventBusMap";
-import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { rotateAroundCenter } from "../utils/konva";
-import demoImage from "../../../public/demo.png";
+import { parseContainer, parseImageSource } from "../utils";
+import { Image as KonvaImage } from "konva/lib/shapes/Image";
 
+/**
+ * @description 绘制类 - 实现图层控制，绘制结果导出等
+ */
 export class Draw {
 	private stage: Stage;
-	layerController: LayerController;
+	private layerController: LayerController;
 
-	constructor(private imageClipper: ImageClipper, private event: EventBus<EventBusMap>) {
+	constructor(private imageClipper: ImageClipper) {
 		Reflect.set(window, "draw", this);
 
-		const root = this.imageClipper.getContainer();
+		// 获取 konva 挂载节点
+		const root = parseContainer(store.getState("container"));
 		const container = root.querySelector("#image-clipper-konva-container");
 
 		if (!container) {
@@ -38,10 +39,10 @@ export class Draw {
 
 		// 创建图层控制器
 		this.layerController = new LayerController(this);
-		const image = store.getState("image");
 
 		// 如果传递了 image.src 则直接初始化图片
-		this.addImage(image?.src || "https://q5.itc.cn/q_70/images03/20250129/44d8063b393848408f95cf45a1634176.jpeg");
+		const image = store.getState("image");
+		if (image?.src) this.addImage(image.src);
 	}
 
 	/**
@@ -100,11 +101,11 @@ export class Draw {
 			this.render();
 
 			// patch image loaded event
-			imageClipper.dispatchEvent("imageLoaded");
+			imageClipper.event.dispatchEvent("imageLoaded");
 		};
 
 		// patch image error event
-		imageNode.onerror = () => imageClipper.dispatchEvent("imageError");
+		imageNode.onerror = () => imageClipper.event.dispatchEvent("imageError");
 	}
 
 	/**
@@ -124,10 +125,10 @@ export class Draw {
 		}
 
 		// 设置 objectFit 模式
-		this.applyObjectFit(konvaImage, imageInfo);
+		this.applyObjectFit(konvaImage, imageInfo.objectFit);
 
 		// 设置旋转（绕中心旋转）
-		this.applyRotation(konvaImage, imageInfo.rotation ?? 0);
+		rotateAroundCenter(konvaImage, imageInfo.rotation ?? 0);
 	}
 
 	/**
@@ -135,10 +136,9 @@ export class Draw {
 	 * @param konvaImage
 	 * @param imageInfo
 	 */
-	private applyObjectFit(konvaImage: Konva.Image, imageInfo: ImageClipperConfig["image"]) {
-		if (!imageInfo) return;
+	private applyObjectFit(konvaImage: Konva.Image, objectFit: "contain" | "cover" | "fill" = "contain") {
+		if (!objectFit) return;
 
-		const { objectFit = "contain" } = imageInfo;
 		const stageSize = this.stage?.getSize();
 		if (!stageSize) return;
 
@@ -166,25 +166,8 @@ export class Draw {
 		konvaImage.y((containerHeight - originHeight * konvaImage.scaleY()) / 2);
 	}
 
-	/**
-	 * 绕中心旋转图片
-	 * @param konvaImage
-	 * @param rotation
-	 */
-	private applyRotation(konvaImage: Konva.Image, rotation: number) {
-		if (rotation === 0) return konvaImage.rotate(rotation);
-
-		// 使用图像的真实尺寸（确保已加载）
-		const imageElement = konvaImage.image();
-		if (!imageElement) return;
-
-		const { width, height } = konvaImage.size();
-
-		// 设置旋转角度
-		konvaImage.rotation(rotation);
-	}
-
 	// getter
 	public getStage = () => this.stage;
 	public getImageClipper = () => this.imageClipper;
+	public getLayerController = () => this.layerController;
 }

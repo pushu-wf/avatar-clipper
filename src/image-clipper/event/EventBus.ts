@@ -1,3 +1,5 @@
+import { nextTick } from "../utils";
+
 export class EventBus<EventMap> {
 	private eventHub: Map<string, Set<Function>>;
 
@@ -33,5 +35,15 @@ export class EventBus<EventMap> {
 	public isSubscribe<K extends string & keyof EventMap>(eventName: K): boolean {
 		const eventSet = this.eventHub.get(eventName);
 		return !!eventSet && eventSet.size > 0;
+	}
+
+	/**
+	 * @description 统一的派发事件中心
+	 */
+	public dispatchEvent<K extends string & keyof EventMap>(
+		eventName: K,
+		payload?: EventMap[K] extends (payload: infer P) => void ? P : never
+	) {
+		nextTick(() => this.isSubscribe(eventName) && this.emit(eventName, payload));
 	}
 }

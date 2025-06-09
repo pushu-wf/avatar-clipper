@@ -1,13 +1,12 @@
 import Konva from "konva";
 import { store } from "../store";
+import { Node } from "konva/lib/Node";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Shape } from "konva/lib/Shape";
-import { cropInfo } from "../interface";
 import { Context } from "konva/lib/Context";
 import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
-import { Node } from "konva/lib/Node";
 
 /**
  * @description 计算文本宽度
@@ -138,15 +137,6 @@ function getCropInfo(stage: Stage) {
 }
 
 /**
- * @description 判断传入的两个位置信息是否一致
- * @param { x:number,y:number,width:number,height:number } pos1
- * @param { x:number,y:number,width:number,height:number } pos2
- */
-function isSamePosition(pos1: cropInfo, pos2: cropInfo) {
-	return pos1.x === pos2.x && pos1.y === pos2.y && pos1.width === pos2.width && pos1.height === pos2.height;
-}
-
-/**
  * @description 辅助函数 - 重新计算旋转后的位置坐标
  * @param param0
  * @param rad
@@ -160,27 +150,27 @@ const rotatePoint = (payload: { x: number; y: number }, rad: number) => {
 };
 
 /**
- * @description 使得节点按中心旋转
+ * @description 节点按中心旋转
  * @param node
  * @param rotation
  */
 function rotateAroundCenter(node: Node, rotation: number) {
-	//current rotation origin (0, 0) relative to desired origin - center (node.width()/2, node.height()/2)
-	const topLeft = { x: -node.width() / 2, y: -node.height() / 2 };
+	// 获取当前节点的缩放比例
+	const scaleX = node.scaleX();
+	const scaleY = node.scaleY();
+
+	// 考虑缩放后的中心点坐标
+	const topLeft = { x: (-node.width() / 2) * scaleX, y: (-node.height() / 2) * scaleY };
 	const current = rotatePoint(topLeft, Konva.getAngle(node.rotation()));
 	const rotated = rotatePoint(topLeft, Konva.getAngle(rotation));
-	const dx = rotated.x - current.x,
-		dy = rotated.y - current.y;
+	const dx = rotated.x - current.x;
+	const dy = rotated.y - current.y;
 
 	node.rotation(rotation);
-
-	// // 受 scale 影响
-	node.position({
-		x: node.x() + dx,
-		y: node.y() + dy,
-	});
+	node.x(node.x() + dx);
+	node.y(node.y() + dy);
 
 	console.log(`Rotating to ${rotation}°, Position updated: (${node.x()}, ${node.y()})`);
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, isSamePosition, rotateAroundCenter };
+export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter };

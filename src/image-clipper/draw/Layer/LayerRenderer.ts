@@ -1,32 +1,26 @@
+import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
+import { Layer } from "konva/lib/Layer";
 import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
-import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
-import { Transformer } from "konva/lib/shapes/Transformer";
-import { store } from "../../store";
 import { Rect } from "konva/lib/shapes/Rect";
-import { Layer } from "konva/lib/Layer";
+import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
+import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
 
 export class LayerRenderer {
-	/**
-	 * 绘制水印
-	 */
+	/** 绘制水印  */
 	renderWatermark(stage: Stage) {
 		// 生成水印，需要参数控制是否渲染
 		generateWatermark(stage);
 	}
 
-	/**
-	 * 绘制裁剪框蒙版
-	 */
+	/** 绘制裁剪框蒙版 */
 	renderCropmask(ctx: Context, shape: Shape, stage: Stage) {
 		drawCropmaskSceneFunc(ctx, shape, stage);
 	}
 
-	/**
-	 * 绘制裁剪框
-	 */
+	/** 绘制裁剪框 */
 	renderCrop(stage: Stage) {
 		const layer = stage.findOne("#mainLayer") as Layer;
 
