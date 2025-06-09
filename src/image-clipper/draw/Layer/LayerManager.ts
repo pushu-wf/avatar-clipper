@@ -1,9 +1,9 @@
 import { Draw } from "..";
 import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
-import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
 import { EventResponder } from "../EventResponder";
+import { Layer, LayerConfig } from "konva/lib/Layer";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { limitShapeController } from "../../event/handlers/crop-bound-box";
@@ -21,70 +21,74 @@ export class LayerManager {
 	constructor(private draw: Draw) {
 		this.stage = this.draw.getStage();
 		this.eventResponder = this.draw.getEventResponder();
-
-		this.initMainLayer();
-		this.initWatermarkLayer();
-		this.initCropLayer();
+		this.initLayers();
 	}
 
-	/** 初始化主图层 */
-	initMainLayer() {
+	/** 初始化所有图层 */
+	private initLayers() {
+		this.createGeneralLayer("mainLayer", this.createMainContent);
+		this.createGeneralLayer("watermarkLayer", () => generateWatermark(this.stage), {
+			listening: false,
+			rotation: store.getState("watermark")?.rotate ?? -45,
+		});
+		this.createGeneralLayer("cropLayer", this.createCropContent.bind(this));
+	}
+
+	/** 创建通用图层 */
+	private createGeneralLayer(layerId: string, createContent: Function, config: LayerConfig = {}) {
 		if (!this.stage) return;
 
-		const mainLayer = new Layer({ id: "mainLayer", name: "mainLayer" });
+		const layer = new Layer({
+			id: layerId,
+			name: layerId,
+			...config,
+		});
 
 		// 获取 stage 的宽高
 		const { width, height } = this.stage.getSize();
 
-		// 创建背景图层
-		const backgroundColor = store.getState("backgroundColor");
-		const background = new Rect({ width, height, fill: backgroundColor || "transparent", listening: false });
+		// 设置水印图层的偏移量
+		if (layerId === "watermarkLayer") {
+			layer.offsetX(width / 2);
+			layer.offsetY(height / 2);
+		}
 
-		this.stage.add(mainLayer.add(background));
+		this.stage.add(layer);
+
+		createContent(layer);
 	}
 
-	/** 初始化水印图层 */
-	initWatermarkLayer() {
-		if (!this.stage) return;
+	/** 初始化主图层 */
+	private createMainContent(layer: Layer) {
+		// 创建背景图层
+		const backgroundColor = store.getState("backgroundColor");
+		const background = new Rect({
+			width: layer.width(),
+			height: layer.height(),
+			fill: backgroundColor || "transparent",
+			listening: false,
+		});
 
-		const rotation = store.getState("watermark")?.rotate ?? -45;
-		const watermarkLayer = new Layer({ id: "watermarkLayer", name: "watermarkLayer", listening: false, rotation });
-
-		// 需要偏移才能居中旋转
-		const { width, height } = this.stage.size();
-		watermarkLayer.offsetX(width);
-		watermarkLayer.offsetY(height);
-
-		this.stage.add(watermarkLayer);
-
-		// 生成水印，需要参数控制是否渲染
-		generateWatermark(this.stage);
+		layer.add(background);
 	}
 
 	/** 初始化裁剪框图层 */
-	initCropLayer() {
-		if (!this.stage) return;
-		const cropLayer = new Layer({ id: "cropLayer", name: "cropLayer" });
-
-		this.stage.add(cropLayer);
-
+	private createCropContent(layer: Layer) {
 		// 裁剪框蒙版
 		const rect = new Rect({
 			listening: false,
 			sceneFunc: (ctx, shape) => drawCropmaskSceneFunc(ctx, shape, this.stage),
 		});
 
-		cropLayer.add(rect);
+		layer.add(rect);
 
 		// 创建裁剪框
-		this.renderCrop();
+		this.renderCrop(layer);
 	}
 
 	/** 绘制裁剪框 */
-	private renderCrop() {
+	private renderCrop(layer: Layer) {
 		if (!this.stage) return;
-
-		const layer = this.stage.findOne("#cropLayer") as Layer;
 
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
