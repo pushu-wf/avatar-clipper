@@ -4,7 +4,6 @@ import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { AllowUpdateImageAttrs } from "../../interface";
 import { parseImageSource, throttle } from "../../utils";
-import { imageMove } from "../../event/handlers/image-move";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter } from "../../utils/konva";
 
@@ -107,7 +106,6 @@ export class EventResponder {
 		konvaImage.zIndex(1);
 
 		// 监听事件
-		konvaImage.on("dragmove", imageMove);
 		konvaImage.on("dragmove", this.patchPreviewEvent.bind(this));
 
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
