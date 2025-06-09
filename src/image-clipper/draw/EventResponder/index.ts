@@ -92,7 +92,6 @@ export class EventResponder {
 			listening: true,
 		});
 
-		konvaImage.setAttrs({ originWidth: imageElement.width, originHeight: imageElement.height });
 		mainLayer.add(konvaImage);
 		// 一定要设置 zIndex，不然裁剪框无法在上层
 		konvaImage.zIndex(0);

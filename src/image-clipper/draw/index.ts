@@ -5,6 +5,7 @@ import { Stage } from "konva/lib/Stage";
 import { LayerController } from "./Layer";
 import { parseContainer } from "../utils";
 import { EventResponder } from "./EventResponder";
+import { imageWheel } from "../event/handlers/image-wheel";
 
 /**
  * @description 绘制类 - 实现图层控制，绘制结果导出等
@@ -35,6 +36,9 @@ export class Draw {
 
 		// 创建 stage
 		this.stage = new Konva.Stage({ container, width, height });
+
+		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
+		this.stage.on("wheel", imageWheel);
 
 		// 创建图层控制器
 		this.layerController = new LayerController(this);

@@ -4,6 +4,12 @@ interface HistoryConfig {
 	maxHistoryCount: number;
 }
 
+interface CanvasConfig {
+	scaleStep: number;
+	maxScale: number;
+	minScale: number;
+}
+
 // 历史记录配置
 const historyConfig: HistoryConfig = {
 	maxHistoryCount: 20,
@@ -37,4 +43,11 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 	},
 };
 
-export { historyConfig, defaultImageClipperConfig };
+// 画布配置
+const canvasConfig: CanvasConfig = {
+	scaleStep: 0.2,
+	maxScale: 2,
+	minScale: 0.1,
+};
+
+export { historyConfig, defaultImageClipperConfig, canvasConfig };
