@@ -5,7 +5,7 @@ import { Layer } from "konva/lib/Layer";
 import { parseImageSource } from "../../utils";
 import { AllowUpdateImageAttrs } from "../../interface";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
-import { base64ToBlob, generateWatermark, isEmpty, rotateAroundCenter } from "../../utils/konva";
+import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter } from "../../utils/konva";
 
 /**
  * 导出画布相应事件控制中心
@@ -116,9 +116,9 @@ export class EventResponder {
 	 * @param imageInfo
 	 */
 	private applyObjectFit(konvaImage: KonvaImage, objectFit: "contain" | "cover" | "fill" = "contain") {
-		if (!objectFit) return;
+		if (!this.stage) return;
 
-		const stageSize = this.stage?.getSize();
+		const stageSize = this.stage.getSize();
 		if (!stageSize) return;
 
 		const { width: containerWidth, height: containerHeight } = stageSize;
@@ -143,6 +143,8 @@ export class EventResponder {
 		// 居中显示
 		konvaImage.x((containerWidth - originWidth * konvaImage.scaleX()) / 2);
 		konvaImage.y((containerHeight - originHeight * konvaImage.scaleY()) / 2);
+
+		this.render();
 	}
 
 	/**
@@ -181,24 +183,11 @@ export class EventResponder {
 	public updateWatermark() {
 		if (!this.stage) return;
 
+		// 重新生成水印
 		generateWatermark(this.stage);
 
+		// 更新视图
 		this.render();
-	}
-
-	/**
-	 * @description 辅助函数 - 获取裁剪框的位置宽高，用于裁剪结果处理
-	 */
-	private getCropAttr() {
-		const nullResult = { x: 0, y: 0, width: 0, height: 0 };
-		if (!this.stage) return nullResult;
-		const mainLayer = <Layer>this.stage.findOne("#mainLayer");
-		if (!mainLayer) return nullResult;
-
-		const crop = mainLayer.findOne("#crop");
-		if (!crop) return nullResult;
-
-		return crop.getClientRect();
 	}
 
 	/**
@@ -230,7 +219,7 @@ export class EventResponder {
 		const mainLayer = <Layer>stageClone.findOne("#mainLayer");
 		mainLayer.findOne("Transformer")?.remove();
 
-		const cropAttrs = this.getCropAttr();
+		const cropAttrs = getCropInfo(this.stage);
 
 		if (type === "canvas") {
 			return stageClone.toCanvas({ ...cropAttrs, pixelRatio });

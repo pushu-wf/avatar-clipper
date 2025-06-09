@@ -4,7 +4,7 @@ import { Layer } from "konva/lib/Layer";
 import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { Rect } from "konva/lib/shapes/Rect";
-import { EventResponder } from "../Handlers";
+import { EventResponder } from "../EventResponder";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";

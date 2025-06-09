@@ -3,7 +3,7 @@ import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { LayerManager } from "./LayerManager";
 import { LayerRenderer } from "./LayerRenderer";
-import { EventResponder } from "../Handlers";
+import { EventResponder } from "../EventResponder";
 
 /**
  * 图层控制器 - 组合多个职责单一的模块实现完整功能

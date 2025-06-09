@@ -4,7 +4,7 @@ import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
 import { LayerController } from "./Layer";
 import { parseContainer } from "../utils";
-import { EventResponder } from "./Handlers";
+import { EventResponder } from "./EventResponder";
 import { imageWheel } from "../event/handlers/image-wheel";
 
 /**

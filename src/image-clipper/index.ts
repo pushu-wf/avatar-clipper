@@ -3,11 +3,11 @@ import { Draw } from "./draw";
 import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
+import { ImageClipperConfig } from "./interface";
 import { EventBusMap } from "./interface/EventMap";
 import { defaultImageClipperConfig } from "./config";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
-import { ImageClipperConfig, AllowUpdateImageAttrs } from "./interface";
 
 /**
  * @description 图片裁剪器
@@ -92,4 +92,5 @@ export { ImageClipper };
 export default ImageClipper;
 
 // 导出类型
-export type { ImageClipperConfig, EventBusMap, AllowUpdateImageAttrs };
+export type { EventBusMap };
+export * from "./interface";
