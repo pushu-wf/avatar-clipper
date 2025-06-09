@@ -18,5 +18,5 @@ export type EventBusMap = {
 	cropUpdate: () => void;
 
 	// 预览
-	preview: () => void;
+	preview: (base64: string) => void;
 };

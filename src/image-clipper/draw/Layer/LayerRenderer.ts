@@ -4,9 +4,11 @@ import { Layer } from "konva/lib/Layer";
 import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { Rect } from "konva/lib/shapes/Rect";
+import { EventResponder } from "../Handlers";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
+import { throttle } from "../../utils";
 
 export class LayerRenderer {
 	/** 绘制水印  */
@@ -21,7 +23,9 @@ export class LayerRenderer {
 	}
 
 	/** 绘制裁剪框 */
-	renderCrop(stage: Stage) {
+	renderCrop(stage: Stage, eventResponder: EventResponder) {
+		if (!stage) return;
+
 		const layer = stage.findOne("#mainLayer") as Layer;
 
 		// 获取裁剪框属性
@@ -64,6 +68,11 @@ export class LayerRenderer {
 
 		// 监听事件
 		crop.on("dragmove transform", cropUpdate);
+		// throttle patch preview
+		crop.on(
+			"dragmove transform",
+			throttle(() => requestAnimationFrame(() => eventResponder.patchPreviewEvent()), 10)
+		);
 
 		// 添加到 crop 上
 		transformer.nodes([crop]);

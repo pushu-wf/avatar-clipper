@@ -4,7 +4,7 @@ import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
 import { LayerController } from "./Layer";
 import { parseContainer } from "../utils";
-import { EventResponder } from "./EventResponder";
+import { EventResponder } from "./Handlers";
 import { imageWheel } from "../event/handlers/image-wheel";
 
 /**
@@ -40,11 +40,11 @@ export class Draw {
 		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
 		this.stage.on("wheel", imageWheel);
 
-		// 创建图层控制器
-		this.layerController = new LayerController(this);
-
 		// 创建事件相应器
 		this.eventResponder = new EventResponder(this);
+
+		// 创建图层控制器
+		this.layerController = new LayerController(this);
 
 		// 如果用户传递了 image src 属性，则默认初始化图片
 		const src = store.getState("image")?.src;

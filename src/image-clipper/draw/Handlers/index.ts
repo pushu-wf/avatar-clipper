@@ -99,12 +99,15 @@ export class EventResponder {
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
 		this.applyObjectFit(konvaImage, objectFit);
 
+		// renderer
+		this.render();
+
 		// patch image loaded event
 		const imageClipper = this.draw.getImageClipper();
 		imageClipper.event.dispatchEvent("imageLoaded");
 
-		// renderer
-		this.render();
+		// 图片加载完成后，需要立即初始化一个 preview
+		this.patchPreviewEvent();
 	}
 
 	/**
@@ -199,12 +202,26 @@ export class EventResponder {
 	}
 
 	/**
+	 * @description 工具函数 - 触发 preview 事件
+	 */
+	public patchPreviewEvent() {
+		const imageClipper = this.draw.getImageClipper();
+		if (!imageClipper) return;
+
+		const base64 = <string>this.getResult("string");
+		if (!base64) return;
+
+		imageClipper.event.dispatchEvent("preview", base64);
+	}
+
+	/**
 	 * @description 获取裁剪结果
 	 * @param { "string" | "blob" | "canvas" } type 裁剪结果类型
 	 * @param { number } [pixelRatio] pixelRatio
 	 * @param { "png" | "jpeg" } [mimeType] mimeType
 	 */
 	public getResult(type: "string" | "blob" | "canvas", pixelRatio = 1, mimeType: "png" | "jpeg" = "png") {
+		console.time("getResult");
 		if (!this.stage) return "Stage is not exist.";
 
 		// 通过复制图层实现
@@ -221,11 +238,11 @@ export class EventResponder {
 
 		const base64String = stageClone.toDataURL({ ...cropAttrs, pixelRatio, mimeType: `image/${mimeType}` });
 
-		if (type === "string") {
-			window
-				.open()!
-				.document.write('<iframe width="100%" height="100%" src=" ' + base64String + '" frameborder = "0" allowfullscreen />');
+		stageClone.destroy();
 
+		console.timeEnd("getResult");
+
+		if (type === "string") {
 			return base64String;
 		} else if (type === "blob") {
 			return base64ToBlob(base64String);

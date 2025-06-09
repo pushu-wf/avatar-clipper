@@ -195,11 +195,11 @@ function base64ToBlob(base64: string) {
 /**
  * @description 判断传入的属性是否为空
  */
-function isEmpty(payload: unknown) {
-	if (payload instanceof Array && payload.length === 0) return true;
-	else if (payload instanceof Object && Object.keys(payload).length === 0) return true;
-	else if (payload === null || payload === undefined || payload === "") return true;
-	else return false;
+function isEmpty(obj: unknown) {
+	if (obj === null || obj === undefined) return true;
+	if (typeof obj !== "object") return true;
+	if (Object.keys(obj).length === 0) return true;
+	return false;
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, isEmpty, base64ToBlob };
+export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, getResult, isEmpty, base64ToBlob };

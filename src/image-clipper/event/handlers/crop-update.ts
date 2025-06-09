@@ -14,6 +14,7 @@ export function cropUpdate(e: KonvaEventObject<MouseEvent>) {
 
 	// 判断边界
 	const { width, height } = stage.getSize();
+
 	// 获取裁剪框位置信息
 	const cropInfo = getCropInfo(stage);
 	if (!cropInfo) return;

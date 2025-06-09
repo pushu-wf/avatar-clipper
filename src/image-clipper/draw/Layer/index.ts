@@ -3,6 +3,7 @@ import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { LayerManager } from "./LayerManager";
 import { LayerRenderer } from "./LayerRenderer";
+import { EventResponder } from "../Handlers";
 
 /**
  * 图层控制器 - 组合多个职责单一的模块实现完整功能
@@ -10,8 +11,11 @@ import { LayerRenderer } from "./LayerRenderer";
 export class LayerController {
 	private layerManager: LayerManager;
 	private layerRenderer: LayerRenderer;
+	private eventResponder: EventResponder;
 
 	constructor(private draw: Draw) {
+		this.eventResponder = this.draw.getEventResponder();
+
 		const stage = this.draw.getStage();
 
 		// 初始化各模块
@@ -27,7 +31,7 @@ export class LayerController {
 		this.layerManager.initMainLayer();
 
 		// 渲染裁剪框
-		this.layerRenderer.renderCrop(stage);
+		this.layerRenderer.renderCrop(stage, this.eventResponder);
 
 		// 初始化水印图层
 		this.layerManager.initWatermarkLayer();
