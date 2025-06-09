@@ -5,7 +5,7 @@ import { Layer } from "konva/lib/Layer";
 import { AllowUpdateImageAttrs } from "../../interface";
 import { parseImageSource, throttle } from "../../utils";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
-import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter } from "../../utils/konva";
+import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
 
 /**
  * 导出画布相应事件控制中心
@@ -27,7 +27,15 @@ export class EventResponder {
 	/**
 	 * @description 清空图片
 	 */
-	public clearImage() {}
+	public clearImage() {
+		if (!this.stage) return;
+
+		const mainLayer = this.stage.findOne("#main-layer") as Layer;
+		if (!mainLayer) return;
+
+		const image = mainLayer.findOne("#image") as KonvaImage;
+		if (image) image.destroy();
+	}
 
 	/**
 	 * @description 重置容器
@@ -40,14 +48,6 @@ export class EventResponder {
 	public destroy() {
 		if (!this.stage) return;
 		this.stage.destroy();
-	}
-
-	/**
-	 * @description 清空画布 - 特指清空图片图层，并恢复裁剪框位置大小
-	 */
-	public clear() {
-		if (!this.stage) return;
-		this.render();
 	}
 
 	/**
@@ -138,16 +138,18 @@ export class EventResponder {
 
 		konvaImage.scale({ x: 1, y: 1 }); // 重置缩放
 
+		// 等比缩放，确保完整显示
 		if (objectFit === "contain") {
-			// 等比缩放，确保完整显示
 			const scale = Math.min(containerWidth / originWidth, containerHeight / originHeight);
 			konvaImage.scale({ x: scale, y: scale });
-		} else if (objectFit === "cover") {
-			// 等比缩放，覆盖整个容器，可能被裁剪
+		}
+		// 等比缩放，覆盖整个容器，可能被裁剪
+		else if (objectFit === "cover") {
 			const scale = Math.max(containerWidth / originWidth, containerHeight / originHeight);
 			konvaImage.scale({ x: scale, y: scale });
-		} else if (objectFit === "fill") {
-			// 拉伸填满，不保持比例
+		}
+		// 拉伸填满，不保持比例
+		else if (objectFit === "fill") {
 			konvaImage.width(containerWidth);
 			konvaImage.height(containerHeight);
 		}
@@ -181,17 +183,17 @@ export class EventResponder {
 		if (!isEmpty(y)) konvaImage.y(y);
 		if (!isEmpty(width)) konvaImage.width(width);
 		if (!isEmpty(height)) konvaImage.height(height);
+
 		// 缩放要基于图片中心缩放
-		if (!isEmpty(scaleX)) {
-			konvaImage.scaleX(scaleX);
-		}
-		if (!isEmpty(scaleY)) {
-			konvaImage.scaleY(scaleY);
-		}
+		if (!isEmpty(scaleX) || !isEmpty(scaleY)) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
+
 		if (!isEmpty(rotation)) rotateAroundCenter(konvaImage, rotation!);
 		if (!isEmpty(draggable)) konvaImage.draggable(draggable);
 
 		this.render();
+
+		// 触发 preview 事件
+		this.patchPreviewEvent();
 	}
 
 	/**
@@ -240,6 +242,7 @@ export class EventResponder {
 
 		// 通过复制图层实现
 		const stageClone = this.stage.clone();
+
 		// 删除 transformer
 		const mainLayer = <Layer>stageClone.findOne("#mainLayer");
 		mainLayer.findOne("Transformer")?.remove();

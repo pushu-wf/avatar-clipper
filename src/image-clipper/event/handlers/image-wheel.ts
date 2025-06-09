@@ -6,7 +6,7 @@ import { Layer } from "konva/lib/Layer";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Image } from "konva/lib/shapes/Image";
 import { Stage } from "konva/lib/Stage";
-import { canvasConfig } from "../../config";
+import { imageScaleConfig } from "../../config";
 
 export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 	const stage = e.currentTarget as Stage;
@@ -28,9 +28,9 @@ export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 		y: position.y / oldScale - image.y() / oldScale,
 	};
 
-	let newScale = deltaY < 0 ? oldScale + canvasConfig.scaleStep : oldScale - canvasConfig.scaleStep;
+	let newScale = deltaY < 0 ? oldScale + imageScaleConfig.scaleStep : oldScale - imageScaleConfig.scaleStep;
 	// 判断阈值
-	newScale = Math.min(Math.max(newScale, canvasConfig.minScale), canvasConfig.maxScale);
+	newScale = Math.min(Math.max(newScale, imageScaleConfig.minScale), imageScaleConfig.maxScale);
 
 	image.scale({ x: newScale, y: newScale });
 

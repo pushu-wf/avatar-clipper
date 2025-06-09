@@ -7,6 +7,7 @@ import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
+import { imageScaleConfig } from "../config";
 
 /**
  * @description 计算文本宽度
@@ -175,6 +176,46 @@ function rotateAroundCenter(node: Node, rotation: number) {
 }
 
 /**
+ * @description 节点按中心缩放
+ * @param node 节点
+ * @param scale 缩放比例
+ */
+function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
+	// 如果小于最小值
+	if (scaleX < imageScaleConfig.minScale || scaleY < imageScaleConfig.minScale) {
+		return;
+	}
+
+	// 如果大于最大值
+	if (scaleX > imageScaleConfig.maxScale || scaleY > imageScaleConfig.maxScale) {
+		return;
+	}
+
+	const oldScaleX = node.scaleX();
+	const oldScaleY = node.scaleY();
+
+	// 获取图像当前位置
+	const x = node.x();
+	const y = node.y();
+
+	// 获取图像尺寸
+	const width = node.width();
+	const height = node.height();
+
+	// 计算中心点坐标
+	const centerX = x + (width * oldScaleX) / 2;
+	const centerY = y + (height * oldScaleY) / 2;
+
+	// 设置新缩放值
+	if (!isEmpty(scaleX)) node.scaleX(scaleX);
+	if (!isEmpty(scaleY)) node.scaleY(scaleY);
+
+	// 调整位置使中心点保持不变
+	node.x(centerX - (width * node.scaleX()) / 2);
+	node.y(centerY - (height * node.scaleY()) / 2);
+}
+
+/**
  * @description 辅助函数 - base64 转 Blob
  * @param { string } base64 base64 string
  * @returns Blob
@@ -203,4 +244,4 @@ function isEmpty(payload: unknown) {
 	else return false;
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, isEmpty, base64ToBlob };
+export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, isEmpty, base64ToBlob, scaleAroundCenter };

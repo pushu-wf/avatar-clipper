@@ -1,19 +1,10 @@
 import { ImageClipperConfig } from "../interface";
 
-interface HistoryConfig {
-	maxHistoryCount: number;
-}
-
-interface CanvasConfig {
+interface ImageScaleConfig {
 	scaleStep: number;
 	maxScale: number;
 	minScale: number;
 }
-
-// 历史记录配置
-const historyConfig: HistoryConfig = {
-	maxHistoryCount: 20,
-};
 
 // 默认的 image clipper config 配置项
 const defaultImageClipperConfig: ImageClipperConfig = {
@@ -43,11 +34,11 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 	},
 };
 
-// 画布配置
-const canvasConfig: CanvasConfig = {
-	scaleStep: 0.2,
+// 图片缩放配置
+const imageScaleConfig: ImageScaleConfig = {
+	scaleStep: 0.1,
 	maxScale: 2,
 	minScale: 0.1,
 };
 
-export { historyConfig, defaultImageClipperConfig, canvasConfig };
+export { defaultImageClipperConfig, imageScaleConfig };
