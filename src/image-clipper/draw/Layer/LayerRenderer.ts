@@ -8,6 +8,7 @@ import { EventResponder } from "../EventResponder";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
+import { limitShapeController } from "../../event/handlers/crop-bound-box";
 
 export class LayerRenderer {
 	/** 绘制水印  */
@@ -29,6 +30,7 @@ export class LayerRenderer {
 
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
+
 		// 获取 stage 的宽高
 		const { width, height } = stage.size();
 
@@ -63,6 +65,7 @@ export class LayerRenderer {
 			borderStroke: cropAttr?.stroke ?? "#299CF5",
 			borderStrokeWidth: 2,
 			keepRatio: cropAttr?.fixed ? true : false,
+			boundBoxFunc: (oldBox, newBox) => limitShapeController(oldBox, newBox, stage),
 		});
 
 		// 监听事件

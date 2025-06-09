@@ -18,16 +18,23 @@ export function cropUpdate(e: KonvaEventObject<MouseEvent>) {
 	// 获取裁剪框位置信息
 	const cropInfo = getCropInfo(stage);
 	if (!cropInfo) return;
+	const { width: cropWidth, height: cropHeight } = cropInfo;
 
 	// 纠正位置信息，限定在 stage 内
-	if (cropInfo.x < 0) target.x(0);
-	if (cropInfo.y < 0) target.y(0);
-	if (cropInfo.x + cropInfo.width > width) target.x(width - cropInfo.width);
-	if (cropInfo.y + cropInfo.height > height) target.y(height - cropInfo.height);
+	const newX = Math.max(0, Math.min(width - cropWidth, target.x()));
+	const newY = Math.max(0, Math.min(height - cropHeight, target.y()));
+
+	// 如果位置有变化才更新
+	if (newX !== target.x()) target.x(newX);
+	if (newY !== target.y()) target.y(newY);
 
 	// 判断裁剪框尺寸
-	if (cropInfo.width < 20) target.width(20);
-	if (cropInfo.height < 20) target.height(20);
+	const newWidth = Math.min(cropWidth, width - newX);
+	const newHeight = Math.min(cropHeight, height - newY);
+
+	// 如果尺寸有变化才更新
+	if (newWidth !== cropWidth) target.width(newWidth);
+	if (newHeight !== cropHeight) target.height(newHeight);
 
 	// 更新视图
 	stage.batchDraw();
