@@ -37,14 +37,15 @@ export class Draw {
 		// 创建 stage
 		this.stage = new Konva.Stage({ container, width, height });
 
-		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
-		this.stage.on("wheel", imageWheel);
-
 		// 创建事件相应器
 		this.eventResponder = new EventResponder(this);
 
 		// 创建图层控制器
 		this.layerController = new LayerController(this);
+
+		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
+		this.stage.on("wheel", imageWheel);
+		this.stage.on("wheel", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
 
 		// 如果用户传递了 image src 属性，则默认初始化图片
 		const src = store.getState("image")?.src;

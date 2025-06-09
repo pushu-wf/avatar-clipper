@@ -8,7 +8,6 @@ import { EventResponder } from "../EventResponder";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
-import { throttle } from "../../utils";
 
 export class LayerRenderer {
 	/** 绘制水印  */
@@ -69,10 +68,7 @@ export class LayerRenderer {
 		// 监听事件
 		crop.on("dragmove transform", cropUpdate);
 		// throttle patch preview
-		crop.on(
-			"dragmove transform",
-			throttle(() => requestAnimationFrame(() => eventResponder.patchPreviewEvent()), 10)
-		);
+		crop.on("dragmove transform", eventResponder.patchPreviewEvent.bind(eventResponder));
 
 		// 添加到 crop 上
 		transformer.nodes([crop]);

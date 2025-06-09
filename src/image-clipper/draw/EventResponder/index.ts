@@ -2,10 +2,11 @@ import { Draw } from "..";
 import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
-import { parseImageSource } from "../../utils";
+import { parseImageSource, throttle } from "../../utils";
 import { AllowUpdateImageAttrs } from "../../interface";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter } from "../../utils/konva";
+import { imageMove } from "../../event/handlers/image-move";
 
 /**
  * 导出画布相应事件控制中心
@@ -106,6 +107,10 @@ export class EventResponder {
 		// 一定要设置 zIndex，不然裁剪框无法在上层
 		konvaImage.zIndex(0);
 
+		// 监听事件
+		konvaImage.on("dragmove", imageMove);
+		konvaImage.on("dragmove", this.patchPreviewEvent.bind(this));
+
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
 		this.applyObjectFit(konvaImage, objectFit);
 
@@ -198,19 +203,28 @@ export class EventResponder {
 
 		// 更新视图
 		this.render();
+
+		// 触发 preview 事件
+		this.patchPreviewEvent();
 	}
 
 	/**
-	 * @description 工具函数 - 触发 preview 事件
+	 * @description 工具函数 - 触发 preview 事件 节流触发！
 	 */
 	public patchPreviewEvent() {
-		const imageClipper = this.draw.getImageClipper();
-		if (!imageClipper) return;
+		throttle(
+			() =>
+				requestAnimationFrame(() => {
+					const imageClipper = this.draw.getImageClipper();
+					if (!imageClipper) return;
 
-		const base64 = <string>this.getResult("string");
-		if (!base64) return;
+					const base64 = <string>this.getResult("string");
+					if (!base64) return;
 
-		imageClipper.event.dispatchEvent("preview", base64);
+					imageClipper.event.dispatchEvent("preview", base64);
+				}),
+			10
+		)();
 	}
 
 	/**
@@ -220,7 +234,6 @@ export class EventResponder {
 	 * @param { "png" | "jpeg" } [mimeType] mimeType
 	 */
 	public getResult(type: "string" | "blob" | "canvas", pixelRatio = 1, mimeType: "png" | "jpeg" = "png") {
-		console.time("getResult");
 		if (!this.stage) return "Stage is not exist.";
 
 		// 通过复制图层实现
@@ -238,8 +251,6 @@ export class EventResponder {
 		const base64String = stageClone.toDataURL({ ...cropAttrs, pixelRatio, mimeType: `image/${mimeType}` });
 
 		stageClone.destroy();
-
-		console.timeEnd("getResult");
 
 		if (type === "string") {
 			return base64String;
