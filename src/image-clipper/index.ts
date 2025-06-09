@@ -3,11 +3,11 @@ import { Draw } from "./draw";
 import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
-import { ImageClipperConfig } from "./interface";
+import { EventBusMap } from "./interface/EventMap";
 import { defaultImageClipperConfig } from "./config";
-import { EventBusMap } from "./interface/EventBusMap";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
+import { ImageClipperConfig, AllowUpdateImageAttrs } from "./interface";
 
 /**
  * @description 图片裁剪器
@@ -49,7 +49,7 @@ class ImageClipper {
 	}
 
 	/**
-	 * 初始化 DOM 容器
+	 * 初始化 ImageClipper 容器
 	 */
 	private initDomContainer() {
 		const optionsContainer = store.getState("container");
@@ -92,4 +92,4 @@ export { ImageClipper };
 export default ImageClipper;
 
 // 导出类型
-export type { ImageClipperConfig, EventBusMap };
+export type { ImageClipperConfig, EventBusMap, AllowUpdateImageAttrs };

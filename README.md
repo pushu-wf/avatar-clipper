@@ -68,27 +68,51 @@ interface CommandAdapter {
 	clear(): void;
 	// 销毁组件
 	destroy(): void;
+
 	// 设置图片源
 	setImage: (source: string | Blob | HTMLImageElement) => void;
 	// 设置图片属性 - 缩放 平移 旋转
-	setImageAttr: (attr: ImageAttr) => void;
+	updateImageAttrs: (attr: ImageAttr) => void;
 	// 获取图片属性 - 缩放 平移 旋转
-	getImageAttr: () => ImageAttr;
+	getImageAttrs: () => ImageAttr;
+
 	// 设置裁剪框属性 - 宽高 位置坐标 不允许旋转
-	setCropAttr: (attr: CropAttr) => void;
+	updateCropAttrs: (attr: CropAttr) => void;
 	// 获取裁剪框属性
 	getCropAttr: () => CropAttr;
+
 	// 设置水印属性
-	setWatermarkAttr: (attr: WatermarkAttr) => void;
+	updateWatermarkAttrs: (attr: WatermarkAttr) => void;
 	// 获取水印属性
 	getWatermarkAttr: () => WatermarkAttr;
-	// 获取截图结果 - base64 | blob | canvas
-	getResult: (type: "base64" | "blob" | "canvas") => Promise<string | Blob | HTMLCanvasElement>;
-}
 
+	// 获取截图结果 - base64 | blob | canvas
+	getResult: (type: "base64" | "blob" | "canvas", pixelRatio: number = 1) => Promise<string | Blob | HTMLCanvasElement>;
+}
+```
+
+## 跨域图片请求须知
+
+```ts
+// 创建新的图片实例
+const imageElement = new Image();
+
+// 解析 source 资源
+const source = await parseImageSource(image);
+// 增加跨域处理 crossOrigin = Anonymous
+imageElement.crossOrigin = "Anonymous";
+imageElement.src = source;
+```
+
+本实例在创建图片时，已增加跨域兼容，仅当请求的域具有允许共享请求的 Access-Control-Allow-Origin 标头时，此方法才有效。但是不适用于所有情况，如果它不起作用，那么你必须以不同的方式配置你的服务器（它超出了 Konva 的范围），或者你可以尝试将图像存储在支持 CORS 请求的其他位置。
+
+可用以下的方法来解决跨域问题：
+
+```ts
 // 远程图片实现方案：
 const fetchURL = fetch(url, { method: "GET" });
-const image = new Image();
-image.src = fetchURL;
+// 将获取到的图片数据转换成图片对象，进而转成 base64
+const image = await fetchURL.then((res) => res.blob());
+// 进而设置图片资源
 clipper.setImage(image);
 ```

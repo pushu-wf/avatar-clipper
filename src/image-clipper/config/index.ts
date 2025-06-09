@@ -16,7 +16,6 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 
 	// 图片属性
 	image: {
-		pixelRatio: 1, // 像素比
 		objectFit: "contain", // 图片的缩放模式
 		draggable: true, // 图片是否可拖动
 		zoom: true, // 图片是否可缩放

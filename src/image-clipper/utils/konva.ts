@@ -173,4 +173,33 @@ function rotateAroundCenter(node: Node, rotation: number) {
 	console.log(`Rotating to ${rotation}°, Position updated: (${node.x()}, ${node.y()})`);
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter };
+/**
+ * @description 辅助函数 - base64 转 Blob
+ * @param { string } base64 base64 string
+ * @returns Blob
+ */
+function base64ToBlob(base64: string) {
+	if (!base64) return;
+	const arr = base64.split(",");
+	if (!arr || !arr.length) return;
+	const mime = arr[0].match(/:(.*?);/)?.[1];
+	const bstr = atob(arr[1]);
+	let n = bstr.length;
+	const u8arr = new Uint8Array(n);
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new Blob([u8arr], { type: mime });
+}
+
+/**
+ * @description 判断传入的属性是否为空
+ */
+function isEmpty(payload: unknown) {
+	if (payload instanceof Array && payload.length === 0) return true;
+	else if (payload instanceof Object && Object.keys(payload).length === 0) return true;
+	else if (payload === null || payload === undefined || payload === "") return true;
+	else return false;
+}
+
+export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, isEmpty, base64ToBlob };
