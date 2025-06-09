@@ -1,19 +1,18 @@
 import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
-import { generateWatermark } from "../utils/konva";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs, ImageClipperConfig } from "../interface";
 
 export class CommandAdapt {
 	constructor(private draw: Draw) {}
 	// 清空画布 - 只需要清空图片层即可，裁剪框不可清除
 	public clearImage() {
-		this.draw.getLayerController().clearImage();
+		this.draw.getEventResponder().clearImage();
 	}
 
 	// 重置 - 清空画布 + 恢复默认配置
 	public reset() {
-		this.clearImage();
+		this.draw.getEventResponder().reset();
 	}
 
 	// 销毁组件
@@ -37,16 +36,15 @@ export class CommandAdapt {
 	}
 
 	// 获取图片属性 - 缩放 平移 旋转
-	public getImageAttrs(): ImageClipperConfig["image"] {
+	public getImageAttrs() {
 		// 这里不能直接返回 store 的属性，刚初始化时，其他属性都为空，会导致属性为 undefined
 	}
 
 	// 设置裁剪框属性 - 宽高 位置坐标 不允许旋转
 	public updateCropAttrs(payload: AllowUpdateCropAttrs) {
-		// // 做合并
-		// const crop = mergeOptions(store.getState("crop"), info);
-		// store.setState("crop", crop);
-		// this.draw.render();
+		// 做合并
+		const crop = mergeOptions(store.getState("crop"), payload);
+		store.setState("crop", crop);
 	}
 
 	// 获取裁剪框属性

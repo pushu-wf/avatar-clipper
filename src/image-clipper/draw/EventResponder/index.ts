@@ -25,6 +25,16 @@ export class EventResponder {
 	}
 
 	/**
+	 * @description 清空图片
+	 */
+	public clearImage() {}
+
+	/**
+	 * @description 重置容器
+	 */
+	public reset() {}
+
+	/**
 	 * @description 销毁容器
 	 */
 	public destroy() {
