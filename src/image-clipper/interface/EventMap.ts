@@ -2,6 +2,7 @@
 export type EventBusMap = {
 	// 初始化之前
 	beforeInit: () => void;
+
 	// 初始化之后
 	afterInit: () => void;
 

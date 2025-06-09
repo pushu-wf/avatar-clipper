@@ -36,11 +36,9 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 	const mainLayer = stage.findOne("#cropLayer") as Layer;
 	if (!mainLayer) return;
 
-	const cropRect = mainLayer.findOne("#crop") as Rect;
-	if (!cropRect) return;
-
 	// 获取实际宽高
-	const cropRectInfo = cropRect.getClientRect();
+	const cropRectInfo = getCropInfo(stage);
+	if (!cropRectInfo) return;
 	const { x, y } = cropRectInfo;
 
 	/*绘画顺时针外部正方形*/
@@ -143,12 +141,12 @@ function getCropInfo(stage: Stage) {
  * @param rad
  * @returns
  */
-const rotatePoint = (payload: { x: number; y: number }, rad: number) => {
+function rotatePoint(payload: { x: number; y: number }, rad: number) {
 	const { x, y } = payload;
 	const rcos = Math.cos(rad);
 	const rsin = Math.sin(rad);
 	return { x: x * rcos - y * rsin, y: y * rcos + x * rsin };
-};
+}
 
 /**
  * @description 节点按中心旋转
