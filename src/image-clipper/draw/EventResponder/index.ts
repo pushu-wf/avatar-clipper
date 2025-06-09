@@ -184,8 +184,13 @@ export class EventResponder {
 		if (!isEmpty(y)) konvaImage.y(y);
 		if (!isEmpty(width)) konvaImage.width(width);
 		if (!isEmpty(height)) konvaImage.height(height);
-		if (!isEmpty(scaleX)) konvaImage.scaleX(scaleX);
-		if (!isEmpty(scaleY)) konvaImage.scaleY(scaleY);
+		// 缩放要基于图片中心缩放
+		if (!isEmpty(scaleX)) {
+			konvaImage.scaleX(scaleX);
+		}
+		if (!isEmpty(scaleY)) {
+			konvaImage.scaleY(scaleY);
+		}
 		if (!isEmpty(rotation)) rotateAroundCenter(konvaImage, rotation!);
 		if (!isEmpty(draggable)) konvaImage.draggable(draggable);
 

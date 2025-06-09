@@ -155,6 +155,7 @@ const rotatePoint = (payload: { x: number; y: number }, rad: number) => {
  * @param rotation
  */
 function rotateAroundCenter(node: Node, rotation: number) {
+	rotation = rotation % 360;
 	// 获取当前节点的缩放比例
 	const scaleX = node.scaleX();
 	const scaleY = node.scaleY();

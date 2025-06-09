@@ -25,6 +25,10 @@ export function cropUpdate(e: KonvaEventObject<MouseEvent>) {
 	if (cropInfo.x + cropInfo.width > width) target.x(width - cropInfo.width);
 	if (cropInfo.y + cropInfo.height > height) target.y(height - cropInfo.height);
 
+	// 判断裁剪框尺寸
+	if (cropInfo.width < 20) target.width(20);
+	if (cropInfo.height < 20) target.height(20);
+
 	// 更新视图
 	stage.batchDraw();
 }

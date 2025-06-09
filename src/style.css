@@ -47,4 +47,6 @@ body,
 }
 #app button:hover {
 	transform: scale(1.05);
+	/* 给阴影 */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
