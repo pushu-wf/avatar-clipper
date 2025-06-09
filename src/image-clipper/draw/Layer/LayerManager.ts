@@ -90,24 +90,33 @@ export class LayerManager {
 	private renderCrop(layer: Layer) {
 		if (!this.stage) return;
 
-		// 获取裁剪框属性
-		const cropAttr = store.getState("crop");
-
 		// 获取 stage 的宽高
 		const { width, height } = this.stage.size();
 
 		// 创建裁剪框
+		const crop = this.createCropRect(width, height);
+
+		// 创建形变控制器
+		const transformer = this.createCropTransformer();
+
+		transformer.nodes([crop]);
+
+		// 添加到图层
+		layer.add(crop, transformer);
+		this.stage.add(layer);
+	}
+
+	/** 创建裁剪框 */
+	private createCropRect(width: number, height: number): Rect {
+		// 获取裁剪框属性
+		const cropAttr = store.getState("crop");
+
+		// 创建裁剪框
 		const crop = new Rect({
 			id: "crop",
-			x: 0,
-			y: 0,
 			width: cropAttr?.width ?? width * 0.5,
 			height: cropAttr?.height ?? height * 0.5,
-			strokeWidth: 0,
-			fill: "transparent",
-			stroke: "transparent",
 			draggable: true,
-			listening: true,
 		});
 
 		// 实现居中显示
@@ -115,8 +124,22 @@ export class LayerManager {
 		const y = cropAttr?.y ?? (height - crop.height()) / 2;
 		crop.position({ x, y });
 
+		// 监听事件
+		crop.on("dragmove transform", cropUpdate);
+
+		// throttle patch preview
+		crop.on("dragmove transform", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
+
+		return crop;
+	}
+
+	/** 创建形变控制器 */
+	private createCropTransformer(): Transformer {
+		// 获取裁剪框属性
+		const cropAttr = store.getState("crop");
+
 		// 创建型变控制器
-		const transformer = new Transformer({
+		return new Transformer({
 			id: "crop-transformer",
 			name: "crop-transformer",
 			rotateEnabled: false,
@@ -129,15 +152,5 @@ export class LayerManager {
 			keepRatio: cropAttr?.fixed ? true : false,
 			boundBoxFunc: (oldBox, newBox) => limitShapeController(oldBox, newBox, this.stage),
 		});
-
-		// 监听事件
-		crop.on("dragmove transform", cropUpdate);
-		// throttle patch preview
-		crop.on("dragmove transform", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
-
-		// 添加到 crop 上
-		transformer.nodes([crop]);
-		layer.add(crop, transformer);
-		this.stage.add(layer);
 	}
 }
