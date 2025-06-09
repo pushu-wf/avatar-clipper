@@ -2,11 +2,11 @@ import { Draw } from "..";
 import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
-import { parseImageSource, throttle } from "../../utils";
 import { AllowUpdateImageAttrs } from "../../interface";
+import { parseImageSource, throttle } from "../../utils";
+import { imageMove } from "../../event/handlers/image-move";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter } from "../../utils/konva";
-import { imageMove } from "../../event/handlers/image-move";
 
 /**
  * 导出画布相应事件控制中心
@@ -102,10 +102,9 @@ export class EventResponder {
 			draggable: draggable,
 			listening: true,
 		});
-
 		mainLayer.add(konvaImage);
 		// 一定要设置 zIndex，不然裁剪框无法在上层
-		konvaImage.zIndex(0);
+		konvaImage.zIndex(1);
 
 		// 监听事件
 		konvaImage.on("dragmove", imageMove);

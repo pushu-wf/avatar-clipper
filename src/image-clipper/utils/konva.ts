@@ -32,7 +32,7 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 	const { width, height } = stage.getSize();
 
 	// 获取裁剪框的属性
-	const mainLayer = stage.findOne("#mainLayer") as Layer;
+	const mainLayer = stage.findOne("#cropLayer") as Layer;
 	if (!mainLayer) return;
 
 	const cropRect = mainLayer.findOne("#crop") as Rect;
@@ -82,7 +82,7 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 function generateWatermark(stage: Stage) {
 	if (!stage) return;
 
-	const watermarkLayer = <Layer>stage.findOne("#watermark");
+	const watermarkLayer = <Layer>stage.findOne("#watermarkLayer");
 	if (!watermarkLayer) return;
 
 	// 每次生成水印之前，先清空
@@ -127,7 +127,7 @@ function generateWatermark(stage: Stage) {
 function getCropInfo(stage: Stage) {
 	if (!stage) return;
 
-	const mainLayer = stage.findOne("#mainLayer") as Layer;
+	const mainLayer = stage.findOne("#cropLayer") as Layer;
 	if (!mainLayer) return;
 
 	const crop = mainLayer.findOne("#crop") as Rect;

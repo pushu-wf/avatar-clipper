@@ -2,7 +2,7 @@ import Konva from "konva";
 import ImageClipper from "..";
 import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
-import { LayerController } from "./Layer";
+import { LayerManager } from "./Layer/LayerManager";
 import { parseContainer } from "../utils";
 import { EventResponder } from "./EventResponder";
 import { imageWheel } from "../event/handlers/image-wheel";
@@ -12,12 +12,9 @@ import { imageWheel } from "../event/handlers/image-wheel";
  */
 export class Draw {
 	private stage: Stage;
-	private layerController: LayerController;
 	private eventResponder: EventResponder;
 
 	constructor(private imageClipper: ImageClipper) {
-		Reflect.set(window, "draw", this);
-
 		// 获取 konva 挂载节点
 		const root = parseContainer(store.getState("container"));
 		const container = root.querySelector("#image-clipper-konva-container");
@@ -41,7 +38,7 @@ export class Draw {
 		this.eventResponder = new EventResponder(this);
 
 		// 创建图层控制器
-		this.layerController = new LayerController(this);
+		new LayerManager(this);
 
 		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
 		this.stage.on("wheel", imageWheel);
@@ -56,5 +53,4 @@ export class Draw {
 	public getStage = () => this.stage;
 	public getImageClipper = () => this.imageClipper;
 	public getEventResponder = () => this.eventResponder;
-	public getLayerController = () => this.layerController;
 }
