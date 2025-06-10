@@ -1,0 +1,20 @@
+node_modules
+.cache
+/example
+
+# 文档
+/docs
+
+# 禁止发布源码
+/src
+index.html
+
+npm.publish.config.js
+eslint.config.js
+.gitignore
+.npmignore
+
+pnpm-lock.yaml
+
+tsconfig.json
+vite.config.ts
