@@ -58,3 +58,9 @@ body,
 #app p label {
 	margin-right: 10px;
 }
+
+#app p input {
+	outline: none;
+	padding: 2px 4px;
+	border-radius: 4px;
+}

@@ -25,6 +25,16 @@
 				<button id="rotation">旋转图片</button>
 			</div>
 			<p><label>背景颜色:</label><input type="color" id="backgroundColor" /></p>
+			<p><label>图片可拖动:</label><input type="checkbox" checked id="image-draggable" /></p>
+			<p><label>图片可缩放:</label><input type="checkbox" checked id="image-zoom" /></p>
+			<p><label>水印文本:</label><input type="text" value="Image Clipper" id="watermark-text" /></p>
+			<p><label>水印颜色:</label><input type="color" id="watermark-color" /></p>
+			<p><label>水印角度:</label><input type="number" value="-45" id="watermark-rotation" /></p>
+			<p>
+				<label>水印文本间距(水平|垂直):</label>
+				<input type="number" value="20" id="watermark-gap-x" />
+				<input type="number" value="50" id="watermark-gap-y" />
+			</p>
 		</div>
 		<script type="module" src="/src/main.ts"></script>
 	</body>

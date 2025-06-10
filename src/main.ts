@@ -45,6 +45,34 @@ window.onload = () => {
 	const backgroundColorInput = <HTMLInputElement>document.querySelector("input#backgroundColor");
 	backgroundColorInput?.addEventListener("change", handleBackgroundColor);
 
+	// 图片可拖动
+	const imageDraggableInput = <HTMLInputElement>document.querySelector("input#image-draggable");
+	imageDraggableInput?.addEventListener("change", handleImageDraggable);
+
+	// 图片可缩放
+	const imageZoomInput = <HTMLInputElement>document.querySelector("input#image-zoom");
+	imageZoomInput?.addEventListener("change", handleImageZoom);
+
+	// 水印文本
+	const watermarkTextInput = <HTMLInputElement>document.querySelector("input#watermark-text");
+	watermarkTextInput?.addEventListener("change", handleWatermarkText);
+
+	// 水印颜色
+	const watermarkColorInput = <HTMLInputElement>document.querySelector("input#watermark-color");
+	watermarkColorInput?.addEventListener("change", handleWatermarkColor);
+
+	// 水印旋转
+	const watermarkRotationInput = <HTMLInputElement>document.querySelector("input#watermark-rotation");
+	watermarkRotationInput?.addEventListener("change", handleWatermarkRotation);
+
+	// 水印水平间距
+	const watermarkGapXInput = <HTMLInputElement>document.querySelector("input#watermark-gap-x");
+	watermarkGapXInput?.addEventListener("change", handleWatermarkGap);
+
+	// 水印垂直间距
+	const watermarkGapYInput = <HTMLInputElement>document.querySelector("input#watermark-gap-y");
+	watermarkGapYInput?.addEventListener("change", handleWatermarkGap);
+
 	/**
 	 * @description handleUpload  上传图片
 	 */
@@ -107,5 +135,54 @@ window.onload = () => {
 	function handleBackgroundColor() {
 		const backgroundColor = backgroundColorInput.value;
 		clipper.command.setBackgroundColor(backgroundColor);
+	}
+
+	/**
+	 * @description 图片可拖动
+	 */
+	function handleImageDraggable() {
+		const draggable = imageDraggableInput.checked;
+		clipper.command.updateImageAttrs({ draggable });
+	}
+
+	/**
+	 * @description 图片可缩放
+	 */
+	function handleImageZoom() {
+		const zoom = imageZoomInput.checked;
+		clipper.command.updateImageAttrs({ zoom });
+	}
+
+	/**
+	 * @description 水印文本
+	 */
+	function handleWatermarkText() {
+		const text = watermarkTextInput.value;
+		clipper.command.updateWatermarkAttrs({ text });
+	}
+
+	/**
+	 * @description 水印颜色
+	 */
+	function handleWatermarkColor() {
+		const color = watermarkColorInput.value;
+		clipper.command.updateWatermarkAttrs({ color });
+	}
+
+	/**
+	 * @description 水印旋转
+	 */
+	function handleWatermarkRotation() {
+		const rotation = Number(watermarkRotationInput.value);
+		clipper.command.updateWatermarkAttrs({ rotation });
+	}
+
+	/**
+	 * @description 水印水平间距
+	 */
+	function handleWatermarkGap() {
+		const gapx = Number(watermarkGapXInput.value);
+		const gapy = Number(watermarkGapYInput.value);
+		clipper.command.updateWatermarkAttrs({ gap: [gapx, gapy] });
 	}
 };
