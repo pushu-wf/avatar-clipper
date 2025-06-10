@@ -1,5 +1,5 @@
-// 此处为演示效果，核心代码在 image-clipper/index.ts 中
-import { ImageClipper } from "./image-clipper/index";
+// 此处为演示效果，核心代码在 avatar-clipper/index.ts 中
+import { ImageClipper } from "./avatar-clipper/index";
 
 window.onload = () => {
 	const clipper = new ImageClipper({

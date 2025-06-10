@@ -1,5 +1,5 @@
 /* 用户提供的 container 容器根节点样式 */
-.image-clipper-container {
+.avatar-clipper-container {
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -8,7 +8,7 @@
 }
 
 /* 主绘制区 */
-.image-clipper-konva-container {
+.avatar-clipper-konva-container {
 	/* 使用定位实现居中，避免 flex 兼容性影响 */
 	position: absolute;
 	left: 50%;
