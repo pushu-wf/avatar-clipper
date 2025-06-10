@@ -59,7 +59,7 @@ class ImageClipper {
 		}
 
 		// 添加基础样式类
-		container.classList.add("avatar-clipper-container");
+		container.classList.add("image-clipper-container");
 
 		// 创建 Konva 容器
 		const konvaContainer = this.createKonvaContainer();
@@ -73,8 +73,8 @@ class ImageClipper {
 	 */
 	private createKonvaContainer(): HTMLElement {
 		const konvaContainer = document.createElement("div");
-		konvaContainer.id = "avatar-clipper-konva-container";
-		konvaContainer.classList.add("avatar-clipper-konva-container");
+		konvaContainer.id = "image-clipper-konva-container";
+		konvaContainer.classList.add("image-clipper-konva-container");
 
 		// 如果设置了宽度或高度，则应用样式（默认为100%）
 		const width = store.getState("width");

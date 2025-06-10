@@ -17,7 +17,7 @@ export class Draw {
 	constructor(private imageClipper: ImageClipper) {
 		// 获取 konva 挂载节点
 		const root = parseContainer(store.getState("container"));
-		const container = root.querySelector("#avatar-clipper-konva-container");
+		const container = root.querySelector("#image-clipper-konva-container");
 
 		if (!container) {
 			throw new Error("container is not exist");
