@@ -64,3 +64,8 @@ body,
 	padding: 2px 4px;
 	border-radius: 4px;
 }
+
+#app .operator {
+	height: calc(100vh - 300px);
+	overflow-y: auto;
+}

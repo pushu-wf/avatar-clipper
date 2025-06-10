@@ -3,11 +3,21 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script src="https://unpkg.com/avatar-clipper"></script>
 		<title>CDN 使用示例</title>
+		<style>
+			#app {
+				width: 50vw;
+				height: 50vh;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="app"></div>
-		<script></script>
+		<script type="module">
+			import AvatarClipper from "https://unpkg.com/avatar-clipper";
+			const clipper = new AvatarClipper({
+				container: "#app",
+			});
+		</script>
 	</body>
 </html>

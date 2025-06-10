@@ -73,6 +73,26 @@ window.onload = () => {
 	const watermarkGapYInput = <HTMLInputElement>document.querySelector("input#watermark-gap-y");
 	watermarkGapYInput?.addEventListener("change", handleWatermarkGap);
 
+	// 裁剪框可拖动
+	const cropDraggableInput = <HTMLInputElement>document.querySelector("input#crop-draggable");
+	cropDraggableInput?.addEventListener("change", handleCropDraggable);
+
+	// 裁剪框可缩放
+	const cropResizeInput = <HTMLInputElement>document.querySelector("input#crop-resize");
+	cropResizeInput?.addEventListener("change", handleCropResize);
+
+	// 裁剪框固定缩放比例
+	const cropFixedInput = <HTMLInputElement>document.querySelector("input#crop-fixed");
+	cropFixedInput?.addEventListener("change", handleCropFixed);
+
+	// 裁剪框填充颜色
+	const cropFillInput = <HTMLInputElement>document.querySelector("input#crop-fill");
+	cropFillInput?.addEventListener("change", handleCropFill);
+
+	// 裁剪框边框颜色
+	const cropStrokeInput = <HTMLInputElement>document.querySelector("input#crop-stroke");
+	cropStrokeInput?.addEventListener("change", handleCropStroke);
+
 	/**
 	 * @description handleUpload  上传图片
 	 */
@@ -184,5 +204,45 @@ window.onload = () => {
 		const gapx = Number(watermarkGapXInput.value);
 		const gapy = Number(watermarkGapYInput.value);
 		clipper.command.updateWatermarkAttrs({ gap: [gapx, gapy] });
+	}
+
+	/**
+	 * 裁剪框可拖动
+	 */
+	function handleCropDraggable() {
+		const draggable = cropDraggableInput.checked;
+		clipper.command.updateCropAttrs({ draggable });
+	}
+
+	/**
+	 * 裁剪框可缩放
+	 */
+	function handleCropResize() {
+		const resize = cropResizeInput.checked;
+		clipper.command.updateCropAttrs({ resize });
+	}
+
+	/**
+	 * 裁剪框固定缩放比例
+	 */
+	function handleCropFixed() {
+		const fixed = cropFixedInput.checked;
+		clipper.command.updateCropAttrs({ fixed });
+	}
+
+	/**
+	 * 裁剪框填充颜色
+	 */
+	function handleCropFill() {
+		const fill = cropFillInput.value;
+		clipper.command.updateCropAttrs({ fill });
+	}
+
+	/**
+	 * 裁剪框边框颜色
+	 */
+	function handleCropStroke() {
+		const stroke = cropStrokeInput.value;
+		clipper.command.updateCropAttrs({ stroke });
 	}
 };
