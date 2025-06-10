@@ -167,6 +167,20 @@ export class EventResponder {
 		konvaImage.x((containerWidth - originWidth * konvaImage.scaleX()) / 2);
 		konvaImage.y((containerHeight - originHeight * konvaImage.scaleY()) / 2);
 
+		// 图片更新完成后，需要同步图片属性到 store 中
+		const imageAttrs = {
+			...store.getState("image"),
+			x: konvaImage.x(),
+			y: konvaImage.y(),
+			width: konvaImage.width(),
+			height: konvaImage.height(),
+			scaleX: konvaImage.scaleX(),
+			scaleY: konvaImage.scaleY(),
+			rotation: konvaImage.rotation(),
+		};
+
+		store.setState("image", imageAttrs);
+
 		this.render();
 	}
 

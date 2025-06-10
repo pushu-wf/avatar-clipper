@@ -1,7 +1,7 @@
 import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
-import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs } from "../interface";
+import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs, ImageAttrs } from "../interface";
 
 export class CommandAdapt {
 	constructor(private draw: Draw) {}
@@ -33,6 +33,12 @@ export class CommandAdapt {
 
 		// 调用更新属性方法
 		this.draw.getEventResponder().updateImageAttrs(payload);
+	}
+
+	// 获取图片属性
+	public getImageAttrs(): ImageAttrs {
+		const imageAttrs = store.getState("image");
+		return imageAttrs!;
 	}
 
 	// 设置裁剪框属性 - 宽高 位置坐标 不允许旋转

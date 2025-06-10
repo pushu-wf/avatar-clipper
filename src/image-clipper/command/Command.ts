@@ -12,6 +12,8 @@ export class Command {
 	public setImage: CommandAdapt["setImage"];
 	// ✅️ 更新图片属性
 	public updateImageAttrs: CommandAdapt["updateImageAttrs"];
+	// ✅️ 获取图片属性
+	public getImageAttrs: CommandAdapt["getImageAttrs"];
 	// ✅️ 更新裁剪框属性
 	public updateCropAttrs: CommandAdapt["updateCropAttrs"];
 	// ✅️ 设置水印属性
@@ -24,6 +26,7 @@ export class Command {
 		this.reset = adapt.reset.bind(adapt);
 		this.destroy = adapt.destroy.bind(adapt);
 		this.setImage = adapt.setImage.bind(adapt);
+		this.getImageAttrs = adapt.getImageAttrs.bind(adapt);
 		this.updateImageAttrs = adapt.updateImageAttrs.bind(adapt);
 		this.updateCropAttrs = adapt.updateCropAttrs.bind(adapt);
 		this.updateWatermarkAttrs = adapt.updateWatermarkAttrs.bind(adapt);

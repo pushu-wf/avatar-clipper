@@ -11,11 +11,6 @@ window.onload = () => {
 
 	Reflect.set(window, "clipper", clipper);
 
-	// 定义基础的形变
-	let scale = 1;
-
-	let rotation = 0;
-
 	// 预览的两个image
 	const imageArray = document.querySelectorAll("img");
 	clipper.event.on("preview", (base64) => {
@@ -78,23 +73,27 @@ window.onload = () => {
 	 * @description handleAmplify 放大
 	 */
 	function handleAmplify() {
-		scale += 0.1;
-		clipper.command.updateImageAttrs({ scaleX: scale, scaleY: scale });
+		// 获取当前的缩放比例
+		const { scaleX = 1, scaleY = 1 } = clipper.command.getImageAttrs();
+
+		clipper.command.updateImageAttrs({ scaleX: scaleX + 0.1, scaleY: scaleY + 0.1 });
 	}
 
 	/**
 	 * @description handleReduce 缩小
 	 */
 	function handleReduce() {
-		scale -= 0.1;
-		clipper.command.updateImageAttrs({ scaleX: scale, scaleY: scale });
+		// 获取当前的缩放比例
+		const { scaleX = 1, scaleY = 1 } = clipper.command.getImageAttrs();
+		clipper.command.updateImageAttrs({ scaleX: scaleX - 0.1, scaleY: scaleY - 0.1 });
 	}
 
 	/**
 	 * @description handleRotation 旋转
 	 */
 	function handleRotation() {
-		rotation += 15;
-		clipper.command.updateImageAttrs({ rotation: rotation });
+		// 获取当前的旋转角度
+		const { rotation = 0 } = clipper.command.getImageAttrs();
+		clipper.command.updateImageAttrs({ rotation: rotation + 15 });
 	}
 };

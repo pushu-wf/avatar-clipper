@@ -60,4 +60,4 @@ type AllowUpdateWatermarkAttrs = {
 	rotation?: number; // 旋转角度
 };
 
-export { type ImageClipperConfig, type AllowUpdateImageAttrs, type AllowUpdateCropAttrs, type AllowUpdateWatermarkAttrs };
+export { type ImageClipperConfig, type AllowUpdateImageAttrs, type AllowUpdateCropAttrs, type AllowUpdateWatermarkAttrs, type ImageAttrs };

@@ -2,12 +2,12 @@
  * @description 图片缩放事件
  */
 
+import { store } from "../../store";
 import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
 import { Image } from "konva/lib/shapes/Image";
 import { KonvaEventObject } from "konva/lib/Node";
 import { imageScaleConfig, shapeIDMapConfig } from "../../config";
-import { store } from "../../store";
 
 /**
  * 图片缩放平移实现
@@ -35,6 +35,20 @@ export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 	} else {
 		handlePan(image, deltaY, shiftKey);
 	}
+
+	// 图片更新完成后，需要同步图片属性到 store 中
+	const imageAttrs = {
+		...store.getState("image"),
+		x: image.x(),
+		y: image.y(),
+		width: image.width(),
+		height: image.height(),
+		scaleX: image.scaleX(),
+		scaleY: image.scaleY(),
+		rotation: image.rotation(),
+	};
+
+	store.setState("image", imageAttrs);
 }
 
 function handleZoom(stage: Stage, image: Image, deltaY: number) {
