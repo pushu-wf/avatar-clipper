@@ -3,11 +3,46 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<link rel="stylesheet" href="./src/style.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>轻量级图片裁剪工具</title>
 	</head>
 	<body>
-		<div id="app"></div>
+		<div id="app">
+			<div class="image-list">
+				<div class="clipper"></div>
+				<div class="preview">
+					<img src="" alt="" style="border-radius: 50%; overflow: hidden" />
+					<img src="" alt="" />
+				</div>
+			</div>
+			<div class="btns">
+				<button id="upload">上传图片</button>
+				<button id="clear">清空图片</button>
+				<button id="reset">重置</button>
+				<button id="amplify">放大图片</button>
+				<button id="reduce">缩小图片</button>
+				<button id="rotation">旋转图片</button>
+			</div>
+			<div class="operator">
+				<p><label>背景颜色:</label><input type="color" id="backgroundColor" /></p>
+				<p><label>图片可拖动:</label><input type="checkbox" checked id="image-draggable" /></p>
+				<p><label>图片可缩放:</label><input type="checkbox" checked id="image-zoom" /></p>
+				<p><label>水印文本:</label><input type="text" value="Avatar Clipper" id="watermark-text" /></p>
+				<p><label>水印颜色:</label><input type="color" id="watermark-color" /></p>
+				<p><label>水印角度:</label><input type="number" value="-45" id="watermark-rotation" /></p>
+				<p>
+					<label>水印文本间距(水平|垂直):</label>
+					<input type="number" value="20" id="watermark-gap-x" />
+					<input type="number" value="50" id="watermark-gap-y" />
+				</p>
+				<p><label>裁剪框可拖动:</label><input type="checkbox" checked id="crop-draggable" /></p>
+				<p><label>裁剪框可缩放:</label><input type="checkbox" checked id="crop-resize" /></p>
+				<p><label>裁剪框是否固定宽高比:</label><input type="checkbox" id="crop-fixed" /></p>
+				<p><label>裁剪框控制点颜色:</label><input type="color" id="crop-fill" /></p>
+				<p><label>裁剪框控制线颜色:</label><input type="color" id="crop-stroke" /></p>
+			</div>
+		</div>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

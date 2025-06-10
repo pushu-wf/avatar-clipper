@@ -1,14 +1,51 @@
 {
-	"name": "image-clipper",
-	"private": true,
-	"version": "0.0.0",
+	"name": "avatar-clipper",
+	"version": "0.0.2",
 	"type": "module",
+	"typings": "dist/types/index.d.ts",
+	"description": "avatar-clipper 是一款基于 Konva 开发的轻量级图片裁剪工具，主打 TypeScript 支持和移动端兼容性。其核心架构采用 Command 和 EventBus 模块，提供简洁 API 操作和灵活的事件回调机制。工具支持图片加载、裁剪框交互、水印添加、暗部效果等特色功能，并能导出多种格式的裁剪结果。相比现有方案，Avatar-Clipper 在保持功能完整的同时更加轻量化，不绑定任何 UI 组件，仅通过 API 实现核心裁剪功能，适用于社交媒体、电商等多场景需求。",
+	"main": "./dist/avatar-clipper.js",
+	"module": "./dist/avatar-clipper.js",
+	"exports": {
+		".": {
+			"import": "./dist/avatar-clipper.js",
+			"require": "./dist/avatar-clipper.umd.cjs"
+		}
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitee.com/wfeng0/avatar-clipper"
+	},
+	"homepage": "https://gitee.com/wfeng0/avatar-clipper/blob/master/README.md",
+	"bugs": {
+		"url": "https://gitee.com/wfeng0/avatar-clipper/issues/new",
+		"email": "1982392655@qq.com"
+	},
+	"author": "1982392655@qq.com",
+	"keywords": [
+		"konva",
+		"avatar-clipper",
+		"图片裁剪工具",
+		"头像裁剪工具",
+		"轻量级裁剪工具",
+		"裁剪工具 - 支持 Ts",
+		"裁剪工具 - 支持移动端"
+	],
+	"license": "Apache-2.0",
 	"scripts": {
 		"dev": "vite",
 		"lib": "npm run lint && tsc && vite build --mode lib",
 		"build": "npm run lint && tsc && vite build --mode app",
 		"preview": "vite preview",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"docs": "vitepress dev docs --open",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.27.0",
@@ -16,9 +53,14 @@
 		"@types/node": "^22.15.27",
 		"eslint": "^9.27.0",
 		"globals": "^16.2.0",
+		"tslib": "^2.8.1",
 		"typescript": "~5.7.2",
 		"typescript-eslint": "^8.33.0",
 		"vite": "^6.3.1",
-		"vite-plugin-css-injected-by-js": "^3.5.2"
+		"vite-plugin-css-injected-by-js": "^3.5.2",
+		"vitepress": "^1.6.3"
+	},
+	"dependencies": {
+		"konva": "^9.3.20"
 	}
 }

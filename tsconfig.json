@@ -15,6 +15,7 @@
 
 		// 生成 declaration files
 		"declaration": true,
+		"outDir": "dist/types",
 
 		/* Linting */
 		"strict": true,

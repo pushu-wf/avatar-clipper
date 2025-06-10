@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ch">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://unpkg.com/konva@4.0.0/konva.min.js"></script>
+		<title>Document</title>
+		<style>
+			html,
+			body,
+			#app {
+				width: 100vw;
+				height: 100vh;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app"></div>
+
+		<script>
+			const stage = new Konva.Stage({
+				container: "app",
+				width: window.innerWidth,
+				height: window.innerHeight,
+			});
+			const layer = new Konva.Layer();
+			stage.add(layer);
+
+			const rect = new Konva.Rect({
+				x: 50,
+				y: 50,
+				scaleX: 1,
+				scaleY: 1,
+				width: 100,
+				height: 50,
+				fill: "red",
+				draggable: true,
+			});
+			layer.add(rect);
+			stage.draw();
+
+			const rotatePoint = ({ x, y }, rad) => {
+				const rcos = Math.cos(rad);
+				const rsin = Math.sin(rad);
+				return { x: x * rcos - y * rsin, y: y * rcos + x * rsin };
+			};
+
+			const initialX = rect.x();
+			const initialY = rect.y();
+			const width = rect.width();
+			const height = rect.height();
+
+			let baseRotation = 0;
+
+			function rotateAroundCenter(node, deltaRotation) {
+				const scaleX = node.scaleX();
+				const scaleY = node.scaleY();
+
+				const radBefore = Konva.getAngle(baseRotation);
+				const radAfter = Konva.getAngle(baseRotation + deltaRotation);
+
+				const topLeft = {
+					x: (-width / 2) * scaleX,
+					y: (-height / 2) * scaleY,
+				};
+
+				const p1 = rotatePoint(topLeft, radBefore);
+				const p2 = rotatePoint(topLeft, radAfter);
+
+				const dx = p2.x - p1.x;
+				const dy = p2.y - p1.y;
+
+				baseRotation += deltaRotation;
+
+				node.rotation(baseRotation);
+				node.x(initialX + dx);
+				node.y(initialY + dy);
+			}
+
+			function handleImageAdaptive(angleDelta) {
+				rect.x(100);
+				rect.y(100);
+				rotateAroundCenter(rect, angleDelta);
+				layer.batchDraw();
+			}
+
+			let i = 0;
+			setInterval(() => {
+				handleImageAdaptive(1);
+				i++;
+			}, 10);
+
+			Reflect.set(window, "rotate", handleImageAdaptive);
+		</script>
+	</body>
+</html>

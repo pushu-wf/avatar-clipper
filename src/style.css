@@ -10,3 +10,62 @@ body,
 	height: 100vh;
 	overflow: hidden;
 }
+
+#app {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.image-list {
+	display: flex;
+}
+.clipper,
+.preview {
+	width: 200px;
+	height: 200px;
+}
+.preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.preview img {
+	width: 50px;
+	height: 50px;
+	margin: 0 8px;
+}
+#app button {
+	margin: 10px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	outline: none;
+	border: none;
+	background-color: #289ef8;
+	color: #fff;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+#app button:hover {
+	transform: scale(1.05);
+	/* 给阴影 */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#app p {
+	width: 60%;
+	margin: 10px 0;
+}
+#app p label {
+	margin-right: 10px;
+}
+
+#app p input {
+	outline: none;
+	padding: 2px 4px;
+	border-radius: 4px;
+}
+
+#app .operator {
+	height: calc(100vh - 300px);
+	overflow-y: auto;
+}

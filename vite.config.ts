@@ -4,7 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 export default defineConfig(({ mode }) => {
-	const name = "image-clipper";
+	const name = "avatar-clipper";
 	if (mode === "lib") {
 		return {
 			plugins: [
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
 				{
 					...typescript({
 						tsconfig: "./tsconfig.json",
-						include: ["./src/image-clipper/**"],
+						include: ["./src/avatar-clipper/**"],
 					}),
 					apply: "build",
 					declaration: true,
@@ -27,7 +27,8 @@ export default defineConfig(({ mode }) => {
 				lib: {
 					name,
 					fileName: name,
-					entry: path.resolve(__dirname, "src/image-clipper/index.ts"),
+					entry: path.resolve(__dirname, "src/avatar-clipper/index.ts"),
+					formats: ["es", "cjs", "umd"],
 				},
 				rollupOptions: {
 					output: {
