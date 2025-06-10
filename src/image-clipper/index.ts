@@ -19,7 +19,6 @@ class ImageClipper {
 	constructor(options: ImageClipperConfig) {
 		// 合并用户传入 options 与默认配置，并存储到 store 中
 		const stage = mergeOptions(defaultImageClipperConfig, options);
-
 		// 替换 store
 		store.replaceStage(stage);
 

@@ -46,7 +46,7 @@ export class LayerManager {
 		// 设置水印图层的偏移量
 		if (layerId === "watermarkLayer") {
 			// 获取用户传递的水印图层旋转角度
-			const rotation = store.getState("watermark")?.rotate ?? -45;
+			const rotation = store.getState("watermark")?.rotation ?? -45;
 			layer.rotation(rotation);
 			layer.listening(false);
 			layer.offsetX(width / 2);

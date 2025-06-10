@@ -4,6 +4,7 @@ interface ImageScaleConfig {
 	scaleStep: number;
 	maxScale: number;
 	minScale: number;
+	translateStep: number;
 }
 
 interface ShapeIDMapConfig {
@@ -40,7 +41,7 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 		fontSize: 20, // 水印文字样式
 		color: "rgba(0,0,0,.35)",
 		gap: [20, 50], // 水印间距 [x y]
-		rotate: -45, // 旋转角度
+		rotation: -45, // 旋转角度
 	},
 };
 
@@ -49,6 +50,7 @@ const imageScaleConfig: ImageScaleConfig = {
 	scaleStep: 0.1,
 	maxScale: 2,
 	minScale: 0.1,
+	translateStep: 10,
 };
 
 // 为了解决 stage findOne 明明不一致问题，应该统一导出图层、图片、形变控制器、裁剪框等 ID 及 name 属性

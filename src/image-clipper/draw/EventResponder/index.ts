@@ -2,11 +2,14 @@ import { Draw } from "..";
 import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
-import { AllowUpdateImageAttrs } from "../../interface";
-import { parseImageSource, throttle } from "../../utils";
-import { Image as KonvaImage } from "konva/lib/shapes/Image";
-import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
+import { Rect } from "konva/lib/shapes/Rect";
 import { ShapeIDMapConfig } from "../../config";
+import { parseImageSource, throttle } from "../../utils";
+import { Transformer } from "konva/lib/shapes/Transformer";
+import { Image as KonvaImage } from "konva/lib/shapes/Image";
+import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
+import { isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
+import { base64ToBlob, generateWatermark, getCropInfo, handleCropPosition } from "../../utils/konva";
 
 /**
  * 导出画布相应事件控制中心
@@ -59,7 +62,7 @@ export class EventResponder {
 	 * @param { string | Blob } image 图片实例
 	 */
 	public async setImage(image: string | Blob) {
-		if (!this.stage) return;
+		if (!this.stage || !image) return;
 
 		const mainLayer = <Layer>this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
 		if (!mainLayer) return;
@@ -73,6 +76,7 @@ export class EventResponder {
 
 		// 解析 source 资源
 		const source = await parseImageSource(image);
+
 		// 增加跨域处理 crossOrigin = Anonymous
 		imageElement.crossOrigin = "Anonymous";
 		imageElement.src = source;
@@ -202,13 +206,68 @@ export class EventResponder {
 	}
 
 	/**
+	 * @description 更新裁剪框属性
+	 */
+	public updateCropAttrs(payload: AllowUpdateCropAttrs) {
+		if (!this.stage) return;
+
+		// 获取裁剪框
+		const cropLayer = this.stage.findOne(`#${ShapeIDMapConfig.cropLayerID}`) as Layer;
+		if (!cropLayer) return;
+
+		const crop = cropLayer.findOne(`#${ShapeIDMapConfig.cropRectID}`) as Rect;
+
+		if (!crop) {
+			console.error("ImageClipper: 未找到裁剪框节点，请检查后重试！");
+			return;
+		}
+
+		// 不然解析属性进行更新
+		const { x, y, width, height, draggable, resize, fixed, fill, stroke } = payload;
+
+		// 处理裁剪框位置关系
+		handleCropPosition(crop, x, y, width, height);
+
+		if (!isEmpty(draggable)) crop.draggable(draggable);
+		// 调整大小是 形变控制器的属性
+		if (!isEmpty(resize)) {
+			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			transformer.resizeEnabled(resize);
+		}
+		// 固定缩放比例 也是形变控制器的属性
+		if (!isEmpty(fixed)) {
+			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			transformer.keepRatio(fixed);
+		}
+		// 颜色也是形变控制器的属性
+		if (!isEmpty(fill)) {
+			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			transformer.anchorFill(fill);
+		}
+		if (!isEmpty(stroke)) {
+			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			transformer.anchorStroke(stroke);
+			transformer.borderStroke(stroke);
+		}
+
+		// 强制更新
+		this.render();
+	}
+
+	/**
 	 * @description 更新水印属性
 	 */
-	public updateWatermark() {
+	public updateWatermark(rotation?: number) {
 		if (!this.stage) return;
 
 		// 重新生成水印
 		generateWatermark(this.stage);
+
+		// 如果传入 rotation 则需要更新 watermarkLayer 的旋转角度
+		if (rotation) {
+			const watermarkLayer = this.stage.findOne(`#${ShapeIDMapConfig.watermarkLayerID}`) as Layer;
+			watermarkLayer.rotation(rotation);
+		}
 
 		// 更新视图
 		this.render();

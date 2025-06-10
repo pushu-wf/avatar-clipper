@@ -214,6 +214,30 @@ function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
 }
 
 /**
+ * @description 处理裁剪框的位置关系
+ * @param stage Stage
+ * @param node 节点
+ * @param x x轴坐标
+ * @param y y轴坐标
+ * @param width 宽度
+ * @param height 高度
+ */
+function handleCropPosition(node: Shape, x?: number, y?: number, width?: number, height?: number) {
+	if (!node) return;
+
+	// 如果四个属性都不存在，则不处理
+	if (isEmpty(x) && isEmpty(y) && isEmpty(width) && isEmpty(height)) return;
+
+	if (!isEmpty(x)) node.x(x);
+	if (!isEmpty(y)) node.y(y);
+	if (!isEmpty(width)) node.width(width);
+	if (!isEmpty(height)) node.height(height);
+
+	// 触发 dragmove 事件，做裁剪框位置关系处理
+	node.fire("dragmove");
+}
+
+/**
  * @description 辅助函数 - base64 转 Blob
  * @param { string } base64 base64 string
  * @returns Blob
@@ -242,4 +266,13 @@ function isEmpty(payload: unknown) {
 	else return false;
 }
 
-export { drawCropmaskSceneFunc, generateWatermark, getCropInfo, rotateAroundCenter, isEmpty, base64ToBlob, scaleAroundCenter };
+export {
+	drawCropmaskSceneFunc,
+	generateWatermark,
+	getCropInfo,
+	rotateAroundCenter,
+	isEmpty,
+	base64ToBlob,
+	scaleAroundCenter,
+	handleCropPosition,
+};

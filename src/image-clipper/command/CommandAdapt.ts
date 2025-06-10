@@ -1,7 +1,7 @@
 import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
-import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs, ImageClipperConfig } from "../interface";
+import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs } from "../interface";
 
 export class CommandAdapt {
 	constructor(private draw: Draw) {}
@@ -35,40 +35,28 @@ export class CommandAdapt {
 		this.draw.getEventResponder().updateImageAttrs(payload);
 	}
 
-	// 获取图片属性 - 缩放 平移 旋转
-	public getImageAttrs() {
-		// 这里不能直接返回 store 的属性，刚初始化时，其他属性都为空，会导致属性为 undefined
-	}
-
 	// 设置裁剪框属性 - 宽高 位置坐标 不允许旋转
 	public updateCropAttrs(payload: AllowUpdateCropAttrs) {
 		// 做合并
 		const crop = mergeOptions(store.getState("crop"), payload);
 		store.setState("crop", crop);
-	}
 
-	// 获取裁剪框属性
-	public getCropAttr(): ImageClipperConfig["crop"] {
-		return store.getState("crop");
+		// 调用更新属性方法
+		this.draw.getEventResponder().updateCropAttrs(payload);
 	}
 
 	// 设置水印属性
-	public updateWatermarkAttrs(info: AllowUpdateWatermarkAttrs) {
+	public updateWatermarkAttrs(payload: AllowUpdateWatermarkAttrs) {
 		// 做合并
-		const watermark = mergeOptions(store.getState("watermark"), info);
+		const watermark = mergeOptions(store.getState("watermark"), payload);
 		store.setState("watermark", watermark);
 
 		// 重新生成水印
-		this.draw.getEventResponder().updateWatermark();
-	}
-
-	// 获取水印属性
-	public getWatermarkAttr(): ImageClipperConfig["watermark"] | undefined {
-		return store.getState("watermark");
+		this.draw.getEventResponder().updateWatermark(payload.rotation);
 	}
 
 	// 获取截图结果 - string | blob | canvas
-	public getResult(type: "string" | "blob" | "canvas", pixelRatio = 1) {
-		return this.draw.getEventResponder().getResult(type, pixelRatio);
+	public getResult(type: "string" | "blob" | "canvas", pixelRatio = 1, mimeType: "png" | "jpeg" = "png") {
+		return this.draw.getEventResponder().getResult(type, pixelRatio, mimeType);
 	}
 }

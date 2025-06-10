@@ -47,13 +47,21 @@ function nextTick(fn?: Function) {
  * @param source - 源对象
  * @returns 合并后的对象
  */
-function mergeOptions<T>(target: T, source: T) {
-	for (const key in source) {
-		if (Object.prototype.hasOwnProperty.call(source, key)) {
-			target[key] = source[key];
+function mergeOptions<T>(target: T, source: T): T {
+	// 如果 source 是对象且不是 null，则进行深度合并
+	if (typeof source === "object" && source !== null) {
+		for (const key in source) {
+			if (Object.prototype.hasOwnProperty.call(source, key)) {
+				// 如果 target 和 source 的属性值都是对象，则递归合并
+				if (typeof target[key] === "object" && typeof source[key] === "object") {
+					mergeOptions(target[key], source[key]);
+				} else {
+					// 否则直接赋值
+					target[key] = source[key];
+				}
+			}
 		}
 	}
-
 	return target;
 }
 

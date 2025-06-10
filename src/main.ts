@@ -9,6 +9,8 @@ window.onload = () => {
 		},
 	});
 
+	Reflect.set(window, "clipper", clipper);
+
 	// 定义基础的形变
 	let scale = 1;
 
