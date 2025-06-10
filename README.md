@@ -10,6 +10,14 @@ avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，主�
 
 ## 在线体验
 
+[stackblitz](https://stackblitz.com/~/github.com/pushu-wf/avatar-clipper)
+
+⚠️ 温馨提示：如果打开后卡在 依赖下载 部分，请自行执行 `pnpm i` 命令，等待下载完成后，执行 `pnpm dev` 命令即可查看效果。
+
+<p align="center">
+    <img src="/public/stackblitz.png"/>
+</p>
+
 ## 效果演示
 
 <p align="center">

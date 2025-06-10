@@ -4,41 +4,40 @@
 
 ## 在线尝试
 
-可以直接在 [StackBlitz](https://stackblitz.com/) 上进行在线尝试。
+可以直接在 [StackBlitz](https://stackblitz.com/~/github.com/pushu-wf/avatar-clipper) 上进行在线尝试。
+::: warning ⚠️ 温馨提示
+如果打开后卡在 依赖下载 部分，请自行执行 `pnpm i` 命令，等待下载完成后，执行 `pnpm dev` 命令即可查看效果。
+:::
 
 ## npm 使用
 
 ```bash
-npm install uni-pptx
+npm install avatar-clipper
+
+# pnpm add avatar-clipper
+
+# yarn add avatar-clipper
 ```
 
 ```js
-import { UniPPTX } from "uni-pptx";
+import { AvatarClipper } from "avatar-clipper";
 
-const pptx = new UniPPTX({ container: "#app" });
-```
-
-```css
-#app {
-	min-width: 1000px;
-	min-height: 600px;
-}
+const clipper = new AvatarClipper({ container: "#app" });
 ```
 
 ::: warning 温馨提示
-为了达到最佳的显示效果，本项目推荐的挂载元素宽高尺寸应大于 **1000 x 600**;
+容器自身不设置宽高，请在外层自行设置
 :::
 
 ## 浏览器使用
 
 ```js
-<script src="https://unpkg.com/uni-pptx"></script>
-<link rel="stylesheet" href="https://unpkg.com/uni-pptx/dist/style.css">
-
-<script>
-    window.onload = function () {
-        const pptx = new UniPPTX({ container: "#app" });
-    }
+// 使用 ES Module 实现 avatar-clipper 的引入
+<script type="module">
+    import AvatarClipper from "https://unpkg.com/avatar-clipper";
+    const clipper = new AvatarClipper({
+        container: "#app",
+    });
 </script>
 
 ```
@@ -47,13 +46,14 @@ const pptx = new UniPPTX({ container: "#app" });
 
 ```bash
 ## 克隆仓库
-git clone https://gitee.com/wfeng0/uni-pptx.git
+git clone https://gitee.com/wfeng0/avatar-clipper
+# git clone https://github.com/pushu-wf/avatar-clipper
 
 ## 下载依赖
-npm install
+npm install # or pnpm i
 
 ## 启动项目
-npm run dev
+npm run dev # or pnpm dev
 ```
 
 ::: warning 温馨提示
