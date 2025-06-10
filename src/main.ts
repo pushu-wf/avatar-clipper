@@ -4,7 +4,6 @@ import { ImageClipper } from "./image-clipper/index";
 window.onload = () => {
 	const clipper = new ImageClipper({
 		container: "#app .clipper",
-		backgroundColor: "red",
 		image: {
 			src: "https://img0.baidu.com/it/u=2895902758,4240700774&fm=253&fmt=auto&app=120&f=JPEG",
 		},
@@ -64,7 +63,9 @@ window.onload = () => {
 	/**
 	 * @description handleClear 清空画布
 	 */
-	function handleClear() {}
+	function handleClear() {
+		clipper.command.clearImage();
+	}
 
 	/**
 	 * @description handleReset 重置

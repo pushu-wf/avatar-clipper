@@ -5,17 +5,17 @@
 import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
 import { Image } from "konva/lib/shapes/Image";
-import { imageScaleConfig } from "../../config";
+import { imageScaleConfig, ShapeIDMapConfig } from "../../config";
 import { KonvaEventObject } from "konva/lib/Node";
 
 export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 	const stage = e.currentTarget as Stage;
 	if (!stage) return;
 
-	const mainLayer = stage.findOne("#mainLayer") as Layer;
+	const mainLayer = stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`) as Layer;
 	if (!mainLayer) return;
 
-	const image = mainLayer.findOne("#image") as Image;
+	const image = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`) as Image;
 	if (!image) return;
 
 	const { deltaY } = e.evt as WheelEvent;

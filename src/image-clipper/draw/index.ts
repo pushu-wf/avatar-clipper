@@ -2,9 +2,9 @@ import Konva from "konva";
 import ImageClipper from "..";
 import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
-import { LayerManager } from "./Layer/LayerManager";
 import { parseContainer } from "../utils";
 import { EventResponder } from "./EventResponder";
+import { LayerManager } from "./Layer/LayerManager";
 import { imageWheel } from "../event/handlers/image-wheel";
 
 /**

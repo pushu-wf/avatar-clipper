@@ -6,6 +6,16 @@ interface ImageScaleConfig {
 	minScale: number;
 }
 
+interface ShapeIDMapConfig {
+	mainLayerID: string; // main layer
+	backgroundRectID: string; // 背景层
+	imageID: string; // 图片层
+	watermarkLayerID: string; // 水印图层
+	cropLayerID: string; // 裁剪层
+	cropRectID: string; // 裁剪框
+	cropTransformerID: string; // 形变控制器
+}
+
 // 默认的 image clipper config 配置项
 const defaultImageClipperConfig: ImageClipperConfig = {
 	container: "", // 容器挂载元素
@@ -41,4 +51,14 @@ const imageScaleConfig: ImageScaleConfig = {
 	minScale: 0.1,
 };
 
-export { defaultImageClipperConfig, imageScaleConfig };
+// 为了解决 stage findOne 明明不一致问题，应该统一导出图层、图片、形变控制器、裁剪框等 ID 及 name 属性
+const ShapeIDMapConfig: ShapeIDMapConfig = {
+	mainLayerID: "mainLayer",
+	backgroundRectID: "backgroundRect",
+	imageID: "image",
+	watermarkLayerID: "watermarkLayer",
+	cropLayerID: "cropLayer",
+	cropRectID: "cropRect",
+	cropTransformerID: "cropTransformer",
+};
+export { defaultImageClipperConfig, imageScaleConfig, ShapeIDMapConfig };

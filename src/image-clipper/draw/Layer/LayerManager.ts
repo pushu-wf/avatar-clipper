@@ -1,9 +1,10 @@
 import { Draw } from "..";
 import { store } from "../../store";
+import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
 import { Rect } from "konva/lib/shapes/Rect";
+import { ShapeIDMapConfig } from "../../config";
 import { EventResponder } from "../EventResponder";
-import { Layer, LayerConfig } from "konva/lib/Layer";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { limitShapeController } from "../../event/handlers/crop-bound-box";
@@ -18,6 +19,7 @@ import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
 export class LayerManager {
 	private stage: Stage;
 	private eventResponder: EventResponder;
+
 	constructor(private draw: Draw) {
 		this.stage = this.draw.getStage();
 		this.eventResponder = this.draw.getEventResponder();
@@ -26,29 +28,27 @@ export class LayerManager {
 
 	/** 初始化所有图层 */
 	private initLayers() {
-		this.createGeneralLayer("mainLayer", this.createMainContent);
-		this.createGeneralLayer("watermarkLayer", () => generateWatermark(this.stage), {
-			listening: false,
-			rotation: store.getState("watermark")?.rotate ?? -45,
-		});
-		this.createGeneralLayer("cropLayer", this.createCropContent.bind(this));
+		this.createGeneralLayer(ShapeIDMapConfig.mainLayerID, this.createMainContent);
+		this.createGeneralLayer(ShapeIDMapConfig.watermarkLayerID, () => generateWatermark(this.stage));
+		this.createGeneralLayer(ShapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));
 	}
 
 	/** 创建通用图层 */
-	private createGeneralLayer(layerId: string, createContent: Function, config: LayerConfig = {}) {
+	private createGeneralLayer(layerId: string, createContent: Function) {
 		if (!this.stage) return;
 
-		const layer = new Layer({
-			id: layerId,
-			name: layerId,
-			...config,
-		});
+		// 创建指定 ID 的图层
+		const layer = new Layer({ id: layerId, name: layerId });
 
 		// 获取 stage 的宽高
 		const { width, height } = this.stage.getSize();
 
 		// 设置水印图层的偏移量
 		if (layerId === "watermarkLayer") {
+			// 获取用户传递的水印图层旋转角度
+			const rotation = store.getState("watermark")?.rotate ?? -45;
+			layer.rotation(rotation);
+			layer.listening(false);
 			layer.offsetX(width / 2);
 			layer.offsetY(height / 2);
 		}
@@ -60,7 +60,7 @@ export class LayerManager {
 
 	/** 初始化主图层 */
 	private createMainContent(layer: Layer) {
-		// 创建背景图层
+		// 获取用户传递的背景颜色
 		const backgroundColor = store.getState("backgroundColor");
 		const background = new Rect({
 			width: layer.width(),
@@ -113,7 +113,7 @@ export class LayerManager {
 
 		// 创建裁剪框
 		const crop = new Rect({
-			id: "crop",
+			id: ShapeIDMapConfig.cropRectID,
 			width: cropAttr?.width ?? width * 0.5,
 			height: cropAttr?.height ?? height * 0.5,
 			draggable: true,
@@ -140,8 +140,7 @@ export class LayerManager {
 
 		// 创建型变控制器
 		return new Transformer({
-			id: "crop-transformer",
-			name: "crop-transformer",
+			id: ShapeIDMapConfig.cropTransformerID,
 			rotateEnabled: false,
 			anchorStroke: cropAttr?.stroke ?? "#299CF5",
 			anchorFill: cropAttr?.fill ?? "#299CF5",

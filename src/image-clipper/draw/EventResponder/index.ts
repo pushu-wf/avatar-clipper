@@ -6,6 +6,7 @@ import { AllowUpdateImageAttrs } from "../../interface";
 import { parseImageSource, throttle } from "../../utils";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { base64ToBlob, generateWatermark, getCropInfo, isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
+import { ShapeIDMapConfig } from "../../config";
 
 /**
  * 导出画布相应事件控制中心
@@ -30,11 +31,14 @@ export class EventResponder {
 	public clearImage() {
 		if (!this.stage) return;
 
-		const mainLayer = this.stage.findOne("#main-layer") as Layer;
+		const mainLayer = this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`) as Layer;
 		if (!mainLayer) return;
 
-		const image = mainLayer.findOne("#image") as KonvaImage;
+		const image = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`) as KonvaImage;
 		if (image) image.destroy();
+
+		this.render();
+		this.patchPreviewEvent();
 	}
 
 	/**
@@ -57,11 +61,11 @@ export class EventResponder {
 	public async setImage(image: string | Blob) {
 		if (!this.stage) return;
 
-		const mainLayer = <Layer>this.stage.findOne("#mainLayer");
+		const mainLayer = <Layer>this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
 		if (!mainLayer) return;
 
 		// 判断当前layer 下是否已经存在图片资源
-		const oldImage = mainLayer.findOne("#image");
+		const oldImage = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`);
 		if (oldImage) oldImage.destroy();
 
 		// 创建新的图片实例
@@ -89,18 +93,19 @@ export class EventResponder {
 	private handleImageAdaptive(imageElement: HTMLImageElement) {
 		if (!this.stage) return;
 
-		const mainLayer = <Layer>this.stage.findOne("#mainLayer");
+		const mainLayer = <Layer>this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
 		if (!mainLayer) return;
 
 		const { draggable = true, objectFit = "contain" } = store.getState("image") || {};
 
 		// 创建 Konva.Image
 		const konvaImage = new KonvaImage({
-			id: "image",
+			id: ShapeIDMapConfig.imageID,
 			image: imageElement,
 			draggable: draggable,
 			listening: true,
 		});
+
 		mainLayer.add(konvaImage);
 		// 一定要设置 zIndex，不然裁剪框无法在上层
 		konvaImage.zIndex(1);
@@ -168,10 +173,10 @@ export class EventResponder {
 		if (!this.stage) return;
 
 		// 获取主图层和图像节点
-		const mainLayer = this.stage.findOne("#mainLayer") as Layer;
+		const mainLayer = this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`) as Layer;
 		if (!mainLayer) return;
 
-		const konvaImage = mainLayer.findOne("#image") as KonvaImage;
+		const konvaImage = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`) as KonvaImage;
 
 		if (!konvaImage) {
 			console.error("ImageClipper: 未找到图片节点，请检查是否传递了 src 属性");
@@ -244,7 +249,7 @@ export class EventResponder {
 		const stageClone = this.stage.clone();
 
 		// 删除 transformer
-		const mainLayer = <Layer>stageClone.findOne("#mainLayer");
+		const mainLayer = <Layer>stageClone.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
 		mainLayer.findOne("Transformer")?.remove();
 
 		const cropAttrs = getCropInfo(this.stage);

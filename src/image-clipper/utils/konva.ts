@@ -7,7 +7,7 @@ import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
-import { imageScaleConfig } from "../config";
+import { imageScaleConfig, ShapeIDMapConfig } from "../config";
 
 /**
  * @description 计算文本宽度
@@ -33,7 +33,7 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 	const { width, height } = stage.getSize();
 
 	// 获取裁剪框的属性
-	const mainLayer = stage.findOne("#cropLayer") as Layer;
+	const mainLayer = stage.findOne(`#${ShapeIDMapConfig.cropLayerID}`) as Layer;
 	if (!mainLayer) return;
 
 	// 获取实际宽高
@@ -81,7 +81,7 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 function generateWatermark(stage: Stage) {
 	if (!stage) return;
 
-	const watermarkLayer = <Layer>stage.findOne("#watermarkLayer");
+	const watermarkLayer = <Layer>stage.findOne(`#${ShapeIDMapConfig.watermarkLayerID}`);
 	if (!watermarkLayer) return;
 
 	// 每次生成水印之前，先清空
@@ -126,10 +126,10 @@ function generateWatermark(stage: Stage) {
 function getCropInfo(stage: Stage) {
 	if (!stage) return;
 
-	const mainLayer = stage.findOne("#cropLayer") as Layer;
-	if (!mainLayer) return;
+	const cropLayer = stage.findOne(`#${ShapeIDMapConfig.cropLayerID}`) as Layer;
+	if (!cropLayer) return;
 
-	const crop = mainLayer.findOne("#crop") as Rect;
+	const crop = cropLayer.findOne(`#${ShapeIDMapConfig.cropRectID}`) as Rect;
 	if (!crop) return;
 
 	return crop.getClientRect();
