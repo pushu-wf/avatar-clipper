@@ -4,6 +4,12 @@ Image-Clipper 是一款基于 Konva 开发的轻量级图片裁剪工具，主�
 
 https://github.xyxiao.cn/vue-cropper/docs/vue2.html
 
+## 背景图片操作指引
+
+1. 平移 `滚轮 (上下移动)` `滚轮 + Shift (左右移动)`
+2. 缩放 `滚轮 + Ctrl (放大缩小)`
+3. 拖动 `拖动 (上下左右)`
+
 ## 跨域图片请求须知
 
 ```ts
