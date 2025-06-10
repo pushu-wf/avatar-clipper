@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
 					name,
 					fileName: name,
 					entry: path.resolve(__dirname, "src/avatar-clipper/index.ts"),
+					formats: ["es", "cjs", "umd"],
 				},
 				rollupOptions: {
 					output: {
