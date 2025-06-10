@@ -8,6 +8,9 @@ export class Command {
 	public reset: CommandAdapt["reset"];
 	// ✅️ 销毁组件
 	public destroy: CommandAdapt["destroy"];
+
+	// 设置背景颜色
+	public setBackgroundColor: CommandAdapt["setBackgroundColor"];
 	// ✅️ 设置图片源
 	public setImage: CommandAdapt["setImage"];
 	// ✅️ 更新图片属性
@@ -25,6 +28,7 @@ export class Command {
 		this.clearImage = adapt.clearImage.bind(adapt);
 		this.reset = adapt.reset.bind(adapt);
 		this.destroy = adapt.destroy.bind(adapt);
+		this.setBackgroundColor = adapt.setBackgroundColor.bind(adapt);
 		this.setImage = adapt.setImage.bind(adapt);
 		this.getImageAttrs = adapt.getImageAttrs.bind(adapt);
 		this.updateImageAttrs = adapt.updateImageAttrs.bind(adapt);

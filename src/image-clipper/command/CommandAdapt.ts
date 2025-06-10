@@ -20,6 +20,12 @@ export class CommandAdapt {
 		this.draw.getEventResponder().destroy();
 	}
 
+	// 设置背景颜色
+	public setBackgroundColor(color: string) {
+		store.setState("backgroundColor", color);
+		this.draw.getEventResponder().setBackgroundColor(color);
+	}
+
 	// 设置图片源
 	public setImage(image: string | Blob) {
 		this.draw.getEventResponder().setImage(image);

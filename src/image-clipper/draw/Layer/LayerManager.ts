@@ -63,6 +63,7 @@ export class LayerManager {
 		// 获取用户传递的背景颜色
 		const backgroundColor = store.getState("backgroundColor");
 		const background = new Rect({
+			id: shapeIDMapConfig.backgroundRectID,
 			width: layer.width(),
 			height: layer.height(),
 			fill: backgroundColor || "transparent",

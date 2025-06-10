@@ -50,3 +50,11 @@ body,
 	/* 给阴影 */
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+#app p {
+	width: 60%;
+	margin: 10px 0;
+}
+#app p label {
+	margin-right: 10px;
+}

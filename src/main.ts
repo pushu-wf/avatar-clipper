@@ -41,6 +41,10 @@ window.onload = () => {
 	const rotationBtn = document.querySelector("button#rotation");
 	rotationBtn?.addEventListener("click", handleRotation);
 
+	// 背景颜色
+	const backgroundColorInput = <HTMLInputElement>document.querySelector("input#backgroundColor");
+	backgroundColorInput?.addEventListener("change", handleBackgroundColor);
+
 	/**
 	 * @description handleUpload  上传图片
 	 */
@@ -95,5 +99,13 @@ window.onload = () => {
 		// 获取当前的旋转角度
 		const { rotation = 0 } = clipper.command.getImageAttrs();
 		clipper.command.updateImageAttrs({ rotation: rotation + 15 });
+	}
+
+	/**
+	 * @description 背景颜色改变
+	 */
+	function handleBackgroundColor() {
+		const backgroundColor = backgroundColorInput.value;
+		clipper.command.setBackgroundColor(backgroundColor);
 	}
 };

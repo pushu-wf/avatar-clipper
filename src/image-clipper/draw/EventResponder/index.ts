@@ -58,6 +58,23 @@ export class EventResponder {
 	}
 
 	/**
+	 * @description 设置背景颜色
+	 * @param color 背景颜色
+	 */
+	public setBackgroundColor(color: string) {
+		if (!this.stage || !color) return;
+
+		// 获取背景颜色 Rect
+		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
+		const backgroundRect = mainLayer.findOne(`#${shapeIDMapConfig.backgroundRectID}`) as Rect;
+		backgroundRect.fill(color);
+
+		this.render();
+
+		this.patchPreviewEvent();
+	}
+
+	/**
 	 * @description 设置图片源
 	 * @param { string | Blob } image 图片实例
 	 */
