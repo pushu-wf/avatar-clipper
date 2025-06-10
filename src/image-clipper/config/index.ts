@@ -54,7 +54,7 @@ const imageScaleConfig: ImageScaleConfig = {
 };
 
 // 为了解决 stage findOne 明明不一致问题，应该统一导出图层、图片、形变控制器、裁剪框等 ID 及 name 属性
-const ShapeIDMapConfig: ShapeIDMapConfig = {
+const shapeIDMapConfig: ShapeIDMapConfig = {
 	mainLayerID: "mainLayer",
 	backgroundRectID: "backgroundRect",
 	imageID: "image",
@@ -63,4 +63,5 @@ const ShapeIDMapConfig: ShapeIDMapConfig = {
 	cropRectID: "cropRect",
 	cropTransformerID: "cropTransformer",
 };
-export { defaultImageClipperConfig, imageScaleConfig, ShapeIDMapConfig };
+
+export { defaultImageClipperConfig, imageScaleConfig, shapeIDMapConfig };

@@ -3,7 +3,7 @@ import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
-import { ShapeIDMapConfig } from "../../config";
+import { shapeIDMapConfig } from "../../config";
 import { parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -34,10 +34,10 @@ export class EventResponder {
 	public clearImage() {
 		if (!this.stage) return;
 
-		const mainLayer = this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`) as Layer;
+		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
 		if (!mainLayer) return;
 
-		const image = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`) as KonvaImage;
+		const image = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 		if (image) image.destroy();
 
 		this.render();
@@ -64,11 +64,11 @@ export class EventResponder {
 	public async setImage(image: string | Blob) {
 		if (!this.stage || !image) return;
 
-		const mainLayer = <Layer>this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
+		const mainLayer = <Layer>this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`);
 		if (!mainLayer) return;
 
 		// 判断当前layer 下是否已经存在图片资源
-		const oldImage = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`);
+		const oldImage = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`);
 		if (oldImage) oldImage.destroy();
 
 		// 创建新的图片实例
@@ -97,14 +97,14 @@ export class EventResponder {
 	private handleImageAdaptive(imageElement: HTMLImageElement) {
 		if (!this.stage) return;
 
-		const mainLayer = <Layer>this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
+		const mainLayer = <Layer>this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`);
 		if (!mainLayer) return;
 
 		const { draggable = true, objectFit = "contain" } = store.getState("image") || {};
 
 		// 创建 Konva.Image
 		const konvaImage = new KonvaImage({
-			id: ShapeIDMapConfig.imageID,
+			id: shapeIDMapConfig.imageID,
 			image: imageElement,
 			draggable: draggable,
 			listening: true,
@@ -177,10 +177,10 @@ export class EventResponder {
 		if (!this.stage) return;
 
 		// 获取主图层和图像节点
-		const mainLayer = this.stage.findOne(`#${ShapeIDMapConfig.mainLayerID}`) as Layer;
+		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
 		if (!mainLayer) return;
 
-		const konvaImage = mainLayer.findOne(`#${ShapeIDMapConfig.imageID}`) as KonvaImage;
+		const konvaImage = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 
 		if (!konvaImage) {
 			console.error("ImageClipper: 未找到图片节点，请检查是否传递了 src 属性");
@@ -212,10 +212,10 @@ export class EventResponder {
 		if (!this.stage) return;
 
 		// 获取裁剪框
-		const cropLayer = this.stage.findOne(`#${ShapeIDMapConfig.cropLayerID}`) as Layer;
+		const cropLayer = this.stage.findOne(`#${shapeIDMapConfig.cropLayerID}`) as Layer;
 		if (!cropLayer) return;
 
-		const crop = cropLayer.findOne(`#${ShapeIDMapConfig.cropRectID}`) as Rect;
+		const crop = cropLayer.findOne(`#${shapeIDMapConfig.cropRectID}`) as Rect;
 
 		if (!crop) {
 			console.error("ImageClipper: 未找到裁剪框节点，请检查后重试！");
@@ -231,21 +231,21 @@ export class EventResponder {
 		if (!isEmpty(draggable)) crop.draggable(draggable);
 		// 调整大小是 形变控制器的属性
 		if (!isEmpty(resize)) {
-			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
 			transformer.resizeEnabled(resize);
 		}
 		// 固定缩放比例 也是形变控制器的属性
 		if (!isEmpty(fixed)) {
-			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
 			transformer.keepRatio(fixed);
 		}
 		// 颜色也是形变控制器的属性
 		if (!isEmpty(fill)) {
-			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
 			transformer.anchorFill(fill);
 		}
 		if (!isEmpty(stroke)) {
-			const transformer = cropLayer.findOne(`#${ShapeIDMapConfig.cropTransformerID}`) as Transformer;
+			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
 			transformer.anchorStroke(stroke);
 			transformer.borderStroke(stroke);
 		}
@@ -265,7 +265,7 @@ export class EventResponder {
 
 		// 如果传入 rotation 则需要更新 watermarkLayer 的旋转角度
 		if (rotation) {
-			const watermarkLayer = this.stage.findOne(`#${ShapeIDMapConfig.watermarkLayerID}`) as Layer;
+			const watermarkLayer = this.stage.findOne(`#${shapeIDMapConfig.watermarkLayerID}`) as Layer;
 			watermarkLayer.rotation(rotation);
 		}
 
@@ -308,7 +308,7 @@ export class EventResponder {
 		const stageClone = this.stage.clone();
 
 		// 删除 transformer
-		const mainLayer = <Layer>stageClone.findOne(`#${ShapeIDMapConfig.mainLayerID}`);
+		const mainLayer = <Layer>stageClone.findOne(`#${shapeIDMapConfig.mainLayerID}`);
 		mainLayer.findOne("Transformer")?.remove();
 
 		const cropAttrs = getCropInfo(this.stage);

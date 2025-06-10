@@ -3,7 +3,7 @@ import { store } from "../../store";
 import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
 import { Rect } from "konva/lib/shapes/Rect";
-import { ShapeIDMapConfig } from "../../config";
+import { shapeIDMapConfig } from "../../config";
 import { EventResponder } from "../EventResponder";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
@@ -28,9 +28,9 @@ export class LayerManager {
 
 	/** 初始化所有图层 */
 	private initLayers() {
-		this.createGeneralLayer(ShapeIDMapConfig.mainLayerID, this.createMainContent);
-		this.createGeneralLayer(ShapeIDMapConfig.watermarkLayerID, () => generateWatermark(this.stage));
-		this.createGeneralLayer(ShapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));
+		this.createGeneralLayer(shapeIDMapConfig.mainLayerID, this.createMainContent);
+		this.createGeneralLayer(shapeIDMapConfig.watermarkLayerID, () => generateWatermark(this.stage));
+		this.createGeneralLayer(shapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));
 	}
 
 	/** 创建通用图层 */
@@ -113,7 +113,7 @@ export class LayerManager {
 
 		// 创建裁剪框
 		const crop = new Rect({
-			id: ShapeIDMapConfig.cropRectID,
+			id: shapeIDMapConfig.cropRectID,
 			width: cropAttr?.width ?? width * 0.5,
 			height: cropAttr?.height ?? height * 0.5,
 			draggable: true,
@@ -140,7 +140,7 @@ export class LayerManager {
 
 		// 创建型变控制器
 		return new Transformer({
-			id: ShapeIDMapConfig.cropTransformerID,
+			id: shapeIDMapConfig.cropTransformerID,
 			rotateEnabled: false,
 			anchorStroke: cropAttr?.stroke ?? "#299CF5",
 			anchorFill: cropAttr?.fill ?? "#299CF5",
