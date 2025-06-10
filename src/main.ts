@@ -1,8 +1,8 @@
-// 此处为演示效果，核心代码在 image-clipper/index.ts 中
-import { ImageClipper } from "./image-clipper/index";
+// 此处为演示效果，核心代码在 avatar-clipper/index.ts 中
+import { AvatarClipper } from "./avatar-clipper/index";
 
 window.onload = () => {
-	const clipper = new ImageClipper({
+	const clipper = new AvatarClipper({
 		container: "#app .clipper",
 		image: {
 			src: "https://img0.baidu.com/it/u=2895902758,4240700774&fm=253&fmt=auto&app=120&f=JPEG",

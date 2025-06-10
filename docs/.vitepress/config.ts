@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	title: "Image Clipper",
+	title: "Avatar Clipper",
 	description: "轻量级图片裁剪工具",
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
@@ -19,7 +19,7 @@ export default defineConfig({
 			{
 				text: "简介",
 				items: [
-					{ text: "什么是 Image Clipper?", link: "/quick-start/what-is" },
+					{ text: "什么是 Avatar Clipper?", link: "/quick-start/what-is" },
 					{ text: "快速开始", link: "/quick-start/" },
 				],
 			},

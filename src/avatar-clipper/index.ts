@@ -3,22 +3,22 @@ import { Draw } from "./draw";
 import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
-import { ImageClipperConfig } from "./interface";
+import { AvatarClipperConfig } from "./interface";
 import { EventBusMap } from "./interface/EventMap";
-import { defaultImageClipperConfig } from "./config";
+import { defaultAvatarClipperConfig } from "./config";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
 
 /**
  * @description 图片裁剪器
  */
-class ImageClipper {
+class AvatarClipper {
 	command: Command;
 	event!: EventBus<EventBusMap>;
 
-	constructor(options: ImageClipperConfig) {
+	constructor(options: AvatarClipperConfig) {
 		// 合并用户传入 options 与默认配置，并存储到 store 中
-		const stage = mergeOptions(defaultImageClipperConfig, options);
+		const stage = mergeOptions(defaultAvatarClipperConfig, options);
 		// 替换 store
 		store.replaceStage(stage);
 
@@ -48,7 +48,7 @@ class ImageClipper {
 	}
 
 	/**
-	 * 初始化 ImageClipper 容器
+	 * 初始化 AvatarClipper 容器
 	 */
 	private initDomContainer() {
 		const optionsContainer = store.getState("container");
@@ -59,7 +59,7 @@ class ImageClipper {
 		}
 
 		// 添加基础样式类
-		container.classList.add("image-clipper-container");
+		container.classList.add("avatar-clipper-container");
 
 		// 创建 Konva 容器
 		const konvaContainer = this.createKonvaContainer();
@@ -73,8 +73,8 @@ class ImageClipper {
 	 */
 	private createKonvaContainer(): HTMLElement {
 		const konvaContainer = document.createElement("div");
-		konvaContainer.id = "image-clipper-konva-container";
-		konvaContainer.classList.add("image-clipper-konva-container");
+		konvaContainer.id = "avatar-clipper-konva-container";
+		konvaContainer.classList.add("avatar-clipper-konva-container");
 
 		// 如果设置了宽度或高度，则应用样式（默认为100%）
 		const width = store.getState("width");
@@ -87,8 +87,8 @@ class ImageClipper {
 	}
 }
 
-export { ImageClipper };
-export default ImageClipper;
+export { AvatarClipper };
+export default AvatarClipper;
 
 // 导出类型
 export type { EventBusMap };

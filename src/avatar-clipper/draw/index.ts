@@ -1,5 +1,5 @@
 import Konva from "konva";
-import ImageClipper from "..";
+import AvatarClipper from "..";
 import { store } from "../store";
 import { Stage } from "konva/lib/Stage";
 import { parseContainer } from "../utils";
@@ -14,10 +14,10 @@ export class Draw {
 	private stage: Stage;
 	private eventResponder: EventResponder;
 
-	constructor(private imageClipper: ImageClipper) {
+	constructor(private AvatarClipper: AvatarClipper) {
 		// 获取 konva 挂载节点
 		const root = parseContainer(store.getState("container"));
-		const container = root.querySelector("#image-clipper-konva-container");
+		const container = root.querySelector("#avatar-clipper-konva-container");
 
 		if (!container) {
 			throw new Error("container is not exist");
@@ -51,6 +51,6 @@ export class Draw {
 
 	// getter
 	public getStage = () => this.stage;
-	public getImageClipper = () => this.imageClipper;
+	public getAvatarClipper = () => this.AvatarClipper;
 	public getEventResponder = () => this.eventResponder;
 }

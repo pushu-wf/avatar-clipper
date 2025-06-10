@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-    name: "Image Clipper"
+    name: "Avatar Clipper"
     text: ""
     tagline: 轻量级图片裁剪工具
     image:

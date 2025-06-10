@@ -1,5 +1,5 @@
-// 导出ImageClipper配置对象
-interface ImageClipperConfig {
+// 导出AvatarClipper配置对象
+interface AvatarClipperConfig {
 	container: string | HTMLElement; // 容器挂载元素 [必传]
 	width?: number; // 容器宽度 [非必传] [默认 100%]
 	height?: number; // 容器高度 [非必传] [默认 100%]
@@ -60,4 +60,4 @@ type AllowUpdateWatermarkAttrs = {
 	rotation?: number; // 旋转角度
 };
 
-export { type ImageClipperConfig, type AllowUpdateImageAttrs, type AllowUpdateCropAttrs, type AllowUpdateWatermarkAttrs, type ImageAttrs };
+export { type AvatarClipperConfig, type AllowUpdateImageAttrs, type AllowUpdateCropAttrs, type AllowUpdateWatermarkAttrs, type ImageAttrs };

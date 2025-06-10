@@ -1,4 +1,4 @@
-import { ImageClipperConfig } from "../interface";
+import { AvatarClipperConfig } from "../interface";
 
 interface ImageScaleConfig {
 	scaleStep: number;
@@ -17,8 +17,8 @@ interface ShapeIDMapConfig {
 	cropTransformerID: string; // 形变控制器
 }
 
-// 默认的 image clipper config 配置项
-const defaultImageClipperConfig: ImageClipperConfig = {
+// 默认的 Avatar Clipper config 配置项
+const defaultAvatarClipperConfig: AvatarClipperConfig = {
 	container: "", // 容器挂载元素
 	backgroundColor: "transparent", // 容器背景颜色 默认为透明
 
@@ -37,7 +37,7 @@ const defaultImageClipperConfig: ImageClipperConfig = {
 	},
 	// 水印相关配置
 	watermark: {
-		text: "Image Clipper", // 水印文字
+		text: "Avatar Clipper", // 水印文字
 		fontSize: 20, // 水印文字样式
 		color: "rgba(0,0,0,.35)",
 		gap: [20, 50], // 水印间距 [x y]
@@ -64,4 +64,4 @@ const shapeIDMapConfig: ShapeIDMapConfig = {
 	cropTransformerID: "cropTransformer",
 };
 
-export { defaultImageClipperConfig, imageScaleConfig, shapeIDMapConfig };
+export { defaultAvatarClipperConfig, imageScaleConfig, shapeIDMapConfig };

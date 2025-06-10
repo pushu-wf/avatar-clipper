@@ -99,13 +99,13 @@ export class EventResponder {
 		imageElement.src = source;
 
 		// 解析 eventbus 触发图片加载相关事件
-		const imageClipper = this.draw.getImageClipper();
+		const AvatarClipper = this.draw.getAvatarClipper();
 
 		// image onload
 		imageElement.onload = this.handleImageAdaptive.bind(this, imageElement);
 
 		// image error
-		imageElement.onerror = () => imageClipper.event.dispatchEvent("imageError");
+		imageElement.onerror = () => AvatarClipper.event.dispatchEvent("imageError");
 	}
 
 	/**
@@ -141,8 +141,8 @@ export class EventResponder {
 		this.render();
 
 		// patch image loaded event
-		const imageClipper = this.draw.getImageClipper();
-		imageClipper.event.dispatchEvent("imageLoaded");
+		const AvatarClipper = this.draw.getAvatarClipper();
+		AvatarClipper.event.dispatchEvent("imageLoaded");
 
 		// 图片加载完成后，需要立即初始化一个 preview
 		this.patchPreviewEvent();
@@ -214,7 +214,7 @@ export class EventResponder {
 		const konvaImage = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 
 		if (!konvaImage) {
-			console.error("ImageClipper: 未找到图片节点，请检查是否传递了 src 属性");
+			console.error("AvatarClipper: 未找到图片节点，请检查是否传递了 src 属性");
 			return;
 		}
 		const { width, height, x, y, scaleX, scaleY, rotation, draggable } = payload;
@@ -249,7 +249,7 @@ export class EventResponder {
 		const crop = cropLayer.findOne(`#${shapeIDMapConfig.cropRectID}`) as Rect;
 
 		if (!crop) {
-			console.error("ImageClipper: 未找到裁剪框节点，请检查后重试！");
+			console.error("AvatarClipper: 未找到裁剪框节点，请检查后重试！");
 			return;
 		}
 
@@ -314,13 +314,13 @@ export class EventResponder {
 		throttle(
 			() =>
 				requestAnimationFrame(() => {
-					const imageClipper = this.draw.getImageClipper();
-					if (!imageClipper) return;
+					const AvatarClipper = this.draw.getAvatarClipper();
+					if (!AvatarClipper) return;
 
 					const base64 = <string>this.getResult("string");
 					if (!base64) return;
 
-					imageClipper.event.dispatchEvent("preview", base64);
+					AvatarClipper.event.dispatchEvent("preview", base64);
 				}),
 			10
 		)();
