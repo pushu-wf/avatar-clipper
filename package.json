@@ -1,6 +1,5 @@
 {
-	"name": "image-clipper",
-	"private": true,
+	"name": "@pushu/image-clipper",
 	"version": "0.0.0",
 	"type": "module",
 	"typings": "dist/types/index.d.ts",
