@@ -1,8 +1,18 @@
+<p align="center">
+    <img src="/public/logo.svg"/>
+</p>
+
+---
+
 # avatar-clipper 轻量级头像裁剪工具
 
 avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，主打 TypeScript 支持和移动端兼容性。其核心架构采用 Command 和 EventBus 模块，提供简洁 API 操作和灵活的事件回调机制。工具支持图片加载、裁剪框交互、水印添加、暗部效果等特色功能，并能导出多种格式的裁剪结果。相比现有方案，avatar-clipper 在保持功能完整的同时更加轻量化，不绑定任何 UI 组件，仅通过 API 实现核心裁剪功能，适用于社交媒体、电商等多场景需求。
 
-<!-- https://github.xyxiao.cn/vue-cropper/docs/vue2.html -->
+## 效果演示
+
+<p align="center">
+    <img src="/public/result.gif"/>
+</p>
 
 ## 背景图片操作指引
 
@@ -13,7 +23,7 @@ avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，主�
 ## 跨域图片请求须知
 
 ```ts
-// ## Konva Image 图片创建跨域处理
+// Konva Image 图片创建跨域处理
 const imageElement = new Image();
 
 // 解析 source 资源

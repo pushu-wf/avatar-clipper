@@ -295,7 +295,7 @@ export class EventResponder {
 		generateWatermark(this.stage);
 
 		// 如果传入 rotation 则需要更新 watermarkLayer 的旋转角度
-		if (rotation) {
+		if (!isEmpty(rotation)) {
 			const watermarkLayer = this.stage.findOne(`#${shapeIDMapConfig.watermarkLayerID}`) as Layer;
 			watermarkLayer.rotation(rotation);
 		}
