@@ -8,8 +8,7 @@ export class Command {
 	public reset: CommandAdapt["reset"];
 	// ✅️ 销毁组件
 	public destroy: CommandAdapt["destroy"];
-
-	// 设置背景颜色
+	// ✅️ 设置背景颜色
 	public setBackgroundColor: CommandAdapt["setBackgroundColor"];
 	// ✅️ 设置图片源
 	public setImage: CommandAdapt["setImage"];

@@ -28,6 +28,9 @@ export class CommandAdapt {
 
 	// 设置图片源
 	public setImage(image: string | Blob) {
+		// 合并到 store 中
+		const imageAttrs = mergeOptions(store.getState("image"), { src: image });
+		store.setState("image", imageAttrs);
 		this.draw.getEventResponder().setImage(image);
 	}
 
