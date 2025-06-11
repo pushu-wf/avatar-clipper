@@ -1,6 +1,7 @@
 // .vitepress/theme/index.ts
 import DefaultTheme from "vitepress/theme";
 import backTop from "./components/backTop.vue";
+import online from "./components/online.vue";
 import "./custom/index.css";
 
 /** @type {import('vitepress').Theme} */
@@ -9,5 +10,6 @@ export default {
 	enhanceApp({ app }) {
 		// 注册自定义全局组件
 		app.component("backTop", backTop);
+		app.component("online", online);
 	},
 };

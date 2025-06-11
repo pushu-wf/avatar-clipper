@@ -15,7 +15,7 @@ hero:
           link: /quick-start/
         - theme: alt
           text: 在线体验
-          link: https://stackblitz.com/~/github.com/pushu-wf/avatar-clipper
+          link: /online-demo/
 
 features:
     - title: TypeScript 支持

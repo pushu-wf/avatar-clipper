@@ -9,6 +9,7 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Docs", link: "/quick-start/" },
+			{ text: "Demo", link: "/online-demo/" },
 		],
 
 		logo: "/logo.svg", // 表示docs/public/avartar.png
