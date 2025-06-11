@@ -1,194 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-		<link rel="stylesheet" href="./index.css" />
-	</head>
 
-	<body>
-		<div id="app">
-			<h2 class="title">Avatar Clipper</h2>
-			<p class="sub-title">Easily crop and customize your avatar images</p>
-			<!-- 主容器 -->
-			<div class="container">
-				<!-- 左侧裁剪框 -->
-				<div class="clipper">
-					<!-- 头像裁剪框 -->
-					<div class="clipper-box">
-						<div class="avatar-clipper-container"></div>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+	<div id="app">
+		<h2 class="title">Avatar Clipper</h2>
+		<p class="sub-title">Easily crop and customize your avatar images</p>
+		<!-- 主容器 -->
+		<div class="container">
+			<!-- 左侧裁剪框 -->
+			<div class="clipper">
+				<!-- 头像裁剪框 -->
+				<div class="clipper-box">
+					<div id="avatar-clipper-container"></div>
+				</div>
+				<!-- 按钮 -->
+				<div class="clipper-btns">
+					<button data-event="upload">
+						<svg class="icon" viewBox="0 0 1024 1024" version="1.1" fill="currentColor"
+							stroke="currentColor" xmlns="http://www.w3.org/2000/svg" width="120" height="120">
+							<path
+								d="M823.424 395.296l-287.52-289.248c-3.2-3.2-6.88-5.536-10.816-7.104C521.056 97.12 516.672 96 512 96c-11.264 0-20.704 6.176-26.4 14.976l-254.4 253.952c-12.512 12.48-12.544 32.736-0.032 45.248 6.24 6.272 14.432 9.376 22.656 9.376 8.16 0 16.352-3.104 22.624-9.344L480 206.976 480 768c0 17.696 14.336 32 32 32s32-14.304 32-32L544 204.96l234.048 235.456c6.24 6.272 14.464 9.44 22.688 9.44 8.16 0 16.32-3.104 22.56-9.312C835.84 428.096 835.904 407.84 823.424 395.296z">
+							</path>
+							<path
+								d="M896 704c-17.696 0-32 14.304-32 32l0 128L160 864l0-128c0-17.696-14.336-32-32-32s-32 14.304-32 32l0 160c0 17.696 14.336 32 32 32l768 0c17.696 0 32-14.304 32-32l0-160C928 718.304 913.696 704 896 704z">
+							</path>
+						</svg>
+						上传
+					</button>
+					<button data-event="clear">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M3 6h18"></path>
+							<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+							<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+							<line x1="10" x2="10" y1="11" y2="17"></line>
+							<line x1="14" x2="14" y1="11" y2="17"></line>
+						</svg>
+						清空
+					</button>
+					<button data-event="reset">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+							<path d="M21 3v5h-5"></path>
+							<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+							<path d="M8 16H3v5"></path>
+						</svg>
+						重置
+					</button>
+					<button data-event="reduce">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="11" cy="11" r="8"></circle>
+							<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+							<line x1="11" x2="11" y1="8" y2="14"></line>
+							<line x1="8" x2="14" y1="11" y2="11"></line>
+						</svg>
+						缩小
+					</button>
+					<button data-event="enlarge">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="11" cy="11" r="8"></circle>
+							<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+							<line x1="8" x2="14" y1="11" y2="11"></line>
+						</svg>
+						放大
+					</button>
+					<button data-event="rotate">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+							<path d="M21 3v5h-5"></path>
+						</svg>
+						旋转
+					</button>
+				</div>
+			</div>
+			<!-- 右侧属性设置 -->
+			<div class="operator">
+				<!-- 预览 -->
+				<div class="tabs">
+					<button class="tab-button tab-image active">Preview</button>
+				</div>
+				<div class="preview-list">
+					<div class="preview-item-circle">
+						<img style="height: 60px;width:60px" src="" alt="" />
+						<img style="height: 40px;width:40px" src="" alt="" />
+						<img style="height: 30px;width:30px" src="" alt="" />
 					</div>
-					<!-- 按钮 -->
-					<div class="clipper-btns">
-						<button>
-							<svg
-								class="icon"
-								viewBox="0 0 1024 1024"
-								version="1.1"
-								fill="currentColor"
-								stroke="currentColor"
-								xmlns="http://www.w3.org/2000/svg"
-								width="120"
-								height="120">
-								<path
-									d="M823.424 395.296l-287.52-289.248c-3.2-3.2-6.88-5.536-10.816-7.104C521.056 97.12 516.672 96 512 96c-11.264 0-20.704 6.176-26.4 14.976l-254.4 253.952c-12.512 12.48-12.544 32.736-0.032 45.248 6.24 6.272 14.432 9.376 22.656 9.376 8.16 0 16.352-3.104 22.624-9.344L480 206.976 480 768c0 17.696 14.336 32 32 32s32-14.304 32-32L544 204.96l234.048 235.456c6.24 6.272 14.464 9.44 22.688 9.44 8.16 0 16.32-3.104 22.56-9.312C835.84 428.096 835.904 407.84 823.424 395.296z"></path>
-								<path
-									d="M896 704c-17.696 0-32 14.304-32 32l0 128L160 864l0-128c0-17.696-14.336-32-32-32s-32 14.304-32 32l0 160c0 17.696 14.336 32 32 32l768 0c17.696 0 32-14.304 32-32l0-160C928 718.304 913.696 704 896 704z"></path>
-							</svg>
-							上传
-						</button>
-						<button>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round">
-								<path d="M3 6h18"></path>
-								<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-								<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-								<line x1="10" x2="10" y1="11" y2="17"></line>
-								<line x1="14" x2="14" y1="11" y2="17"></line>
-							</svg>
-							清空
-						</button>
-						<button>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round">
-								<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-								<path d="M21 3v5h-5"></path>
-								<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-								<path d="M8 16H3v5"></path>
-							</svg>
-							重置
-						</button>
-						<button>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round">
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
-								<line x1="11" x2="11" y1="8" y2="14"></line>
-								<line x1="8" x2="14" y1="11" y2="11"></line>
-							</svg>
-							缩小
-						</button>
-						<button>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round">
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
-								<line x1="8" x2="14" y1="11" y2="11"></line>
-							</svg>
-							放大
-						</button>
-						<button>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round">
-								<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
-								<path d="M21 3v5h-5"></path>
-							</svg>
-							旋转
-						</button>
+					<div class="preview-item-square">
+						<img style="height: 60px;width:60px" src="" alt="" />
+						<img style="height: 40px;width:40px" src="" alt="" />
+						<img style="height: 30px;width:30px" src="" alt="" />
 					</div>
 				</div>
-				<!-- 右侧属性设置 -->
-				<div class="operator">
-					<!-- 预览 -->
-					<div class="tabs">
-						<button class="tab-button tab-image active">Preview</button>
-					</div>
-					<div class="preview-list">
-						<div class="preview-item-circle">
-							<img style="height: 60px" src="https://picsum.photos/80/80?random=1" alt="" />
-							<img style="height: 40px" src="https://picsum.photos/80/80?random=1" alt="" />
-							<img style="height: 30px" src="https://picsum.photos/80/80?random=1" alt="" />
-						</div>
-						<div class="preview-item-square">
-							<img style="height: 60px" src="https://picsum.photos/80/80?random=1" alt="" />
-							<img style="height: 40px" src="https://picsum.photos/80/80?random=1" alt="" />
-							<img style="height: 30px" src="https://picsum.photos/80/80?random=1" alt="" />
-						</div>
-					</div>
-					<!-- 属性设置 -->
-					<div class="tabs" style="margin-top: 10px">
-						<button class="tab-button tab-image active">Image</button>
-						<button class="tab-button tab">Crop</button>
-						<button class="tab-button tab">Watermark</button>
-					</div>
+				<!-- 属性设置 -->
+				<div class="tabs" style="margin-top: 10px">
+					<button class="tab-button tab-image active">Image</button>
+					<button class="tab-button tab">Crop</button>
+					<button class="tab-button tab">Watermark</button>
+				</div>
 
-					<!-- 属性设置面板 -->
-					<div class="setting-box">
-						<!-- 裁剪框当前的所有属性展示 -->
-						<!-- <div id="setting-for-info">
+				<!-- 属性设置面板 -->
+				<div class="setting-box">
+					<!-- 裁剪框当前的所有属性展示 -->
+					<!-- <div id="setting-for-info">
 							<div class="info-title">Image Info:</div>
 							<p>width:<code>200px</code>height:<code>200px</code></p>
 							<div class="info-title">Crop Info:</div>
 							<div class="info-title">Watermark Info:</div>
 						</div> -->
 
-						<!-- 图片属性设置 -->
-						<div id="setting-for-image">
-							<div class="setting-item color-picker">
-								<label id="background-color" for="background-color">Background Color</label>
-								<div class="color-input">
-									<input type="color" name="background-color" id="background-color" />
-									<input
-										autocomplete="off"
-										type="text"
-										name="background-color-input"
-										id="background-color-input"
-										value="transparent" />
-								</div>
-							</div>
-							<div class="setting-item setting-item-flex">
-								<input type="checkbox" checked name="image-draggable" id="image-draggable" />
-								<label id="image-draggable" for="image-draggable">Can drag image</span>
-							</div>
-							<div class="setting-item setting-item-flex">
-								<input type="checkbox" checked name="image-zoom" id="image-zoom" />
-								<label id="image-zoom" for="image-zoom">Can resize image</span>
+					<!-- 图片属性设置 -->
+					<div id="setting-for-image">
+						<div class="setting-item color-picker">
+							<label id="background-color" for="background-color">Background Color</label>
+							<div class="color-input">
+								<input type="color" name="background-color" id="background-color" />
+								<input autocomplete="off" type="text" name="background-color-input"
+									id="background-color-input" value="transparent" />
 							</div>
 						</div>
+						<div class="setting-item setting-item-flex">
+							<input type="checkbox" checked name="image-draggable" id="image-draggable" />
+							<label id="image-draggable" for="image-draggable">Can drag image</span>
+						</div>
+						<div class="setting-item setting-item-flex">
+							<input type="checkbox" checked name="image-zoom" id="image-zoom" />
+							<label id="image-zoom" for="image-zoom">Can resize image</span>
+						</div>
+					</div>
 
-						<!-- 水印属性设置 -->
-						<!-- <div id="setting-for-watermark">
+					<!-- 水印属性设置 -->
+					<!-- <div id="setting-for-watermark">
 							<div class="setting-item color-picker">
 								<label id="watermark-text" for="watermark-text">Watermark Text</label>
 								<div class="color-input">
@@ -229,8 +181,8 @@
 							</div>
 						</div> -->
 
-						<!-- 裁剪框属性 -->
-						<!-- <div id="setting-for-crop">
+					<!-- 裁剪框属性 -->
+					<!-- <div id="setting-for-crop">
 						<div class="setting-item color-picker">
 							<label id="crop-anchor-fill" for="crop-anchor-fill">Crop anchor fill</label>
 							<div class="color-input">
@@ -260,9 +212,84 @@
 							<label id="crop-resize" for="crop-resize">Can resize crop frame</span>
 						</div>
 					</div> -->
-					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+
+	<!-- 使用 ES Module 实现 avatar-clipper 的引入 -->
+	<script type="module">
+		import AvatarClipper from "https://unpkg.com/avatar-clipper";
+
+		// 初始化 AvatarClipper
+		const clipper = new AvatarClipper({
+			container: "#avatar-clipper-container",
+		});
+
+		// 获取所有的图片对象
+		const imageList = document.querySelectorAll(".preview-list img");
+
+		// 监听 preview 事件,对预览结果进行初始化
+		clipper.event.on("preview", (result) => {
+			imageList.forEach((item,) => item.src = result);
+		});
+
+
+		// 定义事件映射列表
+		const eventMap = {
+			upload, clear, reset, enlarge, reduce, rotate,
+		}
+
+		// 获取按钮列表
+		const buttons = document.querySelectorAll(".clipper-btns button");
+		buttons.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				const event = btn.dataset.event;
+				if (event && eventMap[event]) eventMap[event]();
+			});
+		});
+
+
+		/** 上传图片 **/
+		function upload() {
+			const input = document.createElement("input");
+			input.type = "file";
+			input.accept = "image/*";
+			input.onchange = function () {
+				const image = input.files[0];
+				if (!image) return
+				// 调用 command 方法
+				clipper.command.setImage(image)
+				input.value = "";
+				input.remove()
+			};
+			input.click();
+		}
+
+		/** 清空画布 **/
+		function clear() {
+			clipper.command.clearImage()
+		}
+
+		/** 重置画布 **/
+		function reset() {
+			clipper.command.reset()
+		}
+
+		/** 缩小图片 **/
+		function reduce() {
+			console.log(' ==> reduce',);
+		}
+		/** 放大图片 **/
+		function enlarge() {
+			console.log(' ==> enlarge',);
+		}
+
+		/** 旋转图片 **/
+		function rotate() {
+			console.log(' ==> rotate',);
+		}
+	</script>
+</body>
+
 </html>

@@ -142,7 +142,7 @@ export class EventResponder {
 
 		// patch image loaded event
 		const AvatarClipper = this.draw.getAvatarClipper();
-		AvatarClipper.event.dispatchEvent("imageLoaded");
+		AvatarClipper.event.dispatchEvent("imageLoaded", store.getState("image"));
 
 		// 图片加载完成后，需要立即初始化一个 preview
 		this.patchPreviewEvent();

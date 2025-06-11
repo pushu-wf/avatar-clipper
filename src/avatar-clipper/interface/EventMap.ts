@@ -1,3 +1,5 @@
+import { ImageAttrs } from ".";
+
 // 支持的事件类型
 export type EventBusMap = {
 	// 初始化之前
@@ -6,8 +8,8 @@ export type EventBusMap = {
 	// 初始化之后
 	afterInit: () => void;
 
-	// 图片加载完成事件
-	imageLoaded: () => void;
+	// 图片加载完成事件 - 需要获取参数初始化页面数据,例如缩放比例,旋转角度等
+	imageLoaded: (imageAttrs: ImageAttrs) => void;
 
 	// 图片加载失败事件
 	imageError: () => void;
