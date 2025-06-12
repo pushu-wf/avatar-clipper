@@ -15,7 +15,7 @@ hero:
           link: /quick-start/
         - theme: alt
           text: 在线体验
-          link: /online-demo/
+          link: /quick-start/online/
 
 features:
     - title: TypeScript 支持

@@ -4,16 +4,15 @@
 
 ## 在线尝试
 
-[在线体验地址](/online-demo/)
+[Demo](/quick-start/online/)
 
 ## npm 使用
 
 ```bash
 npm install avatar-clipper
-
 # pnpm add avatar-clipper
-
 # yarn add avatar-clipper
+
 ```
 
 ```js
@@ -23,20 +22,30 @@ const clipper = new AvatarClipper({ container: "#app" });
 ```
 
 ::: warning 温馨提示
-容器自身不设置宽高，请在外层自行设置
+容器自身不设置宽高，请在挂载节点自行设置。
+
+```css
+.avatar-clipper-container {
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+```
+
 :::
 
 ## 浏览器使用
 
-```js
-// 使用 ES Module 实现 avatar-clipper 的引入
+```html
+<!-- 使用 ES Module 实现 avatar-clipper 的引入 -->
 <script type="module">
-    import AvatarClipper from "https://unpkg.com/avatar-clipper";
-    const clipper = new AvatarClipper({
-        container: "#app",
-    });
+	import AvatarClipper from "https://unpkg.com/avatar-clipper";
+	const clipper = new AvatarClipper({
+		container: "#app",
+	});
 </script>
-
 ```
 
 ## 源码构建

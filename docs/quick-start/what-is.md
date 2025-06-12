@@ -1,18 +1,19 @@
+---
+aside: false
+---
+
 # 什么是 Avatar Clipper?
 
 <backTop />
 
         Avatar-Clipper 是一款基于 Konva 开发的轻量级图片裁剪工具，主打 TypeScript 支持和移动端兼容性。其核心架构采用 Command 和 EventBus 模块，提供简洁 API 操作和灵活的事件回调机制。工具支持图片加载、裁剪框交互、水印添加、暗部效果等特色功能，并能导出多种格式的裁剪结果。相比现有方案，Avatar-Clipper 在保持功能完整的同时更加轻量化，不绑定任何 UI 组件，仅通过 API 实现核心裁剪功能，适用于社交媒体、电商等多场景需求。
 
-## 效果演示
+::: tip 想先体验一下？跳到 [在线体验](/quick-start/online/)
+:::
 
-<img src='/public/result.gif'/>
+## 功能演示
 
-## 现有的图片裁剪工具
-
-1. [vue-cropper](https://github.com/xyxiao001/vue-cropper)
-2. [vue-img-cutter](https://gitee.com/GLUESTICK/vue-img-cutter)
-3. ...
+<img src="/public/logo.svg" alt="Avatar-Clipper" />
 
 ## 为什么要使用 Avatar-Clipper
 

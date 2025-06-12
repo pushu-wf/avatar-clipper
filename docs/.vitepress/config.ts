@@ -9,7 +9,7 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Docs", link: "/quick-start/" },
-			{ text: "Demo", link: "/online-demo/" },
+			{ text: "Demo", link: "/quick-start/online/" },
 		],
 
 		logo: "/logo.svg", // 表示docs/public/avartar.png
@@ -18,22 +18,27 @@ export default defineConfig({
 		},
 		sidebar: [
 			{
-				text: "简介",
+				text: "Introduction",
 				items: [
 					{ text: "什么是 Avatar Clipper?", link: "/quick-start/what-is" },
 					{ text: "快速开始", link: "/quick-start/" },
 				],
 			},
 			{
-				text: "事件中心",
+				text: "Interface",
+				items: [{ text: "接口文件", link: "/quick-start/interface/" }],
+			},
+			{
+				text: "Event",
 				items: [
+					{ text: "事件中心", link: "/quick-start/eventbus/" },
 					// { text: "beforeInit", link: "/quick-start/eventbus/beforeInit" },
-					{ text: "afterInit", link: "/quick-start/eventbus/afterInit" },
-					{ text: "imageLoaded", link: "/quick-start/eventbus/imageLoaded" },
-					{ text: "imageError", link: "/quick-start/eventbus/imageError" },
-					{ text: "imageUpdate", link: "/quick-start/eventbus/imageUpdate" },
+					// { text: "afterInit", link: "/quick-start/eventbus/afterInit" },
+					// { text: "imageLoaded", link: "/quick-start/eventbus/imageLoaded" },
+					// { text: "imageError", link: "/quick-start/eventbus/imageError" },
+					// { text: "imageUpdate", link: "/quick-start/eventbus/imageUpdate" },
 					// { text: "cropUpdate", link: "/quick-start/eventbus/cropUpdate" },
-					{ text: "preview", link: "/quick-start/eventbus/preview" },
+					// { text: "preview", link: "/quick-start/eventbus/preview" },
 				],
 			},
 			{
