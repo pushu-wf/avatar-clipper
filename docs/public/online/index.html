@@ -4,8 +4,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Document</title>
-	<link rel="stylesheet" href="./index.css" />
+	<title>Avatar Clipper 轻量级图片裁剪工具</title>
+	<link rel="shortcut icon" href="logo.svg" type="image/x-icon">
+	<link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
@@ -88,7 +89,7 @@
 			<div class="operator">
 				<!-- 预览 -->
 				<div class="tabs">
-					<button class="tab-button tab-image active">Preview</button>
+					<button class="tab-button active">Preview</button>
 				</div>
 				<div class="preview-list">
 					<div class="preview-item-circle">
@@ -103,22 +104,14 @@
 					</div>
 				</div>
 				<!-- 属性设置 -->
-				<div class="tabs" style="margin-top: 10px">
-					<button class="tab-button tab-image active">Image</button>
-					<button class="tab-button tab">Crop</button>
-					<button class="tab-button tab">Watermark</button>
+				<div class="tabs clipper-tabs" style="margin-top: 10px">
+					<button data-btn-type="image" class="tab-button active">Image</button>
+					<button data-btn-type="crop" class="tab-button">Crop</button>
+					<button data-btn-type="watermark" class="tab-button">Watermark</button>
 				</div>
 
 				<!-- 属性设置面板 -->
-				<div class="setting-box">
-					<!-- 裁剪框当前的所有属性展示 -->
-					<!-- <div id="setting-for-info">
-							<div class="info-title">Image Info:</div>
-							<p>width:<code>200px</code>height:<code>200px</code></p>
-							<div class="info-title">Crop Info:</div>
-							<div class="info-title">Watermark Info:</div>
-						</div> -->
-
+				<div class="setting-box tab-content">
 					<!-- 图片属性设置 -->
 					<div id="setting-for-image">
 						<div class="setting-item color-picker">
@@ -140,49 +133,49 @@
 					</div>
 
 					<!-- 水印属性设置 -->
-					<!-- <div id="setting-for-watermark">
-							<div class="setting-item color-picker">
-								<label id="watermark-text" for="watermark-text">Watermark Text</label>
-								<div class="color-input">
-									<input
-										autocomplete="off"
-										type="text"
-										name="watermark-text"
-										id="watermark-text"
-										value="Avatar Clipper" />
-								</div>
+					<div style="display: none;" id="setting-for-watermark">
+						<div class="setting-item color-picker">
+							<label id="watermark-text" for="watermark-text">Watermark Text</label>
+							<div class="color-input">
+								<input autocomplete="off" type="text" name="watermark-text" id="watermark-text"
+									value="Avatar Clipper" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="Watermark-color" for="Watermark-color">Watermark Color</label>
-								<div class="color-input">
-									<input type="color" name="Watermark-color" id="Watermark-color" />
-									<input
-										autocomplete="off"
-										type="text"
-										name="Watermark-color-input"
-										id="Watermark-color-input"
-										value="#000000" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-color" for="watermark-color">Watermark Color</label>
+							<div class="color-input">
+								<input type="color" name="watermark-color" id="watermark-color" />
+								<input autocomplete="off" type="text" name="watermark-color-input"
+									id="watermark-color-input" value="#000000" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="watermark-rotation" for="watermark-rotation">Watermark Angle</label>
-								<div class="color-input">
-									<input autocomplete="off" type="number" name="watermark-rotation" id="watermark-rotation" value="-45" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-rotation" for="watermark-rotation">Angle And FontSize</label>
+							<div class="color-input">
+								<span style="font-size: 12px;">Angle:</span>
+								<input autocomplete="off" type="number" name="watermark-rotation"
+									id="watermark-rotation" value="-45" />
+
+								<span style="font-size: 12px;">FontSize:</span>
+								<input autocomplete="off" type="number" name="watermark-font-size"
+									id="watermark-font-size" value="20" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="watermark-gap" for="watermark-gap">Watermark Gap</label>
-								<div class="color-input">
-									<span>GapX:</span>
-									<input autocomplete="off" type="number" name="watermark-gap-x" id="watermark-gap-x" value="20" />
-									<span>GapY:</span>
-									<input autocomplete="off" type="number" name="watermark-gap-y" id="watermark-gap-y" value="50" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-gap" for="watermark-gap">Watermark Gap</label>
+							<div class="color-input">
+								<span style="font-size: 12px;">GapX:</span>
+								<input autocomplete="off" type="number" name="watermark-gap-x" id="watermark-gap-x"
+									value="20" />
+								<span style="font-size: 12px;">GapY:</span>
+								<input autocomplete="off" type="number" name="watermark-gap-y" id="watermark-gap-y"
+									value="50" />
 							</div>
-						</div> -->
+						</div>
+					</div>
 
 					<!-- 裁剪框属性 -->
-					<!-- <div id="setting-for-crop">
+					<div style="display: none;" id="setting-for-crop">
 						<div class="setting-item color-picker">
 							<label id="crop-anchor-fill" for="crop-anchor-fill">Crop anchor fill</label>
 							<div class="color-input">
@@ -200,7 +193,7 @@
 							</div>
 						</div>
 						<div class="setting-item setting-item-flex">
-							<input type="checkbox" checked name="crop-fixed" id="crop-fixed" />
+							<input type="checkbox" name="crop-fixed" id="crop-fixed" />
 							<label id="crop-fixed" for="crop-fixed">Fixed aspect ratio</span>
 						</div>
 						<div class="setting-item setting-item-flex">
@@ -211,7 +204,7 @@
 							<input type="checkbox" checked name="crop-resize" id="crop-resize" />
 							<label id="crop-resize" for="crop-resize">Can resize crop frame</span>
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -221,26 +214,47 @@
 	<script type="module">
 		import AvatarClipper from "https://unpkg.com/avatar-clipper";
 
-		// 初始化 AvatarClipper
-		const clipper = new AvatarClipper({
-			container: "#avatar-clipper-container",
-		});
+		const clipper = new AvatarClipper({ container: "#avatar-clipper-container", image: { src: "https://picsum.photos/200/300" } });
+
+
+		/**
+		 * 定义图片的基础属性,用于后期变换使用
+		 */
+		const imageAttrs = { scaleX: 1, scaleY: 1, rotation: 0 };
+
+		// 定义缩小放大步频
+		const scaleStep = 0.2;
 
 		// 获取所有的图片对象
 		const imageList = document.querySelectorAll(".preview-list img");
 
-		// 监听 preview 事件,对预览结果进行初始化
-		clipper.event.on("preview", (result) => {
-			imageList.forEach((item,) => item.src = result);
-		});
+		// 图片加载失败时，尝试加载新的图片资源
+		clipper.event.on("imageError", () => clipper.command.setImage("https://picsum.photos/200/300"));
 
+		// 监听 preview 事件,对预览结果进行初始化
+		clipper.event.on("preview", (result) => imageList.forEach((item) => (item.src = result)));
+
+		// 监听 afterInit 事件，初始化第一次图片资源
+		clipper.event.on("afterInit", (result) => imageList.forEach((item) => (item.src = result)));
+
+		// 监听 imageUpload 图片更新事件
+		clipper.event.on("imageUpdate", (attrs) => {
+			imageAttrs.scaleX = attrs.scaleX;
+			imageAttrs.scaleY = attrs.scaleY;
+			imageAttrs.rotation = attrs.rotation;
+		});
 
 		// 定义事件映射列表
 		const eventMap = {
-			upload, clear, reset, enlarge, reduce, rotate,
-		}
+			upload,
+			clear: clipper.command.clearImage,
+			reset: clipper.command.reset,
+			enlarge: () => clipper.command.updateImageAttrs({ scaleX: imageAttrs.scaleX + scaleStep, scaleY: imageAttrs.scaleY + scaleStep }),
+			reduce: () => clipper.command.updateImageAttrs({ scaleX: imageAttrs.scaleX - scaleStep, scaleY: imageAttrs.scaleY - scaleStep }),
+			rotate: () => clipper.command.updateImageAttrs({ rotation: imageAttrs.rotation + 45 }),
+		};
 
-		// 获取按钮列表
+		// 上传 | 清空 | 重置 | 缩小 | 放大 | 旋转
 		const buttons = document.querySelectorAll(".clipper-btns button");
 		buttons.forEach((btn) => {
 			btn.addEventListener("click", () => {
@@ -249,7 +263,6 @@
 			});
 		});
 
-
 		/** 上传图片 **/
 		function upload() {
 			const input = document.createElement("input");
@@ -257,38 +270,126 @@
 			input.accept = "image/*";
 			input.onchange = function () {
 				const image = input.files[0];
-				if (!image) return
+				if (!image) return;
 				// 调用 command 方法
-				clipper.command.setImage(image)
+				clipper.command.setImage(image);
 				input.value = "";
-				input.remove()
+				input.remove();
 			};
 			input.click();
 		}
 
-		/** 清空画布 **/
-		function clear() {
-			clipper.command.clearImage()
-		}
+		// Image | Crop | Watermark tab 切换
+		const tabs = document.querySelectorAll(".clipper-tabs button.tab-button");
+		// 获取 tab 对应的内容
+		const tabContents = document.querySelectorAll(".tab-content > div");
+		tabs.forEach((tab) => {
+			tab.addEventListener("click", () => {
+				const type = tab.dataset.btnType;
+				if (!type) return;
 
-		/** 重置画布 **/
-		function reset() {
-			clipper.command.reset()
-		}
+				// 给当前点击的 button 添加 active 类
+				tabs.forEach((item) => item.classList.remove("active"));
+				tab.classList.add("active");
 
-		/** 缩小图片 **/
-		function reduce() {
-			console.log(' ==> reduce',);
-		}
-		/** 放大图片 **/
-		function enlarge() {
-			console.log(' ==> enlarge',);
-		}
+				// 处理 container 内容显示 切换的核心： id="setting-for-image"
+				tabContents.forEach((item) => {
+					item.style.display = item.id === `setting-for-${type}` ? "block" : "none";
+				});
+			});
+		});
 
-		/** 旋转图片 **/
-		function rotate() {
-			console.log(' ==> rotate',);
-		}
+		// set background color
+		const backgroundColorPicker = document.querySelector("input#background-color");
+		const backgroundColorInput = document.querySelector("input#background-color-input");
+		backgroundColorPicker.addEventListener("change", () => {
+			backgroundColorInput.value = backgroundColorPicker.value;
+			clipper.command.setBackgroundColor(backgroundColorInput.value);
+		});
+		backgroundColorInput.addEventListener("input", () => {
+			backgroundColorPicker.value = backgroundColorInput.value;
+			clipper.command.setBackgroundColor(backgroundColorInput.value);
+		});
+
+		// set image draggable
+		const imageDraggable = document.querySelector("input#image-draggable");
+		imageDraggable.addEventListener("change", () => {
+			const draggable = imageDraggable.checked;
+			clipper.command.updateImageAttrs({ draggable });
+		});
+
+		// set image zoom
+		const imageZoom = document.querySelector("input#image-zoom");
+		imageZoom.addEventListener("change", () => {
+			const zoom = imageZoom.checked;
+			clipper.command.updateImageAttrs({ zoom });
+		});
+
+		// set crop anchor fill
+		const cropAnchorFillPicker = document.querySelector("input#crop-anchor-fill");
+		const cropAnchorFillInput = document.querySelector("input#crop-anchor-fill-input");
+		cropAnchorFillPicker.addEventListener("change", () => {
+			cropAnchorFillInput.value = cropAnchorFillPicker.value;
+			clipper.command.updateCropAttrs({ fill: cropAnchorFillInput.value });
+		});
+		cropAnchorFillInput.addEventListener("input", () => {
+			cropAnchorFillPicker.value = cropAnchorFillInput.value;
+			clipper.command.updateCropAttrs({ fill: cropAnchorFillInput.value });
+		});
+
+		// set crop anchor stroke
+		const cropAnchorStrokePicker = document.querySelector("input#crop-anchor-stroke");
+		const cropAnchorStrokeInput = document.querySelector("input#crop-anchor-stroke-input");
+		cropAnchorStrokePicker.addEventListener("change", () => {
+			cropAnchorStrokeInput.value = cropAnchorStrokePicker.value;
+			clipper.command.updateCropAttrs({ stroke: cropAnchorStrokeInput.value });
+		});
+		cropAnchorStrokeInput.addEventListener("input", () => {
+			cropAnchorStrokePicker.value = cropAnchorStrokeInput.value;
+			clipper.command.updateCropAttrs({ stroke: cropAnchorStrokeInput.value });
+		});
+
+		// set crop fixed ratio
+		const cropFixed = document.querySelector("input#crop-fixed");
+		cropFixed.addEventListener("change", () => clipper.command.updateCropAttrs({ fixed: cropFixed.checked }));
+
+		// set crop draggable
+		const cropDraggable = document.querySelector("input#crop-draggable");
+		cropDraggable.addEventListener("change", () => clipper.command.updateCropAttrs({ draggable: cropDraggable.checked }));
+
+		// set crop resize
+		const cropResize = document.querySelector("input#crop-resize");
+		cropResize.addEventListener("change", () => clipper.command.updateCropAttrs({ resize: cropResize.checked }));
+
+		// set watermark text
+		const watermarkText = document.querySelector("input#watermark-text");
+		watermarkText.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ text: watermarkText.value }));
+
+		// set watermark color
+		const watermarkColorPicker = document.querySelector("input#watermark-color");
+		const watermarkColorInput = document.querySelector("input#watermark-color-input");
+		watermarkColorPicker.addEventListener("change", () => {
+			watermarkColorInput.value = watermarkColorPicker.value;
+			clipper.command.updateWatermarkAttrs({ color: watermarkColorInput.value });
+		});
+		watermarkColorInput.addEventListener("input", () => {
+			watermarkColorPicker.value = watermarkColorInput.value;
+			clipper.command.updateWatermarkAttrs({ color: watermarkColorInput.value });
+		});
+
+		// set watermark angle
+		const watermarkRotation = document.querySelector("input#watermark-rotation");
+		watermarkRotation.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ rotation: +watermarkRotation.value }));
+
+		// set watermark font size
+		const watermarkFontSize = document.querySelector("input#watermark-font-size");
+		watermarkFontSize.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ fontSize: +watermarkFontSize.value }));
+
+		// set watermark gap x
+		const watermarkGapX = document.querySelector("input#watermark-gap-x");
+		const watermarkGapY = document.querySelector("input#watermark-gap-y");
+		watermarkGapX.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ gap: [+watermarkGapX.value, +watermarkGapY.value] }));
+		watermarkGapY.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ gap: [+watermarkGapX.value, +watermarkGapY.value] }));
 	</script>
 </body>
 

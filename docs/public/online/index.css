@@ -102,6 +102,7 @@ html,
 	width: calc(40% - 20px);
 	height: calc(100% - 20px);
 	border: solid #e4e4e7 1px;
+	overflow: hidden;
 }
 
 /* 实现类似 tab 效果 */
@@ -198,10 +199,4 @@ html,
 .setting-box .color-picker .color-input input[type="number"] {
 	flex: auto;
 	padding: 0 6px;
-}
-
-/* 信息展示 */
-.setting-box .info-title {
-	font-size: 16px;
-	font-weight: 700;
 }
