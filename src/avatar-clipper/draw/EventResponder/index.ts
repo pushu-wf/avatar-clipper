@@ -40,7 +40,8 @@ export class EventResponder {
 		const image = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 		if (image) image.destroy();
 
-		store.setState("image", undefined);
+		// 请不要重置为 undefind 不然 mergeOptions 会报错
+		store.setState("image", {});
 
 		this.render();
 		this.patchPreviewEvent();
