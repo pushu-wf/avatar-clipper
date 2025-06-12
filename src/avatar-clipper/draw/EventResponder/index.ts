@@ -3,12 +3,12 @@ import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
-import { shapeIDMapConfig } from "../../config";
-import { parseImageSource, throttle } from "../../utils";
+import { getDefaultConfig, shapeIDMapConfig } from "../../config";
+import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
-import { isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
+import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 import { base64ToBlob, generateWatermark, getCropInfo, handleCropPosition } from "../../utils/konva";
 
 /**
@@ -40,6 +40,9 @@ export class EventResponder {
 		const image = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 		if (image) image.destroy();
 
+		// 请不要重置为 undefind 不然 mergeOptions 会报错
+		store.setState("image", {});
+
 		this.render();
 		this.patchPreviewEvent();
 	}
@@ -47,7 +50,24 @@ export class EventResponder {
 	/**
 	 * @description 重置容器
 	 */
-	public reset() {}
+	public reset() {
+		if (!this.stage) return;
+
+		// 重新初始化容器
+		const options = this.draw.getAvatarClipper().getOptions();
+		// 合并用户传入 options 与默认配置，并存储到 store 中
+		const stage = mergeOptions(getDefaultConfig(), options);
+		console.log(" ==> ", stage);
+		// 替换 store
+		store.replaceStage(stage);
+
+		const layerManager = this.draw.getLayerManager();
+		layerManager.clearLayers();
+		layerManager.initLayers();
+
+		// 清空后刷新
+		this.patchPreviewEvent();
+	}
 
 	/**
 	 * @description 销毁容器
@@ -105,7 +125,7 @@ export class EventResponder {
 		imageElement.onload = this.handleImageAdaptive.bind(this, imageElement);
 
 		// image error
-		imageElement.onerror = () => AvatarClipper.event.dispatchEvent("imageError");
+		imageElement.onerror = (error) => AvatarClipper.event.dispatchEvent("imageError", error);
 	}
 
 	/**
@@ -132,7 +152,7 @@ export class EventResponder {
 		konvaImage.zIndex(1);
 
 		// 监听事件
-		konvaImage.on("dragmove", this.patchPreviewEvent.bind(this));
+		konvaImage.on("dragmove", () => (this.patchImageUpdateEvent(), this.patchPreviewEvent()));
 
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
 		this.applyObjectFit(konvaImage, objectFit);
@@ -142,7 +162,10 @@ export class EventResponder {
 
 		// patch image loaded event
 		const AvatarClipper = this.draw.getAvatarClipper();
-		AvatarClipper.event.dispatchEvent("imageLoaded");
+		AvatarClipper.event.dispatchEvent("imageLoaded", store.getState("image"));
+
+		// 同步触发 imageUpdate 事件
+		this.patchImageUpdateEvent();
 
 		// 图片加载完成后，需要立即初始化一个 preview
 		this.patchPreviewEvent();
@@ -218,6 +241,7 @@ export class EventResponder {
 			return;
 		}
 		const { width, height, x, y, scaleX, scaleY, rotation, draggable } = payload;
+		const { zoom } = store.getState("image") || {};
 
 		if (!isEmpty(x)) konvaImage.x(x);
 		if (!isEmpty(y)) konvaImage.y(y);
@@ -225,12 +249,15 @@ export class EventResponder {
 		if (!isEmpty(height)) konvaImage.height(height);
 
 		// 缩放要基于图片中心缩放
-		if (!isEmpty(scaleX) || !isEmpty(scaleY)) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
+		if ((!isEmpty(scaleX) || !isEmpty(scaleY)) && zoom) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
 
 		if (!isEmpty(rotation)) rotateAroundCenter(konvaImage, rotation!);
 		if (!isEmpty(draggable)) konvaImage.draggable(draggable);
 
 		this.render();
+
+		// 触发image update 事件
+		this.patchImageUpdateEvent();
 
 		// 触发 preview 事件
 		this.patchPreviewEvent();
@@ -253,33 +280,18 @@ export class EventResponder {
 			return;
 		}
 
+		const cropTransformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
+
 		// 不然解析属性进行更新
-		const { x, y, width, height, draggable, resize, fixed, fill, stroke } = payload;
+		const { x, y, width, height, draggable } = payload;
 
 		// 处理裁剪框位置关系
 		handleCropPosition(crop, x, y, width, height);
 
 		if (!isEmpty(draggable)) crop.draggable(draggable);
-		// 调整大小是 形变控制器的属性
-		if (!isEmpty(resize)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.resizeEnabled(resize);
-		}
-		// 固定缩放比例 也是形变控制器的属性
-		if (!isEmpty(fixed)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.keepRatio(fixed);
-		}
-		// 颜色也是形变控制器的属性
-		if (!isEmpty(fill)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.anchorFill(fill);
-		}
-		if (!isEmpty(stroke)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.anchorStroke(stroke);
-			transformer.borderStroke(stroke);
-		}
+
+		// 处理形变控制器属性
+		updateCropTransformerAttrs(cropTransformer);
 
 		// 强制更新
 		this.render();
@@ -322,8 +334,16 @@ export class EventResponder {
 
 					AvatarClipper.event.dispatchEvent("preview", base64);
 				}),
-			10
+			100
 		)();
+	}
+
+	/**
+	 * @description 工具函数 - 触发 imageUpdate 事件
+	 */
+	public patchImageUpdateEvent() {
+		const AvatarClipper = this.draw.getAvatarClipper();
+		AvatarClipper.event.dispatchEvent("imageUpdate", store.getState("image"));
 	}
 
 	/**

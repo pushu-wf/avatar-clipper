@@ -5,7 +5,7 @@ import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
 import { AvatarClipperConfig } from "./interface";
 import { EventBusMap } from "./interface/EventMap";
-import { defaultAvatarClipperConfig } from "./config";
+import { getDefaultConfig } from "./config";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
 
@@ -15,10 +15,14 @@ import { mergeOptions, parseContainer } from "./utils";
 class AvatarClipper {
 	command: Command;
 	event!: EventBus<EventBusMap>;
+	getOptions: () => AvatarClipperConfig;
 
 	constructor(options: AvatarClipperConfig) {
+		// 用户传入配置对象需要保存，以便 reset 重置使用
+		this.getOptions = () => options;
+
 		// 合并用户传入 options 与默认配置，并存储到 store 中
-		const stage = mergeOptions(defaultAvatarClipperConfig, options);
+		const stage = mergeOptions(getDefaultConfig(), options);
 		// 替换 store
 		store.replaceStage(stage);
 
@@ -35,7 +39,8 @@ class AvatarClipper {
 		this.command = new Command(new CommandAdapt(draw));
 
 		// 初始化完成
-		this.event.dispatchEvent("afterInit");
+		const currentResult = <string>draw.getEventResponder().getResult("string");
+		this.event.dispatchEvent("afterInit", currentResult);
 	}
 
 	/**
@@ -44,7 +49,7 @@ class AvatarClipper {
 	private initEventSystem() {
 		this.event = new EventBus<EventBusMap>();
 		// emit beforeInit
-		this.event.dispatchEvent("beforeInit");
+		// this.event.dispatchEvent("beforeInit");
 	}
 
 	/**

@@ -10,7 +10,9 @@ node_modules
 index.html
 
 npm.publish.config.js
+
 eslint.config.js
+
 .gitignore
 .npmignore
 

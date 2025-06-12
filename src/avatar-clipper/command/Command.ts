@@ -4,22 +4,29 @@ import { CommandAdapt } from "./CommandAdapt";
 export class Command {
 	// ✅️ 清空图片
 	public clearImage: CommandAdapt["clearImage"];
-	// ❌️ 重置
+	// ✅️ 重置
 	public reset: CommandAdapt["reset"];
+
 	// ✅️ 销毁组件
 	public destroy: CommandAdapt["destroy"];
+
 	// ✅️ 设置背景颜色
 	public setBackgroundColor: CommandAdapt["setBackgroundColor"];
+
 	// ✅️ 设置图片源
 	public setImage: CommandAdapt["setImage"];
+
 	// ✅️ 更新图片属性
 	public updateImageAttrs: CommandAdapt["updateImageAttrs"];
 	// ✅️ 获取图片属性
 	public getImageAttrs: CommandAdapt["getImageAttrs"];
+
 	// ✅️ 更新裁剪框属性
 	public updateCropAttrs: CommandAdapt["updateCropAttrs"];
+
 	// ✅️ 设置水印属性
 	public updateWatermarkAttrs: CommandAdapt["updateWatermarkAttrs"];
+
 	// ✅️ 获取截图结果
 	public getResult: CommandAdapt["getResult"];
 

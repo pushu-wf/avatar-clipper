@@ -35,7 +35,4 @@ export function cropUpdate(e: KonvaEventObject<MouseEvent>) {
 	// 如果尺寸有变化才更新
 	if (newWidth !== cropWidth) target.width(newWidth);
 	if (newHeight !== cropHeight) target.height(newHeight);
-
-	// 更新视图
-	stage.batchDraw();
 }

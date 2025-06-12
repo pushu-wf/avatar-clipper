@@ -1,248 +1,180 @@
-// 此处为演示效果，核心代码在 avatar-clipper/index.ts 中
-import { AvatarClipper } from "./avatar-clipper/index";
+import { AvatarClipper } from "./avatar-clipper";
 
-window.onload = () => {
-	const clipper = new AvatarClipper({
-		container: "#app .clipper",
-		image: {
-			src: "https://img0.baidu.com/it/u=2895902758,4240700774&fm=253&fmt=auto&app=120&f=JPEG",
-		},
-	});
+// 初始化 AvatarClipper
+const clipper = new AvatarClipper({ container: "#avatar-clipper-container", image: { src: "https://picsum.photos/200/300" } });
 
-	Reflect.set(window, "clipper", clipper);
+Reflect.set(window, "clipper", clipper);
 
-	// 预览的两个image
-	const imageArray = document.querySelectorAll("img");
-	clipper.event.on("preview", (base64) => {
-		imageArray.forEach((image) => (image.src = base64));
-	});
+/**
+ * 定义图片的基础属性,用于后期变换使用
+ */
+const imageAttrs = { scaleX: 1, scaleY: 1, rotation: 0 };
 
-	// button#upload  上传图片
-	const uploadBtn = document.querySelector("button#upload");
-	uploadBtn?.addEventListener("click", handleUpload);
+// 定义缩小放大步频
+const scaleStep = 0.2;
 
-	// button#clear  清空图片
-	const clearBtn = document.querySelector("button#clear");
-	clearBtn?.addEventListener("click", handleClear);
+// 获取所有的图片对象
+const imageList = <NodeListOf<HTMLImageElement>>document.querySelectorAll(".preview-list img");
 
-	// button#reset  重置
-	const resetBtn = document.querySelector("button#reset");
-	resetBtn?.addEventListener("click", handleReset);
+// 图片加载失败时，尝试加载新的图片资源
+clipper.event.on("imageError", () => clipper.command.setImage("https://picsum.photos/200/300"));
 
-	// button#amplify  放大图片
-	const amplifyBtn = document.querySelector("button#amplify");
-	amplifyBtn?.addEventListener("click", handleAmplify);
+// 监听 preview 事件,对预览结果进行初始化
+clipper.event.on("preview", (result) => imageList.forEach((item) => (item.src = result)));
 
-	// button#reduce  缩小图片
-	const reduceBtn = document.querySelector("button#reduce");
-	reduceBtn?.addEventListener("click", handleReduce);
+// 监听 afterInit 事件，初始化第一次图片资源
+clipper.event.on("afterInit", (result) => imageList.forEach((item) => (item.src = result)));
 
-	// button#rotation  旋转图片
-	const rotationBtn = document.querySelector("button#rotation");
-	rotationBtn?.addEventListener("click", handleRotation);
+// 监听 imageUpload 图片更新事件
+clipper.event.on("imageUpdate", (attrs) => {
+	imageAttrs.scaleX = attrs.scaleX!;
+	imageAttrs.scaleY = attrs.scaleY!;
+	imageAttrs.rotation = attrs.rotation!;
+});
 
-	// 背景颜色
-	const backgroundColorInput = <HTMLInputElement>document.querySelector("input#backgroundColor");
-	backgroundColorInput?.addEventListener("change", handleBackgroundColor);
-
-	// 图片可拖动
-	const imageDraggableInput = <HTMLInputElement>document.querySelector("input#image-draggable");
-	imageDraggableInput?.addEventListener("change", handleImageDraggable);
-
-	// 图片可缩放
-	const imageZoomInput = <HTMLInputElement>document.querySelector("input#image-zoom");
-	imageZoomInput?.addEventListener("change", handleImageZoom);
-
-	// 水印文本
-	const watermarkTextInput = <HTMLInputElement>document.querySelector("input#watermark-text");
-	watermarkTextInput?.addEventListener("change", handleWatermarkText);
-
-	// 水印颜色
-	const watermarkColorInput = <HTMLInputElement>document.querySelector("input#watermark-color");
-	watermarkColorInput?.addEventListener("change", handleWatermarkColor);
-
-	// 水印旋转
-	const watermarkRotationInput = <HTMLInputElement>document.querySelector("input#watermark-rotation");
-	watermarkRotationInput?.addEventListener("change", handleWatermarkRotation);
-
-	// 水印水平间距
-	const watermarkGapXInput = <HTMLInputElement>document.querySelector("input#watermark-gap-x");
-	watermarkGapXInput?.addEventListener("change", handleWatermarkGap);
-
-	// 水印垂直间距
-	const watermarkGapYInput = <HTMLInputElement>document.querySelector("input#watermark-gap-y");
-	watermarkGapYInput?.addEventListener("change", handleWatermarkGap);
-
-	// 裁剪框可拖动
-	const cropDraggableInput = <HTMLInputElement>document.querySelector("input#crop-draggable");
-	cropDraggableInput?.addEventListener("change", handleCropDraggable);
-
-	// 裁剪框可缩放
-	const cropResizeInput = <HTMLInputElement>document.querySelector("input#crop-resize");
-	cropResizeInput?.addEventListener("change", handleCropResize);
-
-	// 裁剪框固定缩放比例
-	const cropFixedInput = <HTMLInputElement>document.querySelector("input#crop-fixed");
-	cropFixedInput?.addEventListener("change", handleCropFixed);
-
-	// 裁剪框填充颜色
-	const cropFillInput = <HTMLInputElement>document.querySelector("input#crop-fill");
-	cropFillInput?.addEventListener("change", handleCropFill);
-
-	// 裁剪框边框颜色
-	const cropStrokeInput = <HTMLInputElement>document.querySelector("input#crop-stroke");
-	cropStrokeInput?.addEventListener("change", handleCropStroke);
-
-	/**
-	 * @description handleUpload  上传图片
-	 */
-	function handleUpload() {
-		const input = document.createElement("input");
-		input.type = "file";
-		input.accept = "image/*";
-		input.onchange = (e) => {
-			const file = (e.target as HTMLInputElement).files?.[0];
-			if (!file) return;
-			clipper.command.setImage(file);
-			input.remove();
-		};
-		input.click();
-	}
-
-	/**
-	 * @description handleClear 清空画布
-	 */
-	function handleClear() {
-		clipper.command.clearImage();
-	}
-
-	/**
-	 * @description handleReset 重置
-	 */
-	function handleReset() {}
-
-	/**
-	 * @description handleAmplify 放大
-	 */
-	function handleAmplify() {
-		// 获取当前的缩放比例
-		const { scaleX = 1, scaleY = 1 } = clipper.command.getImageAttrs();
-
-		clipper.command.updateImageAttrs({ scaleX: scaleX + 0.1, scaleY: scaleY + 0.1 });
-	}
-
-	/**
-	 * @description handleReduce 缩小
-	 */
-	function handleReduce() {
-		// 获取当前的缩放比例
-		const { scaleX = 1, scaleY = 1 } = clipper.command.getImageAttrs();
-		clipper.command.updateImageAttrs({ scaleX: scaleX - 0.1, scaleY: scaleY - 0.1 });
-	}
-
-	/**
-	 * @description handleRotation 旋转
-	 */
-	function handleRotation() {
-		// 获取当前的旋转角度
-		const { rotation = 0 } = clipper.command.getImageAttrs();
-		clipper.command.updateImageAttrs({ rotation: rotation + 15 });
-	}
-
-	/**
-	 * @description 背景颜色改变
-	 */
-	function handleBackgroundColor() {
-		const backgroundColor = backgroundColorInput.value;
-		clipper.command.setBackgroundColor(backgroundColor);
-	}
-
-	/**
-	 * @description 图片可拖动
-	 */
-	function handleImageDraggable() {
-		const draggable = imageDraggableInput.checked;
-		clipper.command.updateImageAttrs({ draggable });
-	}
-
-	/**
-	 * @description 图片可缩放
-	 */
-	function handleImageZoom() {
-		const zoom = imageZoomInput.checked;
-		clipper.command.updateImageAttrs({ zoom });
-	}
-
-	/**
-	 * @description 水印文本
-	 */
-	function handleWatermarkText() {
-		const text = watermarkTextInput.value;
-		clipper.command.updateWatermarkAttrs({ text });
-	}
-
-	/**
-	 * @description 水印颜色
-	 */
-	function handleWatermarkColor() {
-		const color = watermarkColorInput.value;
-		clipper.command.updateWatermarkAttrs({ color });
-	}
-
-	/**
-	 * @description 水印旋转
-	 */
-	function handleWatermarkRotation() {
-		const rotation = Number(watermarkRotationInput.value);
-		clipper.command.updateWatermarkAttrs({ rotation });
-	}
-
-	/**
-	 * @description 水印水平间距
-	 */
-	function handleWatermarkGap() {
-		const gapx = Number(watermarkGapXInput.value);
-		const gapy = Number(watermarkGapYInput.value);
-		clipper.command.updateWatermarkAttrs({ gap: [gapx, gapy] });
-	}
-
-	/**
-	 * 裁剪框可拖动
-	 */
-	function handleCropDraggable() {
-		const draggable = cropDraggableInput.checked;
-		clipper.command.updateCropAttrs({ draggable });
-	}
-
-	/**
-	 * 裁剪框可缩放
-	 */
-	function handleCropResize() {
-		const resize = cropResizeInput.checked;
-		clipper.command.updateCropAttrs({ resize });
-	}
-
-	/**
-	 * 裁剪框固定缩放比例
-	 */
-	function handleCropFixed() {
-		const fixed = cropFixedInput.checked;
-		clipper.command.updateCropAttrs({ fixed });
-	}
-
-	/**
-	 * 裁剪框填充颜色
-	 */
-	function handleCropFill() {
-		const fill = cropFillInput.value;
-		clipper.command.updateCropAttrs({ fill });
-	}
-
-	/**
-	 * 裁剪框边框颜色
-	 */
-	function handleCropStroke() {
-		const stroke = cropStrokeInput.value;
-		clipper.command.updateCropAttrs({ stroke });
-	}
+// 定义事件映射列表
+const eventMap: { [key: string]: () => void } = {
+	upload,
+	clear: clipper.command.clearImage,
+	reset: clipper.command.reset,
+	enlarge: () => clipper.command.updateImageAttrs({ scaleX: imageAttrs.scaleX + scaleStep, scaleY: imageAttrs.scaleY + scaleStep }),
+	reduce: () => clipper.command.updateImageAttrs({ scaleX: imageAttrs.scaleX - scaleStep, scaleY: imageAttrs.scaleY - scaleStep }),
+	rotate: () => clipper.command.updateImageAttrs({ rotation: imageAttrs.rotation + 45 }),
 };
+
+// 上传 | 清空 | 重置 | 缩小 | 放大 | 旋转
+const buttons = <NodeListOf<HTMLButtonElement>>document.querySelectorAll(".clipper-btns button");
+buttons.forEach((btn) => {
+	btn.addEventListener("click", () => {
+		const event = <string>btn.dataset.event;
+		if (event && eventMap[event]) eventMap[event]();
+	});
+});
+
+/** 上传图片 **/
+function upload() {
+	const input = document.createElement("input");
+	input.type = "file";
+	input.accept = "image/*";
+	input.onchange = function () {
+		const image = input.files![0];
+		if (!image) return;
+		// 调用 command 方法
+		clipper.command.setImage(image);
+		input.value = "";
+		input.remove();
+	};
+	input.click();
+}
+
+// Image | Crop | Watermark tab 切换
+const tabs = <NodeListOf<HTMLButtonElement>>document.querySelectorAll(".clipper-tabs button.tab-button");
+// 获取 tab 对应的内容
+const tabContents = <NodeListOf<HTMLDivElement>>document.querySelectorAll(".tab-content > div");
+tabs.forEach((tab) => {
+	tab.addEventListener("click", () => {
+		const type = <string>tab.dataset.btnType;
+		if (!type) return;
+
+		// 给当前点击的 button 添加 active 类
+		tabs.forEach((item) => item.classList.remove("active"));
+		tab.classList.add("active");
+
+		// 处理 container 内容显示 切换的核心： id="setting-for-image"
+		tabContents.forEach((item) => {
+			item.style.display = item.id === `setting-for-${type}` ? "block" : "none";
+		});
+	});
+});
+
+// set background color
+const backgroundColorPicker = document.querySelector("input#background-color") as HTMLInputElement;
+const backgroundColorInput = document.querySelector("input#background-color-input") as HTMLInputElement;
+backgroundColorPicker.addEventListener("change", () => {
+	backgroundColorInput.value = backgroundColorPicker.value;
+	clipper.command.setBackgroundColor(backgroundColorInput.value);
+});
+backgroundColorInput.addEventListener("input", () => {
+	backgroundColorPicker.value = backgroundColorInput.value;
+	clipper.command.setBackgroundColor(backgroundColorInput.value);
+});
+
+// set image draggable
+const imageDraggable = document.querySelector("input#image-draggable") as HTMLInputElement;
+imageDraggable.addEventListener("change", () => {
+	const draggable = imageDraggable.checked;
+	clipper.command.updateImageAttrs({ draggable });
+});
+
+// set image zoom
+const imageZoom = document.querySelector("input#image-zoom") as HTMLInputElement;
+imageZoom.addEventListener("change", () => {
+	const zoom = imageZoom.checked;
+	clipper.command.updateImageAttrs({ zoom });
+});
+
+// set crop anchor fill
+const cropAnchorFillPicker = document.querySelector("input#crop-anchor-fill") as HTMLInputElement;
+const cropAnchorFillInput = document.querySelector("input#crop-anchor-fill-input") as HTMLInputElement;
+cropAnchorFillPicker.addEventListener("change", () => {
+	cropAnchorFillInput.value = cropAnchorFillPicker.value;
+	clipper.command.updateCropAttrs({ fill: cropAnchorFillInput.value });
+});
+cropAnchorFillInput.addEventListener("input", () => {
+	cropAnchorFillPicker.value = cropAnchorFillInput.value;
+	clipper.command.updateCropAttrs({ fill: cropAnchorFillInput.value });
+});
+
+// set crop anchor stroke
+const cropAnchorStrokePicker = document.querySelector("input#crop-anchor-stroke") as HTMLInputElement;
+const cropAnchorStrokeInput = document.querySelector("input#crop-anchor-stroke-input") as HTMLInputElement;
+cropAnchorStrokePicker.addEventListener("change", () => {
+	cropAnchorStrokeInput.value = cropAnchorStrokePicker.value;
+	clipper.command.updateCropAttrs({ stroke: cropAnchorStrokeInput.value });
+});
+cropAnchorStrokeInput.addEventListener("input", () => {
+	cropAnchorStrokePicker.value = cropAnchorStrokeInput.value;
+	clipper.command.updateCropAttrs({ stroke: cropAnchorStrokeInput.value });
+});
+
+// set crop fixed ratio
+const cropFixed = document.querySelector("input#crop-fixed") as HTMLInputElement;
+cropFixed.addEventListener("change", () => clipper.command.updateCropAttrs({ fixed: cropFixed.checked }));
+
+// set crop draggable
+const cropDraggable = document.querySelector("input#crop-draggable") as HTMLInputElement;
+cropDraggable.addEventListener("change", () => clipper.command.updateCropAttrs({ draggable: cropDraggable.checked }));
+
+// set crop resize
+const cropResize = document.querySelector("input#crop-resize") as HTMLInputElement;
+cropResize.addEventListener("change", () => clipper.command.updateCropAttrs({ resize: cropResize.checked }));
+
+// set watermark text
+const watermarkText = document.querySelector("input#watermark-text") as HTMLInputElement;
+watermarkText.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ text: watermarkText.value }));
+
+// set watermark color
+const watermarkColorPicker = document.querySelector("input#watermark-color") as HTMLInputElement;
+const watermarkColorInput = document.querySelector("input#watermark-color-input") as HTMLInputElement;
+watermarkColorPicker.addEventListener("change", () => {
+	watermarkColorInput.value = watermarkColorPicker.value;
+	clipper.command.updateWatermarkAttrs({ color: watermarkColorInput.value });
+});
+watermarkColorInput.addEventListener("input", () => {
+	watermarkColorPicker.value = watermarkColorInput.value;
+	clipper.command.updateWatermarkAttrs({ color: watermarkColorInput.value });
+});
+
+// set watermark angle
+const watermarkRotation = document.querySelector("input#watermark-rotation") as HTMLInputElement;
+watermarkRotation.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ rotation: +watermarkRotation.value }));
+
+// set watermark font size
+const watermarkFontSize = document.querySelector("input#watermark-font-size") as HTMLInputElement;
+watermarkFontSize.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ fontSize: +watermarkFontSize.value }));
+
+// set watermark gap x
+const watermarkGapX = document.querySelector("input#watermark-gap-x") as HTMLInputElement;
+const watermarkGapY = document.querySelector("input#watermark-gap-y") as HTMLInputElement;
+watermarkGapX.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ gap: [+watermarkGapX.value, +watermarkGapY.value] }));
+watermarkGapY.addEventListener("input", () => clipper.command.updateWatermarkAttrs({ gap: [+watermarkGapX.value, +watermarkGapY.value] }));
