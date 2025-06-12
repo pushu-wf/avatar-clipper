@@ -18,7 +18,7 @@ interface ShapeIDMapConfig {
 }
 
 // 默认的 Avatar Clipper config 配置项
-const defaultAvatarClipperConfig: AvatarClipperConfig = {
+const getDefaultConfig: () => AvatarClipperConfig = () => ({
 	container: "", // 容器挂载元素
 	backgroundColor: "transparent", // 容器背景颜色 默认为透明
 
@@ -43,7 +43,7 @@ const defaultAvatarClipperConfig: AvatarClipperConfig = {
 		gap: [20, 50], // 水印间距 [x y]
 		rotation: -45, // 旋转角度
 	},
-};
+});
 
 // 图片缩放配置
 const imageScaleConfig: ImageScaleConfig = {
@@ -64,4 +64,4 @@ const shapeIDMapConfig: ShapeIDMapConfig = {
 	cropTransformerID: "cropTransformer",
 };
 
-export { defaultAvatarClipperConfig, imageScaleConfig, shapeIDMapConfig };
+export { getDefaultConfig, imageScaleConfig, shapeIDMapConfig };

@@ -1,0 +1,202 @@
+body,
+html,
+#app {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	width: 100vw;
+	height: 690px;
+	overflow: hidden;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#app > * {
+	box-sizing: border-box;
+}
+/* 标题 */
+.title {
+	margin: 0;
+	font-size: 30px;
+	line-height: 36px;
+	font-weight: 700;
+	font-family: GeistSans, GeistSans Fallback;
+}
+/* 副标题 */
+.sub-title {
+	color: #71717a;
+	font-size: 16px;
+	margin: 0;
+}
+
+/* 主容器 */
+.container {
+	display: flex;
+	padding: 20px;
+	width: 100%;
+	height: calc(100% - 60px);
+	overflow: hidden;
+}
+
+/* 左侧裁剪框 */
+.container .clipper {
+	border-radius: 8px;
+	width: calc(60% - 20px);
+	height: 100%;
+	margin-right: 20px;
+	background-color: #f3f4f6;
+	overflow: hidden;
+}
+/* 裁剪 + 预览 */
+.container .clipper .clipper-box {
+	height: calc(100% - 32px - 20px);
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 头像裁剪框 */
+.avatar-clipper-container {
+	margin: 0 auto;
+	width: 80%;
+	height: 80%;
+}
+/* 按钮 */
+.container .clipper .clipper-btns {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+.container .clipper .clipper-btns button {
+	display: flex;
+	height: 32px;
+	align-items: center;
+	border-radius: 4px;
+	outline: none;
+	border: solid #e4e4e7 1px;
+	background-color: #fff;
+	cursor: pointer;
+	padding: 6px 14px;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+.container .clipper .clipper-btns button:hover {
+	background-color: #289ef8;
+	color: #fff;
+	transform: scale(1.05);
+	/* 添加阴影 */
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.01);
+}
+.container .clipper .clipper-btns button svg {
+	margin-right: 4px;
+	width: 16px;
+	height: 16px;
+}
+
+/* 右侧属性设置 */
+.container .operator {
+	padding: 10px;
+	border-radius: 8px;
+	width: calc(40% - 20px);
+	height: calc(100% - 20px);
+	border: solid #e4e4e7 1px;
+	overflow: hidden;
+}
+
+/* 实现类似 tab 效果 */
+.operator .tabs {
+	background-color: #f4f4f5;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	border-radius: 4px;
+}
+.operator .tabs button {
+	flex: auto;
+	background-color: transparent;
+	border: none;
+	padding: 8px 0;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.operator .tabs button.active {
+	background-color: #fff;
+}
+
+/* 预览容器 */
+.preview-list {
+	margin-top: 10px;
+}
+.preview-list img {
+	margin-right: 20px;
+}
+.preview-item-circle {
+	border-bottom: solid #e4e4e7 1px;
+	margin-bottom: 4px;
+}
+.preview-item-circle img {
+	border-radius: 50%;
+}
+
+/* 属性设置面板 */
+.setting-box {
+	margin-top: 10px;
+	height: calc(100% - 246px);
+	overflow: hidden;
+}
+
+/* setting-item */
+.setting-box .setting-item {
+	margin-bottom: 10px;
+}
+.setting-box .setting-item.setting-item-flex {
+	display: flex;
+	align-items: center;
+}
+.setting-box .setting-item label {
+	display: inline-block;
+	margin-bottom: 10px;
+	user-select: none;
+}
+.setting-box .setting-item.setting-item-flex label {
+	margin-bottom: 0;
+}
+.setting-box .setting-item input {
+	height: 28px;
+}
+
+.setting-box .color-picker {
+	display: flex;
+	flex-direction: column;
+}
+.setting-box .color-picker .color-input {
+	display: flex;
+	align-items: center;
+	outline: none;
+}
+.setting-box .color-picker .color-input input {
+	height: 38px;
+	border-radius: 6px;
+	border: solid #e4e4e7 1px;
+}
+.setting-box .color-picker .color-input input:focus-visible {
+	outline: none;
+	border-color: #289ef8;
+}
+.setting-box .color-picker .color-input input[type="color"] {
+	border: none;
+	border-radius: 0px;
+	margin-right: 10px;
+}
+.setting-box .setting-item input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+}
+.setting-box .color-picker .color-input input[type="text"],
+.setting-box .color-picker .color-input input[type="number"] {
+	flex: auto;
+	padding: 0 6px;
+}

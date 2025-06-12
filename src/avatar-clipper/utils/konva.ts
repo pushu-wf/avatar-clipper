@@ -7,6 +7,7 @@ import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
 import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
+import { Transformer } from "konva/lib/shapes/Transformer";
 import { imageScaleConfig, shapeIDMapConfig } from "../config";
 
 /**
@@ -179,18 +180,18 @@ function rotateAroundCenter(node: Node, rotation: number) {
  * @param scale 缩放比例
  */
 function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
+	const oldScaleX = node.scaleX();
+	const oldScaleY = node.scaleY();
+
 	// 如果小于最小值
 	if (scaleX < imageScaleConfig.minScale || scaleY < imageScaleConfig.minScale) {
-		return;
+		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
 	}
 
 	// 如果大于最大值
 	if (scaleX > imageScaleConfig.maxScale || scaleY > imageScaleConfig.maxScale) {
-		return;
+		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
 	}
-
-	const oldScaleX = node.scaleX();
-	const oldScaleY = node.scaleY();
 
 	// 获取图像当前位置
 	const x = node.x();
@@ -238,6 +239,36 @@ function handleCropPosition(node: Shape, x?: number, y?: number, width?: number,
 }
 
 /**
+ * @description 更新裁剪框形变控制器的属性
+ * @param transformer Transformer
+ */
+function updateCropTransformerAttrs(transformer: Transformer) {
+	if (!transformer) return;
+
+	const { resize = true, fixed = false, fill, stroke } = store.getState("crop") || {};
+
+	if (!isEmpty(resize)) {
+		transformer.resizeEnabled(resize);
+	}
+
+	transformer.keepRatio(fixed);
+	// 如果固定缩放比例，则上下左右的控制点不可控制
+	if (fixed) {
+		transformer.enabledAnchors(["top-left", "top-right", "bottom-left", "bottom-right"]);
+	} else {
+		transformer.enabledAnchors(null);
+	}
+	if (!isEmpty(fill)) {
+		transformer.anchorFill(fill);
+	}
+
+	if (!isEmpty(stroke)) {
+		transformer.anchorStroke(stroke);
+		transformer.borderStroke(stroke);
+	}
+}
+
+/**
  * @description 辅助函数 - base64 转 Blob
  * @param { string } base64 base64 string
  * @returns Blob
@@ -275,4 +306,5 @@ export {
 	base64ToBlob,
 	scaleAroundCenter,
 	handleCropPosition,
+	updateCropTransformerAttrs,
 };
