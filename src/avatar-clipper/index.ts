@@ -15,8 +15,12 @@ import { mergeOptions, parseContainer } from "./utils";
 class AvatarClipper {
 	command: Command;
 	event!: EventBus<EventBusMap>;
+	getOptions: () => AvatarClipperConfig;
 
 	constructor(options: AvatarClipperConfig) {
+		// 用户传入配置对象需要保存，以便 reset 重置使用
+		this.getOptions = () => options;
+
 		// 合并用户传入 options 与默认配置，并存储到 store 中
 		const stage = mergeOptions(defaultAvatarClipperConfig, options);
 		// 替换 store
@@ -45,7 +49,7 @@ class AvatarClipper {
 	private initEventSystem() {
 		this.event = new EventBus<EventBusMap>();
 		// emit beforeInit
-		this.event.dispatchEvent("beforeInit");
+		// this.event.dispatchEvent("beforeInit");
 	}
 
 	/**

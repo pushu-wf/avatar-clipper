@@ -9,13 +9,15 @@
 ## 用法
 
 ```ts
-clipper.event.on("imageError", (result: string) => {});
+clipper.event.on("imageError", (error: string | Event) => {});
 ```
 
 ## 返回值
 
---
+```
+string | Event
+```
 
 ## 示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/image-error.png'/>

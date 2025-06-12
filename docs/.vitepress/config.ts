@@ -27,12 +27,12 @@ export default defineConfig({
 			{
 				text: "事件中心",
 				items: [
-					{ text: "beforeInit", link: "/quick-start/eventbus/beforeInit" },
+					// { text: "beforeInit", link: "/quick-start/eventbus/beforeInit" },
 					{ text: "afterInit", link: "/quick-start/eventbus/afterInit" },
 					{ text: "imageLoaded", link: "/quick-start/eventbus/imageLoaded" },
 					{ text: "imageError", link: "/quick-start/eventbus/imageError" },
 					{ text: "imageUpdate", link: "/quick-start/eventbus/imageUpdate" },
-					{ text: "cropUpdate", link: "/quick-start/eventbus/cropUpdate" },
+					// { text: "cropUpdate", link: "/quick-start/eventbus/cropUpdate" },
 					{ text: "preview", link: "/quick-start/eventbus/preview" },
 				],
 			},

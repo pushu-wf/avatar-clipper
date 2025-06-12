@@ -1,7 +1,4 @@
-/**
- * @description 图片缩放事件
- */
-
+import { Draw } from "../../draw";
 import { store } from "../../store";
 import { Layer } from "konva/lib/Layer";
 import { Stage } from "konva/lib/Stage";
@@ -11,10 +8,8 @@ import { imageScaleConfig, shapeIDMapConfig } from "../../config";
 
 /**
  * 图片缩放平移实现
- * @param e
- * @returns
  */
-export function imageWheel(e: KonvaEventObject<WheelEvent>) {
+export function imageWheel(e: KonvaEventObject<WheelEvent>, draw: Draw) {
 	const stage = e.currentTarget as Stage;
 	if (!stage) return;
 
@@ -29,12 +24,21 @@ export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 
 	const { deltaY, shiftKey, ctrlKey } = e.evt as WheelEvent;
 
+	// 获取参数 - 是否支持缩放
+	const { zoom } = store.getState("image")!;
+
+	// 获取参数 - 是否支持平移
+	const { draggable } = store.getState("image")!;
+
 	// 处理滚轮事件
 	if (ctrlKey) {
-		handleZoom(stage, image, deltaY);
+		if (zoom) handleZoom(stage, image, deltaY);
 	} else {
-		handlePan(image, deltaY, shiftKey);
+		if (draggable) handlePan(image, deltaY, shiftKey);
 	}
+
+	// 如果既不支持缩放，也不支持平移，则直接返回
+	if (!zoom && !draggable) return;
 
 	// 图片更新完成后，需要同步图片属性到 store 中
 	const imageAttrs = {
@@ -49,13 +53,12 @@ export function imageWheel(e: KonvaEventObject<WheelEvent>) {
 	};
 
 	store.setState("image", imageAttrs);
+
+	// 触发图片更新事件
+	draw.getEventResponder().patchImageUpdateEvent();
 }
 
 function handleZoom(stage: Stage, image: Image, deltaY: number) {
-	// 获取参数 - 是否支持缩放
-	const { zoom } = store.getState("image")!;
-	if (!zoom) return;
-
 	// 获取当前的缩放比例
 	const oldScale = image.scaleX();
 	const position = stage.getPointerPosition()!;
@@ -79,10 +82,6 @@ function handleZoom(stage: Stage, image: Image, deltaY: number) {
 }
 
 function handlePan(image: Image, deltaY: number, shiftKey: boolean) {
-	// 获取参数 - 是否支持平移
-	const { draggable } = store.getState("image")!;
-	if (!draggable) return;
-
 	// 获取当前的 position
 	const { x, y } = image.position();
 	let newX = x;

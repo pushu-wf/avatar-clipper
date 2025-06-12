@@ -3,8 +3,8 @@ import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
-import { shapeIDMapConfig } from "../../config";
-import { parseImageSource, throttle } from "../../utils";
+import { defaultAvatarClipperConfig, shapeIDMapConfig } from "../../config";
+import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
@@ -40,6 +40,8 @@ export class EventResponder {
 		const image = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
 		if (image) image.destroy();
 
+		store.setState("image", undefined);
+
 		this.render();
 		this.patchPreviewEvent();
 	}
@@ -47,7 +49,20 @@ export class EventResponder {
 	/**
 	 * @description 重置容器
 	 */
-	public reset() {}
+	public reset() {
+		if (!this.stage) return;
+
+		// 重新初始化容器
+		const options = this.draw.getAvatarClipper().getOptions();
+		// 合并用户传入 options 与默认配置，并存储到 store 中
+		const stage = mergeOptions(defaultAvatarClipperConfig, options);
+		// 替换 store
+		store.replaceStage(stage);
+
+		const layerManager = this.draw.getLayerManager();
+		layerManager.clearLayers();
+		layerManager.initLayers();
+	}
 
 	/**
 	 * @description 销毁容器
@@ -132,7 +147,7 @@ export class EventResponder {
 		konvaImage.zIndex(1);
 
 		// 监听事件
-		konvaImage.on("dragmove", this.patchPreviewEvent.bind(this));
+		konvaImage.on("dragmove", () => (this.patchImageUpdateEvent(), this.patchImageUpdateEvent()));
 
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
 		this.applyObjectFit(konvaImage, objectFit);
@@ -143,6 +158,9 @@ export class EventResponder {
 		// patch image loaded event
 		const AvatarClipper = this.draw.getAvatarClipper();
 		AvatarClipper.event.dispatchEvent("imageLoaded", store.getState("image"));
+
+		// 同步触发 imageUpdate 事件
+		this.patchImageUpdateEvent();
 
 		// 图片加载完成后，需要立即初始化一个 preview
 		this.patchPreviewEvent();
@@ -232,7 +250,8 @@ export class EventResponder {
 
 		this.render();
 
-		// TODO : 触发image update 事件
+		// 触发image update 事件
+		this.patchImageUpdateEvent();
 
 		// 触发 preview 事件
 		this.patchPreviewEvent();
@@ -326,6 +345,14 @@ export class EventResponder {
 				}),
 			100
 		)();
+	}
+
+	/**
+	 * @description 工具函数 - 触发 imageUpdate 事件
+	 */
+	public patchImageUpdateEvent() {
+		const AvatarClipper = this.draw.getAvatarClipper();
+		AvatarClipper.event.dispatchEvent("imageUpdate", store.getState("image"));
 	}
 
 	/**

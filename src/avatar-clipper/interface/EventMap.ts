@@ -2,9 +2,6 @@ import { ImageAttrs } from ".";
 
 // 支持的事件类型
 export type EventBusMap = {
-	// 初始化之前
-	beforeInit: () => void;
-
 	// 初始化之后
 	afterInit: (result: string) => void;
 
@@ -18,7 +15,7 @@ export type EventBusMap = {
 	imageUpdate: (imageAttrs: ImageAttrs) => void;
 
 	// 裁剪框更新事件 缩放 平移 （针对返回属性即可）
-	cropUpdate: () => void;
+	// cropUpdate: (cropAttrs: AllowUpdateCropAttrs) => void;
 
 	// 预览
 	preview: (base64: string) => void;

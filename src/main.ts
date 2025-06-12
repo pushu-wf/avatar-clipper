@@ -1,8 +1,9 @@
 import { AvatarClipper } from "./avatar-clipper";
 
 // 初始化 AvatarClipper
-const clipper = new AvatarClipper({ container: "#avatar-clipper-container" });
+const clipper = new AvatarClipper({ container: "#avatar-clipper-container", image: { src: "https://picsum.photos/200/300" } });
 
+Reflect.set(window, "clipper", clipper);
 /**
  * 定义图片的基础属性,用于后期变换使用
  */
@@ -23,6 +24,24 @@ const imageList = <NodeListOf<HTMLImageElement>>document.querySelectorAll(".prev
 // 监听 preview 事件,对预览结果进行初始化
 clipper.event.on("preview", (result) => {
 	imageList.forEach((item) => (item.src = result));
+});
+
+// 监听 imageError 事件
+clipper.event.on("imageError", (error) => {
+	console.log("imageError", error);
+});
+
+// 监听 afterInit 事件，初始化第一次图片资源
+clipper.event.on("afterInit", (result) => {
+	imageList.forEach((item) => (item.src = result));
+});
+
+// 图片更新事件
+clipper.event.on("imageUpdate", (attrs) => {
+	console.log(attrs);
+	imageAttrs.scaleX = attrs.scaleX!;
+	imageAttrs.scaleY = attrs.scaleY!;
+	imageAttrs.rotation = attrs.rotation!;
 });
 
 // 定义事件映射列表

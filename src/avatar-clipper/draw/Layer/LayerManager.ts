@@ -26,8 +26,17 @@ export class LayerManager {
 		this.initLayers();
 	}
 
+	public clearLayers() {
+		if (!this.stage) return;
+		this.stage.getChildren().forEach((layer) => {
+			layer.destroy();
+		});
+
+		this.stage.batchDraw();
+	}
+
 	/** 初始化所有图层 */
-	private initLayers() {
+	public initLayers() {
 		this.createGeneralLayer(shapeIDMapConfig.mainLayerID, this.createMainContent);
 		this.createGeneralLayer(shapeIDMapConfig.watermarkLayerID, () => generateWatermark(this.stage));
 		this.createGeneralLayer(shapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));

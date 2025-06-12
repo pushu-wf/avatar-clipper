@@ -12,6 +12,7 @@ import { imageWheel } from "../event/handlers/image-wheel";
  */
 export class Draw {
 	private stage: Stage;
+	private layerManager: LayerManager;
 	private eventResponder: EventResponder;
 
 	constructor(private AvatarClipper: AvatarClipper) {
@@ -38,19 +39,20 @@ export class Draw {
 		this.eventResponder = new EventResponder(this);
 
 		// 创建图层控制器
-		new LayerManager(this);
+		this.layerManager = new LayerManager(this);
 
 		// 如果用户传递了 image src 属性，则默认初始化图片
 		const src = store.getState("image")?.src;
 		if (src) this.eventResponder.setImage(src);
 
 		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
-		this.stage.on("wheel", imageWheel);
+		this.stage.on("wheel", (e) => imageWheel(e, this));
 		this.stage.on("wheel", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
 	}
 
 	// getter
 	public getStage = () => this.stage;
+	public getLayerManager = () => this.layerManager;
 	public getAvatarClipper = () => this.AvatarClipper;
 	public getEventResponder = () => this.eventResponder;
 }
