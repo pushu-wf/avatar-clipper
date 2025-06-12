@@ -179,18 +179,18 @@ function rotateAroundCenter(node: Node, rotation: number) {
  * @param scale 缩放比例
  */
 function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
+	const oldScaleX = node.scaleX();
+	const oldScaleY = node.scaleY();
+
 	// 如果小于最小值
 	if (scaleX < imageScaleConfig.minScale || scaleY < imageScaleConfig.minScale) {
-		return;
+		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
 	}
 
 	// 如果大于最大值
 	if (scaleX > imageScaleConfig.maxScale || scaleY > imageScaleConfig.maxScale) {
-		return;
+		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
 	}
-
-	const oldScaleX = node.scaleX();
-	const oldScaleY = node.scaleY();
 
 	// 获取图像当前位置
 	const x = node.x();

@@ -152,7 +152,7 @@ export class EventResponder {
 		konvaImage.zIndex(1);
 
 		// 监听事件
-		konvaImage.on("dragmove", () => (this.patchImageUpdateEvent(), this.patchImageUpdateEvent()));
+		konvaImage.on("dragmove", () => (this.patchImageUpdateEvent(), this.patchPreviewEvent()));
 
 		// 设置 objectFit 模式(仅在初始化时做自适应即可，后续的缩放平移旋转操作，由用户自行处理)
 		this.applyObjectFit(konvaImage, objectFit);

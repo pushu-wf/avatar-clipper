@@ -89,7 +89,7 @@
 			<div class="operator">
 				<!-- 预览 -->
 				<div class="tabs">
-					<button class="tab-button tab-image active">Preview</button>
+					<button class="tab-button active">Preview</button>
 				</div>
 				<div class="preview-list">
 					<div class="preview-item-circle">
@@ -104,14 +104,14 @@
 					</div>
 				</div>
 				<!-- 属性设置 -->
-				<div class="tabs" style="margin-top: 10px">
-					<button class="tab-button tab-image active">Image</button>
-					<button class="tab-button tab">Crop</button>
-					<button class="tab-button tab">Watermark</button>
+				<div class="tabs clipper-tabs" style="margin-top: 10px">
+					<button data-btn-type="image" class="tab-button active">Image</button>
+					<button data-btn-type="crop" class="tab-button">Crop</button>
+					<button data-btn-type="watermark" class="tab-button">Watermark</button>
 				</div>
 
 				<!-- 属性设置面板 -->
-				<div class="setting-box">
+				<div class="setting-box tab-content">
 					<!-- 图片属性设置 -->
 					<div id="setting-for-image">
 						<div class="setting-item color-picker">
@@ -133,49 +133,49 @@
 					</div>
 
 					<!-- 水印属性设置 -->
-					<!-- <div id="setting-for-watermark">
-							<div class="setting-item color-picker">
-								<label id="watermark-text" for="watermark-text">Watermark Text</label>
-								<div class="color-input">
-									<input
-										autocomplete="off"
-										type="text"
-										name="watermark-text"
-										id="watermark-text"
-										value="Avatar Clipper" />
-								</div>
+					<div style="display: none;" id="setting-for-watermark">
+						<div class="setting-item color-picker">
+							<label id="watermark-text" for="watermark-text">Watermark Text</label>
+							<div class="color-input">
+								<input autocomplete="off" type="text" name="watermark-text" id="watermark-text"
+									value="Avatar Clipper" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="Watermark-color" for="Watermark-color">Watermark Color</label>
-								<div class="color-input">
-									<input type="color" name="Watermark-color" id="Watermark-color" />
-									<input
-										autocomplete="off"
-										type="text"
-										name="Watermark-color-input"
-										id="Watermark-color-input"
-										value="#000000" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-color" for="watermark-color">Watermark Color</label>
+							<div class="color-input">
+								<input type="color" name="watermark-color" id="watermark-color" />
+								<input autocomplete="off" type="text" name="watermark-color-input"
+									id="watermark-color-input" value="#000000" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="watermark-rotation" for="watermark-rotation">Watermark Angle</label>
-								<div class="color-input">
-									<input autocomplete="off" type="number" name="watermark-rotation" id="watermark-rotation" value="-45" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-rotation" for="watermark-rotation">Angle And FontSize</label>
+							<div class="color-input">
+								<span style="font-size: 12px;">Angle:</span>
+								<input autocomplete="off" type="number" name="watermark-rotation"
+									id="watermark-rotation" value="-45" />
+
+								<span style="font-size: 12px;">FontSize:</span>
+								<input autocomplete="off" type="number" name="watermark-font-size"
+									id="watermark-font-size" value="20" />
 							</div>
-							<div class="setting-item color-picker">
-								<label id="watermark-gap" for="watermark-gap">Watermark Gap</label>
-								<div class="color-input">
-									<span>GapX:</span>
-									<input autocomplete="off" type="number" name="watermark-gap-x" id="watermark-gap-x" value="20" />
-									<span>GapY:</span>
-									<input autocomplete="off" type="number" name="watermark-gap-y" id="watermark-gap-y" value="50" />
-								</div>
+						</div>
+						<div class="setting-item color-picker">
+							<label id="watermark-gap" for="watermark-gap">Watermark Gap</label>
+							<div class="color-input">
+								<span style="font-size: 12px;">GapX:</span>
+								<input autocomplete="off" type="number" name="watermark-gap-x" id="watermark-gap-x"
+									value="20" />
+								<span style="font-size: 12px;">GapY:</span>
+								<input autocomplete="off" type="number" name="watermark-gap-y" id="watermark-gap-y"
+									value="50" />
 							</div>
-						</div> -->
+						</div>
+					</div>
 
 					<!-- 裁剪框属性 -->
-					<!-- <div id="setting-for-crop">
+					<div style="display: none;" id="setting-for-crop">
 						<div class="setting-item color-picker">
 							<label id="crop-anchor-fill" for="crop-anchor-fill">Crop anchor fill</label>
 							<div class="color-input">
@@ -193,7 +193,7 @@
 							</div>
 						</div>
 						<div class="setting-item setting-item-flex">
-							<input type="checkbox" checked name="crop-fixed" id="crop-fixed" />
+							<input type="checkbox" name="crop-fixed" id="crop-fixed" />
 							<label id="crop-fixed" for="crop-fixed">Fixed aspect ratio</span>
 						</div>
 						<div class="setting-item setting-item-flex">
@@ -204,7 +204,7 @@
 							<input type="checkbox" checked name="crop-resize" id="crop-resize" />
 							<label id="crop-resize" for="crop-resize">Can resize crop frame</span>
 						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
