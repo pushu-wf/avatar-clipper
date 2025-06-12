@@ -4,6 +4,7 @@ import { AvatarClipper } from "./avatar-clipper";
 const clipper = new AvatarClipper({ container: "#avatar-clipper-container", image: { src: "https://picsum.photos/200/300" } });
 
 Reflect.set(window, "clipper", clipper);
+
 /**
  * 定义图片的基础属性,用于后期变换使用
  */
@@ -38,7 +39,6 @@ clipper.event.on("afterInit", (result) => {
 
 // 图片更新事件
 clipper.event.on("imageUpdate", (attrs) => {
-	console.log(attrs);
 	imageAttrs.scaleX = attrs.scaleX!;
 	imageAttrs.scaleY = attrs.scaleY!;
 	imageAttrs.rotation = attrs.rotation!;
@@ -94,5 +94,5 @@ function enlarge() {
 
 /** 旋转图片 **/
 function rotate() {
-	console.log(" ==> rotate");
+	clipper.command.updateImageAttrs({ rotation: imageAttrs.rotation + 45 });
 }

@@ -56,12 +56,16 @@ export class EventResponder {
 		const options = this.draw.getAvatarClipper().getOptions();
 		// 合并用户传入 options 与默认配置，并存储到 store 中
 		const stage = mergeOptions(defaultAvatarClipperConfig, options);
+
 		// 替换 store
 		store.replaceStage(stage);
 
 		const layerManager = this.draw.getLayerManager();
 		layerManager.clearLayers();
 		layerManager.initLayers();
+
+		// 清空后刷新
+		this.patchPreviewEvent();
 	}
 
 	/**

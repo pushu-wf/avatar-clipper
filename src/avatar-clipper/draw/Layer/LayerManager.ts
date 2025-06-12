@@ -28,10 +28,7 @@ export class LayerManager {
 
 	public clearLayers() {
 		if (!this.stage) return;
-		this.stage.getChildren().forEach((layer) => {
-			layer.destroy();
-		});
-
+		this.stage.removeChildren();
 		this.stage.batchDraw();
 	}
 
