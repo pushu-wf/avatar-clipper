@@ -5,7 +5,7 @@ import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
 import { AvatarClipperConfig } from "./interface";
 import { EventBusMap } from "./interface/EventMap";
-import { defaultAvatarClipperConfig } from "./config";
+import { getDefaultConfig } from "./config";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
 
@@ -22,7 +22,7 @@ class AvatarClipper {
 		this.getOptions = () => options;
 
 		// 合并用户传入 options 与默认配置，并存储到 store 中
-		const stage = mergeOptions(defaultAvatarClipperConfig, options);
+		const stage = mergeOptions(getDefaultConfig(), options);
 		// 替换 store
 		store.replaceStage(stage);
 

@@ -1,10 +1,10 @@
 import { AvatarClipperConfig } from "../interface";
-import { defaultAvatarClipperConfig } from "../config";
+import { getDefaultConfig } from "../config";
 
 class Store {
 	private state: AvatarClipperConfig;
 	constructor() {
-		this.state = { ...defaultAvatarClipperConfig };
+		this.state = { ...getDefaultConfig() };
 	}
 
 	// 设置state

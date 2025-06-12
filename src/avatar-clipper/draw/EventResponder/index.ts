@@ -3,7 +3,7 @@ import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
-import { defaultAvatarClipperConfig, shapeIDMapConfig } from "../../config";
+import { getDefaultConfig, shapeIDMapConfig } from "../../config";
 import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
@@ -56,8 +56,8 @@ export class EventResponder {
 		// 重新初始化容器
 		const options = this.draw.getAvatarClipper().getOptions();
 		// 合并用户传入 options 与默认配置，并存储到 store 中
-		const stage = mergeOptions(defaultAvatarClipperConfig, options);
-
+		const stage = mergeOptions(getDefaultConfig(), options);
+		console.log(" ==> ", stage);
 		// 替换 store
 		store.replaceStage(stage);
 
@@ -241,6 +241,7 @@ export class EventResponder {
 			return;
 		}
 		const { width, height, x, y, scaleX, scaleY, rotation, draggable } = payload;
+		const { zoom } = store.getState("image") || {};
 
 		if (!isEmpty(x)) konvaImage.x(x);
 		if (!isEmpty(y)) konvaImage.y(y);
@@ -248,7 +249,7 @@ export class EventResponder {
 		if (!isEmpty(height)) konvaImage.height(height);
 
 		// 缩放要基于图片中心缩放
-		if (!isEmpty(scaleX) || !isEmpty(scaleY)) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
+		if ((!isEmpty(scaleX) || !isEmpty(scaleY)) && zoom) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
 
 		if (!isEmpty(rotation)) rotateAroundCenter(konvaImage, rotation!);
 		if (!isEmpty(draggable)) konvaImage.draggable(draggable);
