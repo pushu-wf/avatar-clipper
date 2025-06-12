@@ -89,4 +89,5 @@ clipper.setImage(image);
 1. 欢迎大家 提 [issue](https://gitee.com/wfeng0/avatar-clipper/issues/new);
 2. 欢迎大家 提 [PR](https://gitee.com/wfeng0/avatar-clipper/pulls/new)，欢迎大家 fork 项目；
 3. 欢迎大家加入讨论群：
-   <img src='/public/qq-group.png'/>
+
+<img src='/public/qq-group.png'/>
