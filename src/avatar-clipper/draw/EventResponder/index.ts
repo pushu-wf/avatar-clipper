@@ -105,7 +105,7 @@ export class EventResponder {
 		imageElement.onload = this.handleImageAdaptive.bind(this, imageElement);
 
 		// image error
-		imageElement.onerror = () => AvatarClipper.event.dispatchEvent("imageError");
+		imageElement.onerror = (error) => AvatarClipper.event.dispatchEvent("imageError", error);
 	}
 
 	/**
@@ -232,6 +232,8 @@ export class EventResponder {
 
 		this.render();
 
+		// TODO : 触发image update 事件
+
 		// 触发 preview 事件
 		this.patchPreviewEvent();
 	}
@@ -322,7 +324,7 @@ export class EventResponder {
 
 					AvatarClipper.event.dispatchEvent("preview", base64);
 				}),
-			10
+			100
 		)();
 	}
 

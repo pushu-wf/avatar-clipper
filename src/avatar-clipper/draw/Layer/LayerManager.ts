@@ -78,6 +78,7 @@ export class LayerManager {
 		// 裁剪框蒙版
 		const rect = new Rect({
 			listening: false,
+			// 节流 throttle
 			sceneFunc: (ctx, shape) => drawCropmaskSceneFunc(ctx, shape, this.stage),
 		});
 
@@ -112,11 +113,14 @@ export class LayerManager {
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
 
+		// 初始化时确保宽度与高度一致（保持 1:1 宽高比）
+		const size = Math.min(width * 0.65, height * 0.65);
+
 		// 创建裁剪框
 		const crop = new Rect({
 			id: shapeIDMapConfig.cropRectID,
-			width: cropAttr?.width ?? width * 0.5,
-			height: cropAttr?.height ?? height * 0.5,
+			width: cropAttr?.width ?? size,
+			height: cropAttr?.height ?? size,
 			draggable: true,
 		});
 

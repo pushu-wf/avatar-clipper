@@ -35,7 +35,8 @@ class AvatarClipper {
 		this.command = new Command(new CommandAdapt(draw));
 
 		// 初始化完成
-		this.event.dispatchEvent("afterInit");
+		const currentResult = <string>draw.getEventResponder().getResult("string");
+		this.event.dispatchEvent("afterInit", currentResult);
 	}
 
 	/**
