@@ -3,9 +3,9 @@ import { Draw } from "./draw";
 import { store } from "./store";
 import { Command } from "./command/Command";
 import { EventBus } from "./event/EventBus";
+import { getDefaultConfig } from "./config";
 import { AvatarClipperConfig } from "./interface";
 import { EventBusMap } from "./interface/EventMap";
-import { getDefaultConfig } from "./config";
 import { CommandAdapt } from "./command/CommandAdapt";
 import { mergeOptions, parseContainer } from "./utils";
 
@@ -48,8 +48,6 @@ class AvatarClipper {
 	 */
 	private initEventSystem() {
 		this.event = new EventBus<EventBusMap>();
-		// emit beforeInit
-		// this.event.dispatchEvent("beforeInit");
 	}
 
 	/**

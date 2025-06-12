@@ -9,6 +9,7 @@ import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { imageScaleConfig, shapeIDMapConfig } from "../config";
+import { mergeOptions } from ".";
 
 /**
  * @description 计算文本宽度
@@ -170,8 +171,6 @@ function rotateAroundCenter(node: Node, rotation: number) {
 	node.rotation(rotation);
 	node.x(node.x() + dx);
 	node.y(node.y() + dy);
-
-	console.log(`Rotating to ${rotation}°, Position updated: (${node.x()}, ${node.y()})`);
 }
 
 /**
@@ -180,17 +179,22 @@ function rotateAroundCenter(node: Node, rotation: number) {
  * @param scale 缩放比例
  */
 function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
+	const imageAttrs = store.getState("image") || {};
+	if (!imageAttrs.zoom) return;
+
 	const oldScaleX = node.scaleX();
 	const oldScaleY = node.scaleY();
 
 	// 如果小于最小值
 	if (scaleX < imageScaleConfig.minScale || scaleY < imageScaleConfig.minScale) {
-		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
+		store.setState("image", mergeOptions(imageAttrs, { scaleX: oldScaleX, scaleY: oldScaleY }));
+		return;
 	}
 
 	// 如果大于最大值
 	if (scaleX > imageScaleConfig.maxScale || scaleY > imageScaleConfig.maxScale) {
-		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
+		store.setState("image", mergeOptions(imageAttrs, { scaleX: oldScaleX, scaleY: oldScaleY }));
+		return;
 	}
 
 	// 获取图像当前位置

@@ -17,12 +17,12 @@
 		"registry": "https://registry.npmjs.org/"
 	},
 	"repository": {
-		"type": "git",
-		"url": "https://gitee.com/wfeng0/avatar-clipper"
+		"type": "github",
+		"url": "https://github.com/pushu-wf/avatar-clipper"
 	},
-	"homepage": "https://gitee.com/wfeng0/avatar-clipper/blob/master/README.md",
+	"homepage": "https://pushu-wf.github.io/",
 	"bugs": {
-		"url": "https://gitee.com/wfeng0/avatar-clipper/issues/new",
+		"url": "https://github.com/pushu-wf/avatar-clipper/issues/new",
 		"email": "1982392655@qq.com"
 	},
 	"author": "1982392655@qq.com",

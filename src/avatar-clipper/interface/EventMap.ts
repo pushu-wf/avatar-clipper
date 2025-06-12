@@ -14,9 +14,6 @@ export type EventBusMap = {
 	// 图片更新事件 缩放 平移 旋转 （针对返回属性即可）
 	imageUpdate: (imageAttrs: ImageAttrs) => void;
 
-	// 裁剪框更新事件 缩放 平移 （针对返回属性即可）
-	// cropUpdate: (cropAttrs: AllowUpdateCropAttrs) => void;
-
 	// 预览
 	preview: (base64: string) => void;
 };

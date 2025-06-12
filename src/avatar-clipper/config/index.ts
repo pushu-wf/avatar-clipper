@@ -17,7 +17,7 @@ interface ShapeIDMapConfig {
 	cropTransformerID: string; // 形变控制器
 }
 
-// 默认的 Avatar Clipper config 配置项
+// 默认的 Avatar Clipper config 配置项(避免对象引用BUG)
 const getDefaultConfig: () => AvatarClipperConfig = () => ({
 	container: "", // 容器挂载元素
 	backgroundColor: "transparent", // 容器背景颜色 默认为透明

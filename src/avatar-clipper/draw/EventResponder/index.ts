@@ -3,19 +3,20 @@ import { store } from "../../store";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Rect } from "konva/lib/shapes/Rect";
-import { getDefaultConfig, shapeIDMapConfig } from "../../config";
-import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
+import { getDefaultConfig, shapeIDMapConfig } from "../../config";
+import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
-import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 import { base64ToBlob, generateWatermark, getCropInfo, handleCropPosition } from "../../utils/konva";
+import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 
 /**
  * 导出画布相应事件控制中心
  */
 export class EventResponder {
 	private stage: Stage;
+
 	constructor(private draw: Draw) {
 		this.stage = this.draw.getStage();
 	}
@@ -57,7 +58,7 @@ export class EventResponder {
 		const options = this.draw.getAvatarClipper().getOptions();
 		// 合并用户传入 options 与默认配置，并存储到 store 中
 		const stage = mergeOptions(getDefaultConfig(), options);
-		console.log(" ==> ", stage);
+
 		// 替换 store
 		store.replaceStage(stage);
 
@@ -67,14 +68,6 @@ export class EventResponder {
 
 		// 清空后刷新
 		this.patchPreviewEvent();
-	}
-
-	/**
-	 * @description 销毁容器
-	 */
-	public destroy() {
-		if (!this.stage) return;
-		this.stage.destroy();
 	}
 
 	/**
@@ -241,7 +234,6 @@ export class EventResponder {
 			return;
 		}
 		const { width, height, x, y, scaleX, scaleY, rotation, draggable } = payload;
-		const { zoom } = store.getState("image") || {};
 
 		if (!isEmpty(x)) konvaImage.x(x);
 		if (!isEmpty(y)) konvaImage.y(y);
@@ -249,7 +241,7 @@ export class EventResponder {
 		if (!isEmpty(height)) konvaImage.height(height);
 
 		// 缩放要基于图片中心缩放
-		if ((!isEmpty(scaleX) || !isEmpty(scaleY)) && zoom) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
+		if (!isEmpty(scaleX) || !isEmpty(scaleY)) scaleAroundCenter(konvaImage, scaleX!, scaleY!);
 
 		if (!isEmpty(rotation)) rotateAroundCenter(konvaImage, rotation!);
 		if (!isEmpty(draggable)) konvaImage.draggable(draggable);
@@ -360,6 +352,8 @@ export class EventResponder {
 
 		// 删除 transformer
 		const mainLayer = <Layer>stageClone.findOne(`#${shapeIDMapConfig.mainLayerID}`);
+		if (!mainLayer) return;
+
 		mainLayer.findOne("Transformer")?.remove();
 
 		const cropAttrs = getCropInfo(this.stage);

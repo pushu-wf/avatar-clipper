@@ -31,7 +31,7 @@ clipper.command.clearImage();
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/clear-image.gif'/>
 
 ## reset
 
@@ -47,7 +47,7 @@ clipper.command.reset();
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/reset.gif'/>
 
 ## destroy
 
@@ -63,7 +63,7 @@ clipper.command.destroy();
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/destroy.gif'/>
 
 ## getImageAttrs
 
@@ -83,7 +83,7 @@ clipper.command.getImageAttrs();
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/getImageAttrs.gif'/>
 
 ## getResult
 
@@ -118,7 +118,7 @@ string | Blob | HTMLCanvasElement;
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/getResult.gif'/>
 
 ## setBackgroundColor
 
@@ -140,7 +140,7 @@ color: string;
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/setBackgroundColor.gif'/>
 
 ## setImage
 
@@ -162,7 +162,7 @@ image: string | Blob;
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/setImage.gif'/>
 
 ## updateCropAttrs
 
@@ -182,7 +182,7 @@ clipper.command.updateCropAttrs(payload: AllowUpdateCropAttrs);
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/updateCropAttrs.gif'/>
 
 ## updateImageAttrs
 
@@ -202,7 +202,7 @@ clipper.command.updateImageAttrs(payload: AllowUpdateImageAttrs);
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/updateImageAttrs.gif'/>
 
 ## updateWatermarkAttrs
 
@@ -222,4 +222,4 @@ clipper.command.updateWatermarkAttrs(payload: AllowUpdateWatermarkAttrs);
 
 -   示例
 
-<img src='/public/logo.svg'/>
+<img src='/public/updateWatermark.gif'/>

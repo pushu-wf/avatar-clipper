@@ -4,6 +4,7 @@ import { CommandAdapt } from "./CommandAdapt";
 export class Command {
 	// ✅️ 清空图片
 	public clearImage: CommandAdapt["clearImage"];
+
 	// ✅️ 重置
 	public reset: CommandAdapt["reset"];
 
