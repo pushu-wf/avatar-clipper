@@ -8,7 +8,7 @@ import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
-import { isEmpty, rotateAroundCenter, scaleAroundCenter } from "../../utils/konva";
+import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 import { base64ToBlob, generateWatermark, getCropInfo, handleCropPosition } from "../../utils/konva";
 
 /**
@@ -280,33 +280,18 @@ export class EventResponder {
 			return;
 		}
 
+		const cropTransformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
+
 		// 不然解析属性进行更新
-		const { x, y, width, height, draggable, resize, fixed, fill, stroke } = payload;
+		const { x, y, width, height, draggable } = payload;
 
 		// 处理裁剪框位置关系
 		handleCropPosition(crop, x, y, width, height);
 
 		if (!isEmpty(draggable)) crop.draggable(draggable);
-		// 调整大小是 形变控制器的属性
-		if (!isEmpty(resize)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.resizeEnabled(resize);
-		}
-		// 固定缩放比例 也是形变控制器的属性
-		if (!isEmpty(fixed)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.keepRatio(fixed);
-		}
-		// 颜色也是形变控制器的属性
-		if (!isEmpty(fill)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.anchorFill(fill);
-		}
-		if (!isEmpty(stroke)) {
-			const transformer = cropLayer.findOne(`#${shapeIDMapConfig.cropTransformerID}`) as Transformer;
-			transformer.anchorStroke(stroke);
-			transformer.borderStroke(stroke);
-		}
+
+		// 处理形变控制器属性
+		updateCropTransformerAttrs(cropTransformer);
 
 		// 强制更新
 		this.render();
