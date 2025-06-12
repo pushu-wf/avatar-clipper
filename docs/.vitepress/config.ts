@@ -57,6 +57,13 @@ export default defineConfig({
 					// { text: "getResult", link: "/quick-start/command/getResult" },
 				],
 			},
+			{
+				text: "Other",
+				items: [
+					{ text: "其他说明", link: "/quick-start/other/" },
+					{ text: "更新日志", link: "/quick-start/other/changelog" },
+				],
+			},
 		],
 
 		socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
