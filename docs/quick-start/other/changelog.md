@@ -8,6 +8,7 @@
 -   优化代码结构，提高可维护性和可扩展性；
 -   优化 `destroy` 方法，兼容容器销毁后的异常处理；
 -   优化 `updateImageAttrs` 方法中针对图片缩放的异常处理；
+-   重构 `CommandAdapt` 模块，新增 `executeCommand` 对象方法调用；
 -   优化 `afterInit` 初始化完成后，一并触发 `preview` 事件，以实现首次初始化操作。
 
 ## 🎉 0.0.3

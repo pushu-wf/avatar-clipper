@@ -30,12 +30,28 @@ export class EventResponder {
 	}
 
 	/**
+	 * 获取主图层
+	 * @returns 主图层
+	 */
+	private getMainLayer(): Layer | null {
+		if (!this.stage) return null;
+
+		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
+		if (!mainLayer) {
+			console.error("AvatarClipper: 未找到主图层，请检查后重试！");
+			return null;
+		}
+
+		return mainLayer;
+	}
+
+	/**
 	 * @description 清空图片
 	 */
 	public clearImage() {
 		if (!this.stage) return;
 
-		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
+		const mainLayer = this.getMainLayer();
 		if (!mainLayer) return;
 
 		const image = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
@@ -78,8 +94,14 @@ export class EventResponder {
 		if (!this.stage || !color) return;
 
 		// 获取背景颜色 Rect
-		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
+		const mainLayer = this.getMainLayer();
+		if (!mainLayer) return;
+
 		const backgroundRect = mainLayer.findOne(`#${shapeIDMapConfig.backgroundRectID}`) as Rect;
+		if (!backgroundRect) {
+			console.error("AvatarClipper: 未找到背景矩形，请检查后重试！");
+			return;
+		}
 		backgroundRect.fill(color);
 
 		this.render();
@@ -94,7 +116,7 @@ export class EventResponder {
 	public async setImage(image: string | Blob) {
 		if (!this.stage || !image) return;
 
-		const mainLayer = <Layer>this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`);
+		const mainLayer = this.getMainLayer();
 		if (!mainLayer) return;
 
 		// 判断当前layer 下是否已经存在图片资源
@@ -127,7 +149,7 @@ export class EventResponder {
 	private handleImageAdaptive(imageElement: HTMLImageElement) {
 		if (!this.stage) return;
 
-		const mainLayer = <Layer>this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`);
+		const mainLayer = this.getMainLayer();
 		if (!mainLayer) return;
 
 		const { draggable = true, objectFit = "contain" } = store.getState("image") || {};
@@ -223,8 +245,7 @@ export class EventResponder {
 	public updateImageAttrs(payload: AllowUpdateImageAttrs) {
 		if (!this.stage) return;
 
-		// 获取主图层和图像节点
-		const mainLayer = this.stage.findOne(`#${shapeIDMapConfig.mainLayerID}`) as Layer;
+		const mainLayer = this.getMainLayer();
 		if (!mainLayer) return;
 
 		const konvaImage = mainLayer.findOne(`#${shapeIDMapConfig.imageID}`) as KonvaImage;
@@ -257,6 +278,7 @@ export class EventResponder {
 
 	/**
 	 * @description 更新裁剪框属性
+	 * @param payload
 	 */
 	public updateCropAttrs(payload: AllowUpdateCropAttrs) {
 		if (!this.stage) return;
@@ -301,6 +323,10 @@ export class EventResponder {
 		// 如果传入 rotation 则需要更新 watermarkLayer 的旋转角度
 		if (!isEmpty(rotation)) {
 			const watermarkLayer = this.stage.findOne(`#${shapeIDMapConfig.watermarkLayerID}`) as Layer;
+			if (!watermarkLayer) {
+				console.error("AvatarClipper: 未找到水印图层，请检查后重试！");
+				return;
+			}
 			watermarkLayer.rotation(rotation);
 		}
 
