@@ -4,6 +4,10 @@ next: false
 aside: false
 ---
 
+::: danger ⚠️ 注意
+示例中请求的是 `https://picsum.photos/200/300` 在线图片地址，可能存在跨域问题，若长时间无法加载图片，请自行上传或刷新重试！
+:::
+
 <online />
 
 ---
