@@ -73,17 +73,6 @@ imageElement.src = source;
 
 本实例在创建图片时，已增加跨域兼容，仅当请求的域具有允许共享请求的 Access-Control-Allow-Origin 标头时，此方法才有效。如果它不起作用，那么你必须以不同的方式配置你的服务器（它超出了 Konva 的范围），或者你可以尝试将图像存储在支持 CORS 请求的其他位置。
 
-可用以下的方法来解决跨域问题：
-
-```ts
-// 远程图片实现方案：
-const fetchURL = fetch(url, { method: "GET" });
-// 将获取到的图片数据转换成图片对象，进而转成 base64
-const image = await fetchURL.then((res) => res.blob());
-// 进而设置图片资源
-clipper.setImage(image);
-```
-
 ## 共创计划
 
 1. 欢迎大家 提 [issue](https://gitee.com/wfeng0/avatar-clipper/issues/new);
