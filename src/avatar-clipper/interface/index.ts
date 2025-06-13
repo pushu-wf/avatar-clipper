@@ -1,6 +1,9 @@
 // 导出AvatarClipper配置对象
 interface AvatarClipperConfig {
 	container: string | HTMLElement; // 容器挂载元素 [必传]
+
+	enableContextmenu?: boolean; // 是否启用右键菜单 [非必传] [默认 true]
+
 	width?: number; // 容器宽度 [非必传] [默认 100%]
 	height?: number; // 容器高度 [非必传] [默认 100%]
 	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]

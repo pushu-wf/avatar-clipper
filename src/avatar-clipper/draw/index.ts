@@ -6,6 +6,7 @@ import { parseContainer } from "../utils";
 import { EventResponder } from "./EventResponder";
 import { LayerManager } from "./Layer/LayerManager";
 import { imageWheel } from "../event/handlers/image-wheel";
+import { contextmenu } from "../event/handlers/contextmenu";
 
 /**
  * @description 绘制类 - 实现图层控制，绘制结果导出等
@@ -49,6 +50,9 @@ export class Draw {
 		// 给整个 stage 添加 wheel 事件，实现图片的缩放控制
 		this.stage.on("wheel", (e) => imageWheel(e, this));
 		this.stage.on("wheel", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
+
+		// stage 新增右键菜单
+		this.stage.on("contextmenu", (e) => contextmenu(e));
 	}
 
 	/**
