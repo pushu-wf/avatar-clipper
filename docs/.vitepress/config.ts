@@ -30,32 +30,11 @@ export default defineConfig({
 			},
 			{
 				text: "Event",
-				items: [
-					{ text: "事件中心", link: "/quick-start/eventbus/" },
-					// { text: "beforeInit", link: "/quick-start/eventbus/beforeInit" },
-					// { text: "afterInit", link: "/quick-start/eventbus/afterInit" },
-					// { text: "imageLoaded", link: "/quick-start/eventbus/imageLoaded" },
-					// { text: "imageError", link: "/quick-start/eventbus/imageError" },
-					// { text: "imageUpdate", link: "/quick-start/eventbus/imageUpdate" },
-					// { text: "cropUpdate", link: "/quick-start/eventbus/cropUpdate" },
-					// { text: "preview", link: "/quick-start/eventbus/preview" },
-				],
+				items: [{ text: "事件中心", link: "/quick-start/eventbus/" }],
 			},
 			{
 				text: "Command",
-				items: [
-					{ text: "命令中心", link: "/quick-start/command/" },
-					// { text: "clearImage", link: "/quick-start/command/clearImage" },
-					// { text: "reset", link: "/quick-start/command/reset" },
-					// { text: "destroy", link: "/quick-start/command/destroy" },
-					// { text: "setBackgroundColor", link: "/quick-start/command/setBackgroundColor" },
-					// { text: "setImage", link: "/quick-start/command/setImage" },
-					// { text: "updateImageAttrs", link: "/quick-start/command/updateImageAttrs" },
-					// { text: "getImageAttrs", link: "/quick-start/command/getImageAttrs" },
-					// { text: "updateCropAttrs", link: "/quick-start/command/updateCropAttrs" },
-					// { text: "updateWatermarkAttrs", link: "/quick-start/command/updateWatermarkAttrs" },
-					// { text: "getResult", link: "/quick-start/command/getResult" },
-				],
+				items: [{ text: "命令中心", link: "/quick-start/command/" }],
 			},
 			{
 				text: "Other",
@@ -66,6 +45,6 @@ export default defineConfig({
 			},
 		],
 
-		socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
+		socialLinks: [{ icon: "github", link: "https://github.com/pushu-wf/avatar-clipper" }],
 	},
 });

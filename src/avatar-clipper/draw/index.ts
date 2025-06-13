@@ -12,6 +12,7 @@ import { imageWheel } from "../event/handlers/image-wheel";
  */
 export class Draw {
 	private stage: Stage;
+	private isDestroy = false;
 	private layerManager: LayerManager;
 	private eventResponder: EventResponder;
 
@@ -50,8 +51,30 @@ export class Draw {
 		this.stage.on("wheel", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
 	}
 
+	/**
+	 * @description 销毁容器
+	 */
+	public destroy() {
+		if (!this.stage) return;
+
+		// 销毁 stage
+		this.stage.destroy();
+
+		this.isDestroy = true;
+
+		// 清空 root 容器
+		const avatarClipper = this.getAvatarClipper();
+		const { container } = avatarClipper.getOptions();
+		const root = parseContainer(container);
+		if (root) root.innerHTML = "";
+
+		// 触发空的 preview 结束事件
+		avatarClipper.event.dispatchEvent("preview", "");
+	}
+
 	// getter
 	public getStage = () => this.stage;
+	public getIsDestroy = () => this.isDestroy;
 	public getLayerManager = () => this.layerManager;
 	public getAvatarClipper = () => this.AvatarClipper;
 	public getEventResponder = () => this.eventResponder;

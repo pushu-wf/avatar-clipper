@@ -5,6 +5,8 @@ import { Box } from "konva/lib/shapes/Transformer";
  * 限制形变控制器只能在容器内
  */
 export function limitShapeController(oldBox: Box, newBox: Box, stage: Stage) {
+	if (!stage) return oldBox;
+
 	// 获取 stage 的宽高
 	const { width, height } = stage.getSize();
 
