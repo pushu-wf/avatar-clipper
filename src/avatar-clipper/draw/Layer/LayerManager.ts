@@ -39,6 +39,15 @@ export class LayerManager {
 		this.createGeneralLayer(shapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));
 	}
 
+	/** 获取当前舞台的尺寸 */
+	private getStageSize() {
+		if (!this.stage) {
+			console.error("AvatarClipper: 舞台未初始化，请检查后重试！");
+			return null;
+		}
+		return this.stage.getSize();
+	}
+
 	/** 创建通用图层 */
 	private createGeneralLayer(layerId: string, createContent: Function) {
 		if (!this.stage) return;
@@ -47,7 +56,10 @@ export class LayerManager {
 		const layer = new Layer({ id: layerId, name: layerId });
 
 		// 获取 stage 的宽高
-		const { width, height } = this.stage.getSize();
+		const size = this.getStageSize();
+		if (!size) return;
+
+		const { width, height } = size;
 
 		// 设置水印图层的偏移量
 		if (layerId === "watermarkLayer") {
@@ -84,7 +96,6 @@ export class LayerManager {
 		// 裁剪框蒙版
 		const rect = new Rect({
 			listening: false,
-			// 节流 throttle
 			sceneFunc: (ctx, shape) => drawCropmaskSceneFunc(ctx, shape, this.stage),
 		});
 
@@ -99,7 +110,10 @@ export class LayerManager {
 		if (!this.stage) return;
 
 		// 获取 stage 的宽高
-		const { width, height } = this.stage.size();
+		const size = this.getStageSize();
+		if (!size) return;
+
+		const { width, height } = size;
 
 		// 创建裁剪框
 		const crop = this.createCropRect(width, height);
@@ -114,7 +128,7 @@ export class LayerManager {
 		this.stage.add(layer);
 	}
 
-	/** 创建裁剪框 */
+	/** 创建裁剪框矩形 */
 	private createCropRect(width: number, height: number): Rect {
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
@@ -134,6 +148,10 @@ export class LayerManager {
 		const x = cropAttr?.x ?? (width - crop.width()) / 2;
 		const y = cropAttr?.y ?? (height - crop.height()) / 2;
 		crop.position({ x, y });
+
+		// 实现 hover cursor move 效果
+		crop.on("mouseenter", () => (this.stage.container().style.cursor = "move"));
+		crop.on("mouseleave", () => (this.stage.container().style.cursor = "default"));
 
 		// 监听事件
 		crop.on("dragmove transform", cropUpdate);

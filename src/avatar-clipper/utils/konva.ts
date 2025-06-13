@@ -1,5 +1,6 @@
 import Konva from "konva";
 import { store } from "../store";
+import { mergeOptions } from ".";
 import { Node } from "konva/lib/Node";
 import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
@@ -90,21 +91,21 @@ function generateWatermark(stage: Stage) {
 
 	// 如果不想显示水印，则直接返回
 	// text | fontSize | density | rotate
-	const wortermarkAttr = store.getState("watermark");
-	if (wortermarkAttr?.text === "" || !wortermarkAttr?.text) return;
+	const watermarkAttrs = store.getState("watermark");
+	if (isEmpty(watermarkAttrs?.text)) return;
 
 	const { width, height } = stage.getSize();
 
 	// 创建水印 - 循环创建，并将 layer 进行旋转即可
 	const simpleText = new Text({
-		text: wortermarkAttr?.text ?? "Simple Text",
-		fontSize: wortermarkAttr?.fontSize ?? 20,
+		text: watermarkAttrs?.text ?? "Simple Text",
+		fontSize: watermarkAttrs?.fontSize ?? 20,
 		fontFamily: "Calibri",
-		fill: wortermarkAttr?.color ?? "rgba(0,0,0,.35)",
+		fill: watermarkAttrs?.color ?? "rgba(0,0,0,.35)",
 	});
 
 	// 定义间隔
-	const [gapX, gapY] = wortermarkAttr?.gap ?? [10, 10];
+	const [gapX, gapY] = watermarkAttrs?.gap ?? [20, 50];
 
 	// 循环创建水印
 	for (let i = -width * 2; i < width * 4; i += simpleText.width() + gapX) {
@@ -170,8 +171,6 @@ function rotateAroundCenter(node: Node, rotation: number) {
 	node.rotation(rotation);
 	node.x(node.x() + dx);
 	node.y(node.y() + dy);
-
-	console.log(`Rotating to ${rotation}°, Position updated: (${node.x()}, ${node.y()})`);
 }
 
 /**
@@ -180,17 +179,22 @@ function rotateAroundCenter(node: Node, rotation: number) {
  * @param scale 缩放比例
  */
 function scaleAroundCenter(node: Node, scaleX: number, scaleY: number) {
+	const imageAttrs = store.getState("image") || {};
+	if (!imageAttrs.zoom) return;
+
 	const oldScaleX = node.scaleX();
 	const oldScaleY = node.scaleY();
 
 	// 如果小于最小值
 	if (scaleX < imageScaleConfig.minScale || scaleY < imageScaleConfig.minScale) {
-		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
+		store.setState("image", mergeOptions(imageAttrs, { scaleX: oldScaleX, scaleY: oldScaleY }));
+		return;
 	}
 
 	// 如果大于最大值
 	if (scaleX > imageScaleConfig.maxScale || scaleY > imageScaleConfig.maxScale) {
-		return store.setState("image", { scaleX: oldScaleX, scaleY: oldScaleY });
+		store.setState("image", mergeOptions(imageAttrs, { scaleX: oldScaleX, scaleY: oldScaleY }));
+		return;
 	}
 
 	// 获取图像当前位置
@@ -298,13 +302,13 @@ function isEmpty(payload: unknown) {
 }
 
 export {
-	drawCropmaskSceneFunc,
-	generateWatermark,
-	getCropInfo,
-	rotateAroundCenter,
 	isEmpty,
+	getCropInfo,
 	base64ToBlob,
 	scaleAroundCenter,
+	generateWatermark,
+	rotateAroundCenter,
 	handleCropPosition,
+	drawCropmaskSceneFunc,
 	updateCropTransformerAttrs,
 };

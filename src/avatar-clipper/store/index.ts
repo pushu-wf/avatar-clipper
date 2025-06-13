@@ -1,8 +1,9 @@
-import { AvatarClipperConfig } from "../interface";
 import { getDefaultConfig } from "../config";
+import { AvatarClipperConfig } from "../interface";
 
 class Store {
 	private state: AvatarClipperConfig;
+
 	constructor() {
 		this.state = { ...getDefaultConfig() };
 	}
