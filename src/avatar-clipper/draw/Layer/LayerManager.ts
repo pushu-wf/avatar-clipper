@@ -128,7 +128,7 @@ export class LayerManager {
 		this.stage.add(layer);
 	}
 
-	/** 创建裁剪框 */
+	/** 创建裁剪框矩形 */
 	private createCropRect(width: number, height: number): Rect {
 		// 获取裁剪框属性
 		const cropAttr = store.getState("crop");
@@ -148,6 +148,10 @@ export class LayerManager {
 		const x = cropAttr?.x ?? (width - crop.width()) / 2;
 		const y = cropAttr?.y ?? (height - crop.height()) / 2;
 		crop.position({ x, y });
+
+		// 实现 hover cursor move 效果
+		crop.on("mouseenter", () => (this.stage.container().style.cursor = "move"));
+		crop.on("mouseleave", () => (this.stage.container().style.cursor = "default"));
 
 		// 监听事件
 		crop.on("dragmove transform", cropUpdate);

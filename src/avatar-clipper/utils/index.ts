@@ -17,6 +17,7 @@ function throttle<T extends (...args: unknown[]) => void>(fn: T, delay: number):
 
 /**
  * @description 解析 container
+ * @param container - 容器元素
  */
 function parseContainer(container: string | HTMLElement) {
 	if (typeof container === "string") {
@@ -31,9 +32,8 @@ function parseContainer(container: string | HTMLElement) {
 }
 
 /**
- * Function to be executed in the next tick
+ * @description Function to be executed in the next tick，This function uses Promise.then to utilize microtask queue.
  * @param fn - Function to be executed
- * @description This function uses Promise.then to utilize microtask queue.
  */
 function nextTick(fn?: Function) {
 	return Promise.resolve().then(() => {

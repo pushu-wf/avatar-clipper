@@ -13,18 +13,15 @@ import { mergeOptions, parseContainer } from "./utils";
  * @description 图片裁剪器
  */
 class AvatarClipper {
-	command: Command;
+	command!: Command;
 	event!: EventBus<EventBusMap>;
 	getOptions: () => AvatarClipperConfig;
 
 	constructor(options: AvatarClipperConfig) {
-		// 用户传入配置对象需要保存，以便 reset 重置使用
 		this.getOptions = () => options;
 
-		// 合并用户传入 options 与默认配置，并存储到 store 中
-		const stage = mergeOptions(getDefaultConfig(), options);
-		// 替换 store
-		store.replaceStage(stage);
+		// 初始化配置
+		this.initConfiguration(options);
 
 		// 初始化事件系统
 		this.initEventSystem();
@@ -32,16 +29,22 @@ class AvatarClipper {
 		// 初始化 DOM 容器
 		this.initDomContainer();
 
-		// 初始化绘制类
-		const draw = new Draw(this);
+		// 初始化绘制类和命令
+		const draw = this.initDrawAndCommand();
 
-		// 初始化命令
-		this.command = new Command(new CommandAdapt(draw));
+		// 触发初始化完成事件
+		this.dispatchInitializationEvents(draw);
+	}
 
-		// 初始化完成
-		const currentResult = <string>draw.getEventResponder().getResult("string");
-		this.event.dispatchEvent("afterInit", currentResult);
-		this.event.dispatchEvent("preview", currentResult);
+	/**
+	 * 初始化配置
+	 * @param options 用户传入的配置对象
+	 */
+	private initConfiguration(options: AvatarClipperConfig) {
+		// 合并用户传入 options 与默认配置，并存储到 store 中
+		const stage = mergeOptions(getDefaultConfig(), options);
+		// 替换 store
+		store.replaceStage(stage);
 	}
 
 	/**
@@ -59,7 +62,7 @@ class AvatarClipper {
 		const container = parseContainer(optionsContainer);
 
 		if (!container) {
-			throw new Error("container is not exist");
+			throw new Error("AvatarClipper: 容器未找到，请检查传入的容器选择器或元素是否正确。");
 		}
 
 		// 添加基础样式类
@@ -88,6 +91,28 @@ class AvatarClipper {
 		if (height) konvaContainer.style.height = `${height}px`;
 
 		return konvaContainer;
+	}
+
+	/**
+	 * 初始化绘制类和命令
+	 */
+	private initDrawAndCommand() {
+		// 初始化绘制类
+		const draw = new Draw(this);
+
+		// 初始化命令
+		this.command = new Command(new CommandAdapt(draw));
+
+		return draw;
+	}
+
+	/**
+	 * 触发初始化完成事件
+	 */
+	private dispatchInitializationEvents(draw: Draw) {
+		const currentResult = <string>draw.getEventResponder().getResult("string");
+		this.event.dispatchEvent("afterInit", currentResult);
+		this.event.dispatchEvent("preview", currentResult);
 	}
 }
 
