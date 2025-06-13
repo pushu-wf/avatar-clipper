@@ -26,7 +26,7 @@ features:
       icon: 🚀
       details: 核心架构采用 Command 和 EventBus 模块，提供简洁 API 操作和灵活的事件回调机制
 
-    - title: 移动端兼容性
-      icon: 📱
-      details: 兼容移动端，支持移动端手势操作
+    - title: 轻量级
+      icon: 🎈
+      details: 在保持功能完整的同时更加轻量化，不绑定任何 UI 组件，核心库打包结果仅 200 多kb，仅通过 API 实现核心裁剪功能
 ---
