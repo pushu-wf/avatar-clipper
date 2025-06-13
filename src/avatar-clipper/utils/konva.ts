@@ -6,7 +6,6 @@ import { Stage } from "konva/lib/Stage";
 import { Layer } from "konva/lib/Layer";
 import { Shape } from "konva/lib/Shape";
 import { Context } from "konva/lib/Context";
-import { Text } from "konva/lib/shapes/Text";
 import { Rect } from "konva/lib/shapes/Rect";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { imageScaleConfig, shapeIDMapConfig } from "../config";
@@ -77,17 +76,13 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 }
 
 /**
- * @description 生成水印
- * @param { Stage } stage
+ * @description 绘制水印
  */
-function generateWatermark(stage: Stage) {
+function drawWatermarkSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 	if (!stage) return;
 
 	const watermarkLayer = <Layer>stage.findOne(`#${shapeIDMapConfig.watermarkLayerID}`);
 	if (!watermarkLayer) return;
-
-	// 每次生成水印之前，先清空
-	watermarkLayer.removeChildren();
 
 	// 如果不想显示水印，则直接返回
 	// text | fontSize | density | rotate
@@ -96,29 +91,29 @@ function generateWatermark(stage: Stage) {
 
 	const { width, height } = stage.getSize();
 
-	// 创建水印 - 循环创建，并将 layer 进行旋转即可
-	const simpleText = new Text({
-		text: watermarkAttrs?.text ?? "Simple Text",
-		fontSize: watermarkAttrs?.fontSize ?? 20,
-		fontFamily: "Calibri",
-		fill: watermarkAttrs?.color ?? "rgba(0,0,0,.35)",
-	});
+	// 定义基础属性
+	const text = watermarkAttrs?.text ?? "Avatar Clipper";
+	ctx.font = `${watermarkAttrs?.fontSize ?? 20}px Calibri`;
+	ctx.fillStyle = watermarkAttrs?.color ?? "rgba(0, 0, 0, 0.35)";
+	// ctx.fillText(text, 100, 100);
+	const textWidth = getTextWidth(ctx._context, text);
+	const textHeight = getTextHeight(ctx._context, text);
 
 	// 定义间隔
 	const [gapX, gapY] = watermarkAttrs?.gap ?? [20, 50];
 
 	// 循环创建水印
-	for (let i = -width * 2; i < width * 4; i += simpleText.width() + gapX) {
-		for (let j = -height * 2; j < height * 4; j += simpleText.height() + gapY) {
+	for (let i = -width * 2; i < width * 4; i += textWidth + gapX) {
+		for (let j = -height * 2; j < height * 4; j += textHeight + gapY) {
 			// 判断当前是否为偶数行
-			const row = Math.floor(j / (simpleText.height() + gapY));
+			const row = Math.floor(j / (textHeight + gapY));
 			const isEvenRow = row % 2 === 0;
-			const text = simpleText.clone();
-			text.x(i + (isEvenRow ? simpleText.width() / 2 : 0));
-			text.y(j);
-			watermarkLayer.add(text);
+			ctx.fillText(text, i + (isEvenRow ? textWidth / 2 : 0), j);
 		}
 	}
+
+	// 获取裁剪框的属性
+	ctx.fillStrokeShape(shape);
 }
 
 /**
@@ -306,9 +301,9 @@ export {
 	getCropInfo,
 	base64ToBlob,
 	scaleAroundCenter,
-	generateWatermark,
 	rotateAroundCenter,
 	handleCropPosition,
 	drawCropmaskSceneFunc,
+	drawWatermarkSceneFunc,
 	updateCropTransformerAttrs,
 };

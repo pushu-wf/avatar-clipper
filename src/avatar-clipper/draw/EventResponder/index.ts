@@ -8,7 +8,7 @@ import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { getDefaultConfig, shapeIDMapConfig } from "../../config";
 import { mergeOptions, parseImageSource, throttle } from "../../utils";
 import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
-import { base64ToBlob, generateWatermark, getCropInfo, handleCropPosition } from "../../utils/konva";
+import { base64ToBlob, getCropInfo, handleCropPosition } from "../../utils/konva";
 import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 
 /**
@@ -316,9 +316,6 @@ export class EventResponder {
 	 */
 	public updateWatermark(rotation?: number) {
 		if (!this.stage) return;
-
-		// 重新生成水印
-		generateWatermark(this.stage);
 
 		// 如果传入 rotation 则需要更新 watermarkLayer 的旋转角度
 		if (!isEmpty(rotation)) {
