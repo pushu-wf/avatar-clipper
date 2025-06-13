@@ -26,28 +26,28 @@ avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，主�
 
 ## Event 事件中心
 
-| 事件名                      |       说明       |                 返回值 |
-| --------------------------- | :--------------: | ---------------------: |
-| [afterInit](#afterinit)     |  容器初始化完成  | 初始化完成时的裁剪结果 |
-| [imageLoaded](#imageloaded) | 设置图片加载完成 |               图片属性 |
-| [imageError](#imageerror)   | 图片设置失败回调 |               失败原因 |
-| [imageUpdate](#imageupdate) |   图片更新回调   |               图片属性 |
-| [preview](#preview)         |     实时预览     |       预览结果(string) |
+| 事件名                                                                      |       说明       |                 返回值 |
+| --------------------------------------------------------------------------- | :--------------: | ---------------------: |
+| [afterInit](https://pushu-wf.github.io/quick-start/eventbus/#afterinit)     |  容器初始化完成  | 初始化完成时的裁剪结果 |
+| [imageLoaded](https://pushu-wf.github.io/quick-start/eventbus/#imageloaded) | 设置图片加载完成 |               图片属性 |
+| [imageError](https://pushu-wf.github.io/quick-start/eventbus/#imageerror)   | 图片设置失败回调 |               失败原因 |
+| [imageUpdate](https://pushu-wf.github.io/quick-start/eventbus/#imageupdate) |   图片更新回调   |               图片属性 |
+| [preview](https://pushu-wf.github.io/quick-start/eventbus/#preview)         |     实时预览     |       预览结果(string) |
 
 ## Command 命令中心
 
-| 命令                                          |      说明      |                                           返回值 |
-| --------------------------------------------- | :------------: | -----------------------------------------------: |
-| [clearImage](#clearimage)                     |    清空图片    |                                               无 |
-| [reset](#reset)                               |    重置组件    |                                               无 |
-| [destroy](#destroy)                           |    销毁组件    |                                               无 |
-| [getImageAttrs](#getimageattrs)               |  获取图片属性  | [ImageAttrs](/quick-start/interface/#imageattrs) |
-| [getResult](#getresult)                       |  获取截图结果  |              string \| Blob \| HTMLCanvasElement |
-| [setBackgroundColor](#setbackgroundcolor)     |  设置背景颜色  |                                               无 |
-| [setImage](#setimage)                         |    设置图片    |                                               无 |
-| [updateCropAttrs](#updatecropattrs)           | 更新裁剪框属性 |                                               无 |
-| [updateImageAttrs](#updateimageattrs)         |  更新图片属性  |                                               无 |
-| [updateWatermarkAttrs](#updatewatermarkattrs) |  更新水印属性  |                                               无 |
+| 命令                                                                                         |      说明      |                                                                     返回值 |
+| -------------------------------------------------------------------------------------------- | :------------: | -------------------------------------------------------------------------: |
+| [clearImage](https://pushu-wf.github.io/quick-start/command/#clearimage)                     |    清空图片    |                                                                         无 |
+| [reset](https://pushu-wf.github.io/quick-start/command/#reset)                               |    重置组件    |                                                                         无 |
+| [destroy](https://pushu-wf.github.io/quick-start/command/#destroy)                           |    销毁组件    |                                                                         无 |
+| [getImageAttrs](https://pushu-wf.github.io/quick-start/command/#getimageattrs)               |  获取图片属性  | [ImageAttrs](https://pushu-wf.github.io/quick-start/interface/#imageattrs) |
+| [getResult](https://pushu-wf.github.io/quick-start/command/#getresult)                       |  获取截图结果  |                                        string \| Blob \| HTMLCanvasElement |
+| [setBackgroundColor](https://pushu-wf.github.io/quick-start/command/#setbackgroundcolor)     |  设置背景颜色  |                                                                         无 |
+| [setImage](https://pushu-wf.github.io/quick-start/command/#setimage)                         |    设置图片    |                                                                         无 |
+| [updateCropAttrs](https://pushu-wf.github.io/quick-start/command/#updatecropattrs)           | 更新裁剪框属性 |                                                                         无 |
+| [updateImageAttrs](https://pushu-wf.github.io/quick-start/command/#updateimageattrs)         |  更新图片属性  |                                                                         无 |
+| [updateWatermarkAttrs](https://pushu-wf.github.io/quick-start/command/#updatewatermarkattrs) |  更新水印属性  |                                                                         无 |
 
 ## 背景图片操作指引
 
