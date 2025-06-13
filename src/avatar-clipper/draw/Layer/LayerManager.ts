@@ -8,7 +8,7 @@ import { EventResponder } from "../EventResponder";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { cropUpdate } from "../../event/handlers/crop-update";
 import { limitShapeController } from "../../event/handlers/crop-bound-box";
-import { drawCropmaskSceneFunc, generateWatermark } from "../../utils/konva";
+import { drawCropmaskSceneFunc, drawWatermarkSceneFunc } from "../../utils/konva";
 
 /**
  * @description 图层管理器
@@ -35,7 +35,7 @@ export class LayerManager {
 	/** 初始化所有图层 */
 	public initLayers() {
 		this.createGeneralLayer(shapeIDMapConfig.mainLayerID, this.createMainContent);
-		this.createGeneralLayer(shapeIDMapConfig.watermarkLayerID, () => generateWatermark(this.stage));
+		this.createGeneralLayer(shapeIDMapConfig.watermarkLayerID, this.createWatermarkContent.bind(this));
 		this.createGeneralLayer(shapeIDMapConfig.cropLayerID, this.createCropContent.bind(this));
 	}
 
@@ -89,6 +89,18 @@ export class LayerManager {
 		});
 
 		layer.add(background);
+	}
+
+	/** 创建水印图层 */
+	private createWatermarkContent(layer: Layer) {
+		// 创建水印
+		const watermark = new Rect({
+			listening: false,
+			sceneFunc: (ctx, shape) => drawWatermarkSceneFunc(ctx, shape, this.stage),
+		});
+
+		// 添加水印到图层
+		layer.add(watermark);
 	}
 
 	/** 初始化裁剪框图层 */
