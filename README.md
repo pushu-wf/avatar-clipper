@@ -4,79 +4,81 @@
 
 ---
 
-# Avatar-Clipper 轻量级头像裁剪工具
+[简体中文](./README-zh.md) | English
 
-avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，主打 TypeScript 支持和移动端兼容性。其核心架构采用 Command 和 EventBus 模块，提供简洁 API 操作和灵活的事件回调机制。工具支持图片加载、裁剪框交互、水印添加、暗部效果等特色功能，并能导出多种格式的裁剪结果。相比现有方案，avatar-clipper 在保持功能完整的同时更加轻量化，不绑定任何 UI 组件，仅通过 API 实现核心裁剪功能，适用于社交媒体、电商等多场景需求。
+# Avatar-Clipper Lightweight avatar cropping tool
+
+Avatar clipper is a lightweight avatar cropping tool developed based on Konva, supporting TypeScript. Its core architecture adopts Command and EventBus modules, providing concise API operations and flexible event callback mechanisms. The tool supports special features such as image loading, cropping box interaction, watermark addition, and dark part effects, and can export cropping results in multiple formats. Compared to existing solutions, Avatar Clipper is more lightweight while maintaining complete functionality, without binding any UI components. The core library packaging results are only over 200 kb, and the core clipping function is only implemented through APIs, making it suitable for various scenarios such as social media and e-commerce.
 
 ---
 
-**效果展示**
+**Results show**
 
 <p align="center">
     <img src="/public/result.gif"/>
 </p>
 
-## 在线体验
+## Experience
 
-[📖 官方文档](https://pushu-wf.github.io/)
+[📖 Official documents](https://pushu-wf.github.io/)
 
-[🎉 官网体验地址](https://pushu-wf.github.io/quick-start/online/)
+[🎉 Official website experience address](https://pushu-wf.github.io/quick-start/online/)
 
-[🔗 备用地址: stackblitz](https://stackblitz.com/~/github.com/pushu-wf/avatar-clipper)
+[🔗 Alternate address: stackblitz](https://stackblitz.com/~/github.com/pushu-wf/avatar-clipper)
 
-## Event 事件中心
+## Event
 
-| 事件名                                                                      |       说明       |                 返回值 |
-| --------------------------------------------------------------------------- | :--------------: | ---------------------: |
-| [afterInit](https://pushu-wf.github.io/quick-start/eventbus/#afterinit)     |  容器初始化完成  | 初始化完成时的裁剪结果 |
-| [imageLoaded](https://pushu-wf.github.io/quick-start/eventbus/#imageloaded) | 设置图片加载完成 |               图片属性 |
-| [imageError](https://pushu-wf.github.io/quick-start/eventbus/#imageerror)   | 图片设置失败回调 |               失败原因 |
-| [imageUpdate](https://pushu-wf.github.io/quick-start/eventbus/#imageupdate) |   图片更新回调   |               图片属性 |
-| [preview](https://pushu-wf.github.io/quick-start/eventbus/#preview)         |     实时预览     |       预览结果(string) |
+| Event Name                                                                  |            Description             |                                    Returns |
+| --------------------------------------------------------------------------- | :--------------------------------: | -----------------------------------------: |
+| [afterInit](https://pushu-wf.github.io/quick-start/eventbus/#afterinit)     | Container initialization completed | Crop result upon initialization completion |
+| [imageLoaded](https://pushu-wf.github.io/quick-start/eventbus/#imageloaded) |    Set image loading completed     |                           Image Properties |
+| [imageError](https://pushu-wf.github.io/quick-start/eventbus/#imageerror)   |   Image setting failed callback    |                             failure reason |
+| [imageUpdate](https://pushu-wf.github.io/quick-start/eventbus/#imageupdate) |       Image update callback        |                           Image Properties |
+| [preview](https://pushu-wf.github.io/quick-start/eventbus/#preview)         |            Live Preview            |                    Preview Results(string) |
 
-## Command 命令中心
+## Command
 
-| 命令                                                                                         |      说明      |                                                                     返回值 |
-| -------------------------------------------------------------------------------------------- | :------------: | -------------------------------------------------------------------------: |
-| [clearImage](https://pushu-wf.github.io/quick-start/command/#clearimage)                     |    清空图片    |                                                                         无 |
-| [reset](https://pushu-wf.github.io/quick-start/command/#reset)                               |    重置组件    |                                                                         无 |
-| [destroy](https://pushu-wf.github.io/quick-start/command/#destroy)                           |    销毁组件    |                                                                         无 |
-| [getImageAttrs](https://pushu-wf.github.io/quick-start/command/#getimageattrs)               |  获取图片属性  | [ImageAttrs](https://pushu-wf.github.io/quick-start/interface/#imageattrs) |
-| [getResult](https://pushu-wf.github.io/quick-start/command/#getresult)                       |  获取截图结果  |                                        string \| Blob \| HTMLCanvasElement |
-| [setBackgroundColor](https://pushu-wf.github.io/quick-start/command/#setbackgroundcolor)     |  设置背景颜色  |                                                                         无 |
-| [setImage](https://pushu-wf.github.io/quick-start/command/#setimage)                         |    设置图片    |                                                                         无 |
-| [updateCropAttrs](https://pushu-wf.github.io/quick-start/command/#updatecropattrs)           | 更新裁剪框属性 |                                                                         无 |
-| [updateImageAttrs](https://pushu-wf.github.io/quick-start/command/#updateimageattrs)         |  更新图片属性  |                                                                         无 |
-| [updateWatermarkAttrs](https://pushu-wf.github.io/quick-start/command/#updatewatermarkattrs) |  更新水印属性  |                                                                         无 |
+| Command                                                                                      |         Description         |                                                                    Returns |
+| -------------------------------------------------------------------------------------------- | :-------------------------: | -------------------------------------------------------------------------: |
+| [clearImage](https://pushu-wf.github.io/quick-start/command/#clearimage)                     |         Clear image         |                                                                         无 |
+| [reset](https://pushu-wf.github.io/quick-start/command/#reset)                               |      Reset components       |                                                                         无 |
+| [destroy](https://pushu-wf.github.io/quick-start/command/#destroy)                           |  Destruction of components  |                                                                         无 |
+| [getImageAttrs](https://pushu-wf.github.io/quick-start/command/#getimageattrs)               |  Retrieve image attributes  | [ImageAttrs](https://pushu-wf.github.io/quick-start/interface/#imageattrs) |
+| [getResult](https://pushu-wf.github.io/quick-start/command/#getresult)                       |  Obtain screenshot results  |                                        string \| Blob \| HTMLCanvasElement |
+| [setBackgroundColor](https://pushu-wf.github.io/quick-start/command/#setbackgroundcolor)     |    Set background color     |                                                                         无 |
+| [setImage](https://pushu-wf.github.io/quick-start/command/#setimage)                         |         Set Picture         |                                                                         无 |
+| [updateCropAttrs](https://pushu-wf.github.io/quick-start/command/#updatecropattrs)           | Update Crop Box Properties  |                                                                         无 |
+| [updateImageAttrs](https://pushu-wf.github.io/quick-start/command/#updateimageattrs)         |   Update image properties   |                                                                         无 |
+| [updateWatermarkAttrs](https://pushu-wf.github.io/quick-start/command/#updatewatermarkattrs) | Update watermark properties |                                                                         无 |
 
-## 背景图片操作指引
+## Guidelines for operating background images
 
-1. 平移 `滚轮 (上下移动)` `滚轮 + Shift (左右移动)`
-2. 缩放 `滚轮 + Ctrl (放大缩小)`
-3. 拖动 `拖动 (上下左右)`
+1. Translation `Roller (Move up and down)` `Roller + Shift (Move left and right)`
+2. Scale `Roller + Ctrl (Zoom in and out)`
+3. Drag `Drag (Up, down, left, right)`
 
-## 跨域图片请求须知
+## Notice on Cross Domain Image Request
 
 ```ts
-// Konva Image 图片创建跨域处理
+// Konva Image Cross domain processing for image creation
 const imageElement = new Image();
 
-// 解析 source 资源
+// Parse Image Source
 const source = await parseImageSource(image);
 
-// 增加跨域处理 crossOrigin = Anonymous
+// Add cross domain processing crossOrigin = Anonymous
 imageElement.crossOrigin = "Anonymous";
 
-// 设置图片源
+// set image source
 imageElement.src = source;
 ```
 
-本实例在创建图片时，已增加跨域兼容，仅当请求的域具有允许共享请求的 Access-Control-Allow-Origin 标头时，此方法才有效。如果它不起作用，那么你必须以不同的方式配置你的服务器（它超出了 Konva 的范围），或者你可以尝试将图像存储在支持 CORS 请求的其他位置。
+This instance has added cross domain compatibility when creating images, and this method is only effective when the requested domain has an Access Control Allow Origin header that allows sharing requests. If it doesn't work, then you must configure your server in a different way (it's beyond Konva's scope), or you can try storing the image in another location that supports CORS requests.
 
-## 共创计划
+## Co creation Plan
 
-1. 欢迎大家 提 [issue](https://gitee.com/wfeng0/avatar-clipper/issues/new);
-2. 欢迎大家 提 [PR](https://gitee.com/wfeng0/avatar-clipper/pulls/new)，欢迎大家 fork 项目；
-3. 欢迎大家加入讨论群：
+1. Welcome everyone to raise [issue](https://gitee.com/wfeng0/avatar-clipper/issues/new);
+2. Welcome everyone to raise [PR](https://gitee.com/wfeng0/avatar-clipper/pulls/new)，Welcome everyone to fork the project;
+3. Welcome everyone to join the discussion group:
 
 <img src='/public/qq-group.png'/>

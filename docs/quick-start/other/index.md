@@ -24,4 +24,8 @@ imageElement.crossOrigin = "Anonymous";
 imageElement.src = source;
 ```
 
+::: danger 注意
+
 本实例在创建图片时，已增加跨域兼容，仅当请求的域具有允许共享请求的 Access-Control-Allow-Origin 标头时，此方法才有效。如果它不起作用，那么你必须以不同的方式配置你的服务器（它超出了 Konva 的范围），或者你可以尝试将图像存储在支持 CORS 请求的其他位置。
+
+:::
