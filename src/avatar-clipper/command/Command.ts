@@ -11,8 +11,8 @@ export class Command {
 	// ✅️ 销毁组件
 	public destroy: CommandAdapt["destroy"];
 
-	// ✅️ 设置背景颜色
-	public setBackgroundColor: CommandAdapt["setBackgroundColor"];
+	// ✅️ 更新配置项
+	public updateClipperOptions: CommandAdapt["updateClipperOptions"];
 
 	// ✅️ 设置图片源
 	public setImage: CommandAdapt["setImage"];
@@ -35,7 +35,7 @@ export class Command {
 		this.clearImage = adapt.clearImage.bind(adapt);
 		this.reset = adapt.reset.bind(adapt);
 		this.destroy = adapt.destroy.bind(adapt);
-		this.setBackgroundColor = adapt.setBackgroundColor.bind(adapt);
+		this.updateClipperOptions = adapt.updateClipperOptions.bind(adapt);
 		this.setImage = adapt.setImage.bind(adapt);
 		this.getImageAttrs = adapt.getImageAttrs.bind(adapt);
 		this.updateImageAttrs = adapt.updateImageAttrs.bind(adapt);

@@ -23,6 +23,7 @@ interface ShapeIDMapConfig {
 // 基础配置
 const baseConfig = {
 	container: "", // 容器挂载元素
+	enableContextmenu: true,
 	backgroundColor: "transparent", // 容器背景颜色 默认为透明
 };
 

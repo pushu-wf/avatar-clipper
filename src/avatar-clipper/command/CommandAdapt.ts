@@ -2,7 +2,13 @@ import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
 import { EventResponder } from "../draw/EventResponder";
-import { AllowUpdateCropAttrs, AllowUpdateImageAttrs, AllowUpdateWatermarkAttrs, ImageAttrs } from "../interface";
+import {
+	AllowUpdateClipperOptions,
+	AllowUpdateCropAttrs,
+	AllowUpdateImageAttrs,
+	AllowUpdateWatermarkAttrs,
+	ImageAttrs,
+} from "../interface";
 
 export class CommandAdapt {
 	private eventResponder: EventResponder;
@@ -41,11 +47,10 @@ export class CommandAdapt {
 		});
 	}
 
-	// 设置背景颜色
-	public setBackgroundColor(color: string) {
+	// 更新配置项
+	public updateClipperOptions(options: AllowUpdateClipperOptions) {
 		this.executeCommand(() => {
-			store.setState("backgroundColor", color);
-			this.eventResponder.setBackgroundColor(color);
+			this.eventResponder.updateClipperOptions(options);
 		});
 	}
 

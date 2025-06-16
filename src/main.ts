@@ -94,11 +94,18 @@ const backgroundColorPicker = document.querySelector("input#background-color") a
 const backgroundColorInput = document.querySelector("input#background-color-input") as HTMLInputElement;
 backgroundColorPicker.addEventListener("change", () => {
 	backgroundColorInput.value = backgroundColorPicker.value;
-	clipper.command.setBackgroundColor(backgroundColorInput.value);
+	clipper.command.updateClipperOptions({ backgroundColor: backgroundColorInput.value });
 });
 backgroundColorInput.addEventListener("input", () => {
 	backgroundColorPicker.value = backgroundColorInput.value;
-	clipper.command.setBackgroundColor(backgroundColorInput.value);
+	clipper.command.updateClipperOptions({ backgroundColor: backgroundColorInput.value });
+});
+
+// enable contextmenu
+const enableContextmenu = document.querySelector("input#enable-contextmenu") as HTMLInputElement;
+enableContextmenu.addEventListener("change", () => {
+	const enable = enableContextmenu.checked;
+	clipper.command.updateClipperOptions({ enableContextmenu: enable });
 });
 
 // set image draggable

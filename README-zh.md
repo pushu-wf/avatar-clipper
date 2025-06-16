@@ -45,7 +45,7 @@ avatar-clipper 是一款基于 Konva 开发的轻量级头像裁剪工具，支�
 | [destroy](https://pushu-wf.github.io/quick-start/command/#destroy)                           |    销毁组件    |                                                                         无 |
 | [getImageAttrs](https://pushu-wf.github.io/quick-start/command/#getimageattrs)               |  获取图片属性  | [ImageAttrs](https://pushu-wf.github.io/quick-start/interface/#imageattrs) |
 | [getResult](https://pushu-wf.github.io/quick-start/command/#getresult)                       |  获取截图结果  |                                        string \| Blob \| HTMLCanvasElement |
-| [setBackgroundColor](https://pushu-wf.github.io/quick-start/command/#setbackgroundcolor)     |  设置背景颜色  |                                                                         无 |
+| [updateClipperOptions](https://pushu-wf.github.io/quick-start/command/#updateclipperoptions) |   更新配置项   |                                                                         无 |
 | [setImage](https://pushu-wf.github.io/quick-start/command/#setimage)                         |    设置图片    |                                                                         无 |
 | [updateCropAttrs](https://pushu-wf.github.io/quick-start/command/#updatecropattrs)           | 更新裁剪框属性 |                                                                         无 |
 | [updateImageAttrs](https://pushu-wf.github.io/quick-start/command/#updateimageattrs)         |  更新图片属性  |                                                                         无 |

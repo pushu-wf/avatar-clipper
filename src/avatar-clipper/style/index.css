@@ -20,3 +20,36 @@
 	/* 实现透明背景 */
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC);
 }
+
+/* 右键菜单 */
+.avatar-clipper-contextmenu {
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 8px 0;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	z-index: 9999;
+}
+
+.avatar-clipper-contextmenu .menu-item {
+	color: #333;
+	font-size: 14px;
+	user-select: none;
+	padding: 8px 22px;
+	padding-left: 12px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.avatar-clipper-contextmenu .menu-item svg {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+	fill: currentColor;
+	pointer-events: none;
+}
+
+.avatar-clipper-contextmenu .menu-item:hover {
+	background-color: #f0f0f0;
+}
