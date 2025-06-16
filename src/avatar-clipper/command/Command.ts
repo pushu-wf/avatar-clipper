@@ -19,6 +19,7 @@ export class Command {
 
 	// ✅️ 更新图片属性
 	public updateImageAttrs: CommandAdapt["updateImageAttrs"];
+
 	// ✅️ 获取图片属性
 	public getImageAttrs: CommandAdapt["getImageAttrs"];
 

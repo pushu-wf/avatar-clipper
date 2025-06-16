@@ -1,14 +1,32 @@
 # 接口文件
 
+<backTop/>
+
+## 接口一览表
+
+| 接口名                                                  |                           说明 |
+| ------------------------------------------------------- | -----------------------------: |
+| [AvatarClipperConfig](#avatarclipperconfig)             |               容器初始化配置项 |
+| [ImageAttrs](#imageattrs)                               |                     图片配置项 |
+| [AllowUpdateImageAttrs ](#allowupdateimageattrs)        |             允许更新的图片属性 |
+| [AllowUpdateWatermarkAttrs](#allowupdatewatermarkattrs) | 水印配置项(允许更新的水印属性) |
+| [AllowUpdateClipperOptions](#allowupdateclipperoptions) |           允许更新的容器配置项 |
+| [MenuItem](#menuitem)                                   |                 自定义菜单配置 |
+
 ## AvatarClipperConfig
 
 ```ts
-// 初始化 AvatarClipper 配置对象
+// 导出AvatarClipper配置对象
 interface AvatarClipperConfig {
 	container: string | HTMLElement; // 容器挂载元素 [必传]
+
 	width?: number; // 容器宽度 [非必传] [默认 100%]
 	height?: number; // 容器高度 [非必传] [默认 100%]
 	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]
+
+	enableContextmenu?: boolean; // 是否启用右键菜单 [非必传] [默认 true]
+	customMenus?: Array<MenuItem>; // 自定义右键菜单 [非必传] [默认 []]
+	hideDefaultMenus?: boolean; // 隐藏默认菜单 [非必传] [默认 false]
 
 	// 图片属性
 	image?: ImageAttrs;
@@ -86,5 +104,23 @@ type AllowUpdateWatermarkAttrs = {
 ## AllowUpdateClipperOptions
 
 ```ts
+// 允许更新容器属性
 type AllowUpdateClipperOptions = Pick<AvatarClipperConfig, "backgroundColor" | "enableContextmenu">;
 ```
+
+## MenuItem
+
+```ts
+// 定义菜单的基本数据类型
+type MenuItem = {
+	id: string; // 菜单项 ID
+	name: string; // 菜单项名称
+	icon?: string; // 菜单项图标
+	action: () => void; // 菜单项点击事件
+	disabled?: boolean; // 菜单项是否禁用
+	propsStyle?: string; // 传递给菜单项的样式
+};
+```
+
+::: warning 自定义菜单详情请前往 [如何自定义右键菜单？](/quick-start/other/#自定义右键菜单)
+:::

@@ -7,8 +7,8 @@ import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { getDefaultConfig, shapeIDMapConfig } from "../../config";
 import { mergeOptions, parseImageSource, throttle } from "../../utils";
-import { AllowUpdateClipperOptions, AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
 import { base64ToBlob, getCropInfo, handleCropPosition } from "../../utils/konva";
+import { AllowUpdateClipperOptions, AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
 import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 
 /**

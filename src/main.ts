@@ -3,8 +3,6 @@ import { AvatarClipper } from "./avatar-clipper";
 // 初始化 AvatarClipper
 const clipper = new AvatarClipper({ container: "#avatar-clipper-container", image: { src: "https://picsum.photos/200/300" } });
 
-console.log(clipper);
-
 Reflect.set(window, "clipper", clipper);
 
 /**
