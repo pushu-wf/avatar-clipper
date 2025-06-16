@@ -7,7 +7,7 @@ import { Transformer } from "konva/lib/shapes/Transformer";
 import { Image as KonvaImage } from "konva/lib/shapes/Image";
 import { getDefaultConfig, shapeIDMapConfig } from "../../config";
 import { mergeOptions, parseImageSource, throttle } from "../../utils";
-import { AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
+import { AllowUpdateClipperOptions, AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../../interface";
 import { base64ToBlob, getCropInfo, handleCropPosition } from "../../utils/konva";
 import { isEmpty, rotateAroundCenter, scaleAroundCenter, updateCropTransformerAttrs } from "../../utils/konva";
 
@@ -87,10 +87,27 @@ export class EventResponder {
 	}
 
 	/**
+	 * @description 更新 clipper 配置项
+	 * @param options clipper 配置项
+	 */
+	public updateClipperOptions(options: AllowUpdateClipperOptions) {
+		const { backgroundColor, enableContextmenu } = options;
+
+		if (backgroundColor && !isEmpty(backgroundColor)) {
+			store.setState("backgroundColor", backgroundColor);
+			this.setBackgroundColor(backgroundColor);
+		}
+
+		if (!isEmpty(enableContextmenu)) {
+			store.setState("enableContextmenu", enableContextmenu);
+		}
+	}
+
+	/**
 	 * @description 设置背景颜色
 	 * @param color 背景颜色
 	 */
-	public setBackgroundColor(color: string) {
+	private setBackgroundColor(color: string) {
 		if (!this.stage || !color) return;
 
 		// 获取背景颜色 Rect

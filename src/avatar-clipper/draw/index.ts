@@ -52,7 +52,7 @@ export class Draw {
 		this.stage.on("wheel", this.eventResponder.patchPreviewEvent.bind(this.eventResponder));
 
 		// stage 新增右键菜单
-		this.stage.on("contextmenu", (e) => contextmenu(e));
+		this.stage.on("contextmenu", (e) => contextmenu(e, this));
 	}
 
 	/**

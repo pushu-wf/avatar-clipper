@@ -63,4 +63,17 @@ type AllowUpdateWatermarkAttrs = {
 	rotation?: number; // 旋转角度
 };
 
-export { type AvatarClipperConfig, type AllowUpdateImageAttrs, type AllowUpdateCropAttrs, type AllowUpdateWatermarkAttrs, type ImageAttrs };
+// 允许更新的 clipper 配置项
+type AllowUpdateClipperOptions = {
+	enableContextmenu?: boolean; // 是否启用右键菜单
+	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]
+};
+
+export {
+	type ImageAttrs,
+	type AvatarClipperConfig,
+	type AllowUpdateCropAttrs,
+	type AllowUpdateImageAttrs,
+	type AllowUpdateWatermarkAttrs,
+	type AllowUpdateClipperOptions,
+};
