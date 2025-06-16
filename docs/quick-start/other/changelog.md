@@ -2,6 +2,11 @@
 
 <backTop />
 
+## 🎉 0.0.8
+
+-   更新 `AvatarClipperConfig` 接口，新增 `customMenus` 属性，用于自定义右键菜单；
+-   更新 `AvatarClipperConfig` 接口，新增 `hideDefaultMenus` 属性，用于隐藏默认菜单；
+
 ## 🎉 0.0.7
 
 -   `AvatarClipperConfig` 新增 `enableContextmenu` 属性，用于控制是否启用右键菜单；

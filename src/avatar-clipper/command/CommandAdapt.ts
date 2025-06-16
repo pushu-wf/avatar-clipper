@@ -2,13 +2,8 @@ import { Draw } from "../draw";
 import { store } from "../store";
 import { mergeOptions } from "../utils";
 import { EventResponder } from "../draw/EventResponder";
-import {
-	AllowUpdateClipperOptions,
-	AllowUpdateCropAttrs,
-	AllowUpdateImageAttrs,
-	AllowUpdateWatermarkAttrs,
-	ImageAttrs,
-} from "../interface";
+import { AllowUpdateWatermarkAttrs, ImageAttrs } from "../interface";
+import { AllowUpdateClipperOptions, AllowUpdateCropAttrs, AllowUpdateImageAttrs } from "../interface";
 
 export class CommandAdapt {
 	private eventResponder: EventResponder;

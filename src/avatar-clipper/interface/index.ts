@@ -2,11 +2,13 @@
 interface AvatarClipperConfig {
 	container: string | HTMLElement; // 容器挂载元素 [必传]
 
-	enableContextmenu?: boolean; // 是否启用右键菜单 [非必传] [默认 true]
-
 	width?: number; // 容器宽度 [非必传] [默认 100%]
 	height?: number; // 容器高度 [非必传] [默认 100%]
 	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]
+
+	enableContextmenu?: boolean; // 是否启用右键菜单 [非必传] [默认 true]
+	customMenus?: Array<MenuItem>; // 自定义右键菜单
+	hideDefaultMenus?: boolean; // 隐藏默认菜单
 
 	// 图片属性
 	image?: ImageAttrs;
@@ -66,7 +68,18 @@ type AllowUpdateWatermarkAttrs = {
 // 允许更新的 clipper 配置项
 type AllowUpdateClipperOptions = Pick<AvatarClipperConfig, "backgroundColor" | "enableContextmenu">;
 
+// 定义菜单的基本数据类型
+type MenuItem = {
+	id: string; // 菜单项 ID
+	name: string; // 菜单项名称
+	icon?: string; // 菜单项图标
+	action: () => void; // 菜单项点击事件
+	disabled?: boolean; // 菜单项是否禁用
+	propsStyle?: string; // 传递给菜单项的样式
+};
+
 export {
+	type MenuItem,
 	type ImageAttrs,
 	type AvatarClipperConfig,
 	type AllowUpdateCropAttrs,
