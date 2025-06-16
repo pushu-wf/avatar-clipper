@@ -31,7 +31,6 @@
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 	z-index: 9999;
 }
-
 .avatar-clipper-contextmenu .menu-item {
 	color: #333;
 	font-size: 14px;
@@ -51,7 +50,6 @@
 	stroke: currentColor;
 	pointer-events: none;
 }
-
 .avatar-clipper-contextmenu .menu-item:hover {
 	background-color: #f0f0f0;
 }
