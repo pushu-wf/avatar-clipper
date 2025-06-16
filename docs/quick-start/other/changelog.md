@@ -2,6 +2,14 @@
 
 <backTop />
 
+## 🎉 0.0.7
+
+-   `AvatarClipperConfig` 新增 `enableContextmenu` 属性，用于控制是否启用右键菜单；
+-   删除 `setBackgroundColor` 命令；
+-   新增 `updateClipperOptions` 实现配置项更新；
+-   新增 `AllowUpdateClipperOptions` 接口，用于更新配置项；
+-   实现右键菜单，默认提供 `上传` `下载` `清空` 快捷操作。
+
 ## 🎉 0.0.6
 
 -   优化水印生成方法，从多个 `Konva.Text` 转为 `SceneFunc` 实现，提高绘制性能及规避水印堆叠、拖拽卡顿等问题；
