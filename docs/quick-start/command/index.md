@@ -11,7 +11,7 @@
 | [destroy](#destroy)                           |    销毁组件    |                                               无 |
 | [getImageAttrs](#getimageattrs)               |  获取图片属性  | [ImageAttrs](/quick-start/interface/#imageattrs) |
 | [getResult](#getresult)                       |  获取截图结果  |              string \| Blob \| HTMLCanvasElement |
-| [setBackgroundColor](#setbackgroundcolor)     |  设置背景颜色  |                                               无 |
+| [updateClipperOptions](#updateclipperoptions) |   更新配置项   |                                               无 |
 | [setImage](#setimage)                         |    设置图片    |                                               无 |
 | [updateCropAttrs](#updatecropattrs)           | 更新裁剪框属性 |                                               无 |
 | [updateImageAttrs](#updateimageattrs)         |  更新图片属性  |                                               无 |
@@ -120,7 +120,7 @@ string | Blob | HTMLCanvasElement;
 
 <img src='/public/getResult.gif'/>
 
-## setBackgroundColor
+## updateClipperOptions
 
 -   描述
 
@@ -129,18 +129,16 @@ string | Blob | HTMLCanvasElement;
 -   用法
 
 ```ts
-clipper.command.setBackgroundColor(color: string);
+clipper.command.updateClipperOptions(options:AllowUpdateClipperOptions);
 ```
 
 -   参数
 
-```ts
-color: string;
-```
+[AllowUpdateClipperOptions](/quick-start/interface/#allowupdateclipperoptions)
 
 -   示例
 
-<img src='/public/setBackgroundColor.gif'/>
+<img src='/public/updateClipperOptions.gif'/>
 
 ## setImage
 

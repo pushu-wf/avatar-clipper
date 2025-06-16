@@ -45,7 +45,7 @@ Avatar clipper is a lightweight avatar cropping tool developed based on Konva, s
 | [destroy](https://pushu-wf.github.io/quick-start/command/#destroy)                           |  Destruction of components  |                                                                         无 |
 | [getImageAttrs](https://pushu-wf.github.io/quick-start/command/#getimageattrs)               |  Retrieve image attributes  | [ImageAttrs](https://pushu-wf.github.io/quick-start/interface/#imageattrs) |
 | [getResult](https://pushu-wf.github.io/quick-start/command/#getresult)                       |  Obtain screenshot results  |                                        string \| Blob \| HTMLCanvasElement |
-| [setBackgroundColor](https://pushu-wf.github.io/quick-start/command/#setbackgroundcolor)     |    Set background color     |                                                                         无 |
+| [updateClipperOptions](https://pushu-wf.github.io/quick-start/command/#updateclipperoptions) |   Update clipper options    |                                                                         无 |
 | [setImage](https://pushu-wf.github.io/quick-start/command/#setimage)                         |         Set Picture         |                                                                         无 |
 | [updateCropAttrs](https://pushu-wf.github.io/quick-start/command/#updatecropattrs)           | Update Crop Box Properties  |                                                                         无 |
 | [updateImageAttrs](https://pushu-wf.github.io/quick-start/command/#updateimageattrs)         |   Update image properties   |                                                                         无 |

@@ -64,10 +64,7 @@ type AllowUpdateWatermarkAttrs = {
 };
 
 // 允许更新的 clipper 配置项
-type AllowUpdateClipperOptions = {
-	enableContextmenu?: boolean; // 是否启用右键菜单
-	backgroundColor?: string; // 容器背景 [非必传] [默认 transparent]
-};
+type AllowUpdateClipperOptions = Pick<AvatarClipperConfig, "backgroundColor" | "enableContextmenu">;
 
 export {
 	type ImageAttrs,

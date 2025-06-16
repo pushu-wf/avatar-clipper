@@ -82,3 +82,9 @@ type AllowUpdateWatermarkAttrs = {
 	rotation?: number; // 旋转角度
 };
 ```
+
+## AllowUpdateClipperOptions
+
+```ts
+type AllowUpdateClipperOptions = Pick<AvatarClipperConfig, "backgroundColor" | "enableContextmenu">;
+```
