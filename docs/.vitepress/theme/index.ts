@@ -2,6 +2,7 @@
 import DefaultTheme from "vitepress/theme";
 import backTop from "./components/backTop.vue";
 import online from "./components/online.vue";
+import easyWhiteBoardOnline from "./components/easyWhiteBoardOnline.vue";
 import "./custom/index.css";
 
 /** @type {import('vitepress').Theme} */
@@ -11,5 +12,6 @@ export default {
 		// 注册自定义全局组件
 		app.component("backTop", backTop);
 		app.component("online", online);
+		app.component("easyWhiteBoardOnline", easyWhiteBoardOnline);
 	},
 };

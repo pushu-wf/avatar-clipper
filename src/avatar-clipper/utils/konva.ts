@@ -59,6 +59,25 @@ function drawCropmaskSceneFunc(ctx: Context, shape: Shape, stage: Stage) {
 	// 清空 crop 区域
 	ctx.clearRect(x, y, cropRectInfo.width, cropRectInfo.height);
 
+	// const strokeColor = store.getState("crop")?.stroke || "#289ef8";
+	// const { r, g, b } = Util.getRGB(strokeColor);
+
+	// 绘制九宫格
+	// ctx.save();
+	// for (let i = 0; i < 3; i++) {
+	// 	for (let j = 0; j < 3; j++) {
+	// 		ctx.beginPath();
+	// 		ctx.moveTo((j * cropRectInfo.width) / 3 + x, (i * cropRectInfo.height) / 3 + y); // 移动到指定位置
+	// 		ctx.lineTo((j * cropRectInfo.width) / 3 + x, ((i + 1) * cropRectInfo.height) / 3 + y); // 绘制一条线
+	// 		ctx.lineTo(((j + 1) * cropRectInfo.width) / 3 + x, ((i + 1) * cropRectInfo.height) / 3 + y); // 绘制一条线
+	// 		ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.8)`;
+	// 		ctx.setLineDash([10, 10]);
+	// 		ctx.stroke();
+	// 		ctx.closePath();
+	// 	}
+	// }
+	// ctx.restore();
+
 	// 在左上角位置 绘制宽高信息
 	const text = `${Math.floor(cropRectInfo.width)} x ${Math.floor(cropRectInfo.height)}`;
 

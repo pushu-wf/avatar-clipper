@@ -395,6 +395,7 @@ export class EventResponder {
 		if (!mainLayer) return;
 
 		mainLayer.findOne("Transformer")?.remove();
+		stageClone.findOne(`#${shapeIDMapConfig.cropLayerID}`)?.remove();
 
 		const cropAttrs = getCropInfo(this.stage);
 
