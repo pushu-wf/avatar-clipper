@@ -4,6 +4,4 @@ easy-white-board 是一款基于 konva 的`轻量级协同白板工具`，为远
 
 ## 在线尝试
 
-[🔗 官网体验地址](/easy-white-board/online)
-
 ## 快速开始
